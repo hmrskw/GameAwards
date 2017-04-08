@@ -44,11 +44,26 @@ public class InputController : MonoBehaviour {
         rh = Input.GetAxis("RightHorizontal");
         rv = Input.GetAxis("RightVertical");
 
-        if (lh != 0 || lv != 0 || rh != 0 || rv != 0)
+        if (lh != 0 || lv != 0)
         {
-            //sv.AddTop(Vector3.Lerp(PlayerCharacter1.transform.position, PlayerCharacter2.transform.position, 0.5f));
-
+            if (Vector3.Distance(
+                PlayerCharacter1.transform.position + new Vector3(lh * 0.1f, 0, lv * 0.1f),
+                PlayerCharacter2.transform.position) > 10)
+            {
+                lh = 0;
+                lv = 0;
+            }
             PlayerCharacter1.transform.Translate(new Vector3(lh * 0.1f, 0, lv * 0.1f));
+        }
+        if (rh != 0 || rv != 0)
+        {
+            if (Vector3.Distance(
+                PlayerCharacter1.transform.position,
+                PlayerCharacter2.transform.position + new Vector3(rh * 0.1f, 0, rv * 0.1f)) > 10)
+            {
+                rh = 0;
+                rv = 0;
+            }
             PlayerCharacter2.transform.Translate(new Vector3(rh * 0.1f, 0, rv * 0.1f));
         }
         //sv.drawLine();
