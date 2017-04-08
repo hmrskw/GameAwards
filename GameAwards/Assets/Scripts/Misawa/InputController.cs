@@ -21,6 +21,9 @@ public class InputController : MonoBehaviour {
     [SerializeField, Space(15)]
     float jumpPower;
 
+    [SerializeField]
+    StringView sv;
+
     PlayerComponents PlayerCharacter1Components = new PlayerComponents();
     PlayerComponents PlayerCharacter2Components = new PlayerComponents();
 
@@ -35,8 +38,20 @@ public class InputController : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        PlayerCharacter1.transform.Translate(new Vector3(Input.GetAxis("LeftHorizontal")*0.1f,0, Input.GetAxis("LeftVertical") * 0.1f));
-        PlayerCharacter2.transform.Translate(new Vector3(Input.GetAxis("RightHorizontal") * 0.1f, 0, Input.GetAxis("RightVertical") * 0.1f));
+        float lh, lv, rh, rv;
+        lh = Input.GetAxis("LeftHorizontal");
+        lv = Input.GetAxis("LeftVertical");
+        rh = Input.GetAxis("RightHorizontal");
+        rv = Input.GetAxis("RightVertical");
+
+        if (lh != 0 || lv != 0 || rh != 0 || rv != 0)
+        {
+            //sv.AddTop(Vector3.Lerp(PlayerCharacter1.transform.position, PlayerCharacter2.transform.position, 0.5f));
+
+            PlayerCharacter1.transform.Translate(new Vector3(lh * 0.1f, 0, lv * 0.1f));
+            PlayerCharacter2.transform.Translate(new Vector3(rh * 0.1f, 0, rv * 0.1f));
+        }
+        //sv.drawLine();
 
         if (Input.GetButtonDown("LeftJump") && PlayerCharacter1Components.playerModel.CanJump)
         {
