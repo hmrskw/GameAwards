@@ -68,12 +68,12 @@ public class InputController : MonoBehaviour {
         }
         //sv.drawLine();
 
-        if (Input.GetButtonDown("LeftJump") && PlayerCharacter1Components.playerModel.CanJump)
+        if (Input.GetAxis("LeftJump") > 0.5 && PlayerCharacter1Components.playerModel.CanJump)
         {
             PlayerCharacter1Components.playerModel.CanJump = false;
             PlayerCharacter1Components.rigidbody.AddForce(new Vector3(0, jumpPower, 0));
         }
-        if (Input.GetButtonDown("RightJump") && PlayerCharacter2Components.playerModel.CanJump)
+        if (Input.GetAxis("RightJump") < -0.5 && PlayerCharacter2Components.playerModel.CanJump)
         {
             PlayerCharacter2Components.playerModel.CanJump = false;
             PlayerCharacter2Components.rigidbody.AddForce(new Vector3(0, jumpPower, 0));
