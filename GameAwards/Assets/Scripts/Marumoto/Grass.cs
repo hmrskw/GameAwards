@@ -6,20 +6,27 @@ public class Grass : MonoBehaviour
 {
 	[SerializeField]
 	private AnimationCurve _curve;
-	[SerializeField, Tooltip("成長しきるまでにかかる時間(秒)")]
-	private float _growthTime;
+	[SerializeField, Tooltip("高さ１の植物が成長しきるまでにかかる時間(秒)")]
+	private float _growthBaseTime;
 	[SerializeField]
 	private Vector3 _randomMin;
 	[SerializeField]
 	private Vector3 _randomMax;
 
 	private Vector3 _limitGrowthScale;
+	private float _growthTime = 0.0f;
 
 	private void Awake()
 	{
 		_limitGrowthScale = new Vector3(Random.Range(_randomMin.x, _randomMax.x),
 										Random.Range(_randomMin.y, _randomMax.y),
 										Random.Range(_randomMin.z, _randomMax.z));
+
+		_growthTime = _growthBaseTime;
+
+		transform.rotation = Quaternion.Euler(0.0f,
+											  Random.Range(0.0f, 90.0f),
+											  0.0f);
 	}
 
 	/// <summary>
@@ -28,7 +35,6 @@ public class Grass : MonoBehaviour
 	/// <returns></returns>
 	public IEnumerator Growth()
 	{
-
 		float _startTime = Time.timeSinceLevelLoad;
 		bool _isGrowing = true;
 
