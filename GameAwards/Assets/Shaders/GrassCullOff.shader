@@ -1,4 +1,6 @@
-﻿Shader "Custom/GrassCullOff" {
+﻿// Upgrade NOTE: replaced 'UNITY_INSTANCE_ID' with 'UNITY_VERTEX_INPUT_INSTANCE_ID'
+
+Shader "Custom/GrassCullOff" {
 	Properties {
 		_Color ("Color", Color) = (1,1,1,1)
 		_MainTex ("Albedo (RGB)", 2D) = "white" {}
@@ -23,7 +25,7 @@
 
 		struct Input {
 			float2 uv_MainTex;
-			UNITY_INSTANCE_ID
+			UNITY_VERTEX_INPUT_INSTANCE_ID
 		};
 
 		half _Glossiness;
