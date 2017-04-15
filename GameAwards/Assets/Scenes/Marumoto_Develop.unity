@@ -662,8 +662,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5de3b4bd40de95e4b8087bd5c7524e9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  switchA: {fileID: 1774853925}
-  switchB: {fileID: 1164327246}
+  monument: {fileID: 0}
   particle: {fileID: 1389693916}
 --- !u!23 &592401210
 MeshRenderer:
@@ -822,7 +821,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 991443079}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4075dacacd5e8de4bb90af9d580615fc, type: 3}
+  m_Script: {fileID: 11500000, guid: 5bd50aa41ac0f9c48b8d5ee49384da7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &991443081
@@ -4005,8 +4004,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5de3b4bd40de95e4b8087bd5c7524e9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  switchA: {fileID: 1321472954}
-  switchB: {fileID: 132549169}
+  monument: {fileID: 0}
   particle: {fileID: 1253340591}
 --- !u!23 &1047302633
 MeshRenderer:
@@ -10846,8 +10844,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5de3b4bd40de95e4b8087bd5c7524e9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  switchA: {fileID: 219187530}
-  switchB: {fileID: 1993710878}
+  monument: {fileID: 0}
   particle: {fileID: 1034461581}
 --- !u!1 &1993710873
 GameObject:
