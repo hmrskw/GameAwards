@@ -5,36 +5,31 @@ using UnityEngine;
 public class Monument : MonoBehaviour {
 
     [SerializeField]
-    Switch switchA;
-    [SerializeField]
-    Switch switchB;
-
-    //[SerializeField,Space(15)]
-    Material mat;
+    GameObject monument;
 
     [SerializeField]
     ParticleSystem particle;
+
+    Material mat;
 
     bool isOn;
 
     Color objColor;
 
-    // Use this for initialization
     void Start ()
     {
-        mat = GetComponent<Renderer>().material;
+        mat = monument.GetComponent<Renderer>().material;
         objColor = mat.color;
         mat.color = Color.grey;
         isOn = false;
 	}
 	
-	// Update is called once per frame
-	void Update () {
-        if(isOn == false && switchA.IsOn && switchB.IsOn)
+    public void Boot() {
+        if (isOn == false)
         {
             isOn = true;
             mat.color = objColor;
             particle.Play();
         }
-	}
+    }
 }
