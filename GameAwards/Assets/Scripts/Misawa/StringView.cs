@@ -9,41 +9,30 @@ public class StringView : MonoBehaviour {
     [SerializeField]
     GameObject p2;
 
-    LineRenderer line;
-
-    // Use this for initialization
-    void Start () {
-	    line = gameObject.GetComponent<LineRenderer>();
-        point = Vector3.Lerp(head.position, tail.position, 0.5f);
-
-    }
-    /*
-    // Update is called once per frame
-    void Update()
-    {
-
-        line.SetPosition(0, p1.transform.position);
-        line.SetPosition(1, p2.transform.position);
-    }
-
-    */
     [Range(0, 1)]
     public float t;
-    /// LineRenderer
-    public LineRenderer lineRenderer;
-    /// 始点
-    public Transform head;
-    /// 終点
-    public Transform tail;
+
+    LineRenderer lineRenderer;
+
+    [SerializeField,Tooltip("始点")]
+    Transform head;
+
+    [SerializeField, Tooltip("終点")]
+    Transform tail;
 
     int co = 0;
     Vector3 point;
 
     float coefficient;
 
-    public void AddTop(Vector3 topPos)
-    {
-        //top.Enqueue(topPos);
+    [SerializeField]
+    LayerMask mask;
+
+    // Use this for initialization
+    void Start () {
+        lineRenderer = gameObject.GetComponent<LineRenderer>();
+        point = Vector3.Lerp(head.position, tail.position, 0.5f);
+
     }
 
     /// <summary>
@@ -86,14 +75,11 @@ public class StringView : MonoBehaviour {
 
         co++;
 
-        //coefficient = (1.5f - (co/20f));
-
-        point = Vector3.Lerp(point, Vector3.Lerp(head.position, tail.position, 0.5f), /*(0.5f - (co / 60f))*/0.005f * Vector2.Distance(head.position, tail.position));
+        point = Vector3.Lerp(point, Vector3.Lerp(head.position, tail.position, 0.5f), 0.005f * Vector2.Distance(head.position, tail.position));
 
         if (co % 60 == 0)
         {
             co = 0;
-            //point = Vector3.Lerp(point, Vector3.Lerp(head.position, tail.position, 0.5f), 0.5f);
         }
 
         while (length < 1f)
@@ -110,9 +96,46 @@ public class StringView : MonoBehaviour {
                 );
             }
         }
-
+        
         lineRenderer.positionCount = posList.Count;
         lineRenderer.SetPositions(posList.ToArray());
+        OnPassLine(/*posList.ToArray()*/);
     }
     
+    void OnPassLine(/*Vector3[] posList*/)
+    {
+        float length = 0f;
+
+        Ray ray;
+
+        while (length < 1f)
+        {
+            if ((int)Vector2.Distance(head.position, tail.position) > 0)
+            {
+                length += 0.5f / (int)Vector2.Distance(head.position, tail.position);
+            }
+            else
+            {
+                length = 1f;
+            }
+
+            {
+                Vector3 curve =
+                    B_SplineCurve(
+                        head.position,
+                        tail.position,
+                        point,
+                        length
+                    );
+                ray = new Ray(curve, -transform.up);
+                Debug.DrawRay(curve, -transform.up, new Color(0,0.5f,0), 15.0f);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, 10.0f,mask))
+                {
+                    //Debug.Log(hit.collider.name);
+                    hit.collider.GetComponent<Monument>().Boot();
+                }
+            }
+        }
+    }
 }
