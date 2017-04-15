@@ -12,6 +12,8 @@ public class Grass : MonoBehaviour
 	private Vector3 _randomMin;
 	[SerializeField]
 	private Vector3 _randomMax;
+	[SerializeField]
+	private Transform _grassTransform;
 
 	private Vector3 _limitGrowthScale;
 	private float _growthTime = 0.0f;
@@ -24,9 +26,9 @@ public class Grass : MonoBehaviour
 
 		_growthTime = _growthBaseTime;
 
-		transform.rotation = Quaternion.Euler(0.0f,
-											  Random.Range(0.0f, 90.0f),
-											  0.0f);
+		_grassTransform.rotation = Quaternion.Euler(0.0f,
+													Random.Range(0.0f, 90.0f),
+													0.0f);
 	}
 
 	/// <summary>
@@ -45,7 +47,7 @@ public class Grass : MonoBehaviour
 			float _elapsedTimeRatio = _elapsedTime / _growthTime;
 			float _growthRatio = _curve.Evaluate(_elapsedTimeRatio);
 
-			transform.localScale = _limitGrowthScale * _growthRatio;
+			_grassTransform.localScale = _limitGrowthScale * _growthRatio;
 
 			if (_growthRatio >= 1.0f) _isGrowing = false;
 			yield return null;
