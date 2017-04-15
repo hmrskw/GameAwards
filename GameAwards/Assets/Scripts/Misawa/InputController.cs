@@ -18,6 +18,9 @@ public class InputController : MonoBehaviour {
     [SerializeField]
     GameObject CameraObjct;
 
+    [SerializeField,Range(1,10)]
+    float speed;
+
     [SerializeField, Space(15)]
     float jumpPower;
 
@@ -47,24 +50,24 @@ public class InputController : MonoBehaviour {
         if (lh != 0 || lv != 0)
         {
             if (Vector3.Distance(
-                PlayerCharacter1.transform.position + new Vector3(lh * 0.1f, 0, lv * 0.1f),
-                PlayerCharacter2.transform.position) > 10)
+                PlayerCharacter1.transform.position + new Vector3(lh * 0.1f * speed, 0, lv * 0.1f * speed),
+                PlayerCharacter2.transform.position) > 50)
             {
                 lh = 0;
                 lv = 0;
             }
-            PlayerCharacter1.transform.Translate(new Vector3(lh * 0.1f, 0, lv * 0.1f));
+            PlayerCharacter1.transform.Translate(new Vector3(lh * 0.1f * speed, 0, lv * 0.1f * speed));
         }
         if (rh != 0 || rv != 0)
         {
             if (Vector3.Distance(
                 PlayerCharacter1.transform.position,
-                PlayerCharacter2.transform.position + new Vector3(rh * 0.1f, 0, rv * 0.1f)) > 10)
+                PlayerCharacter2.transform.position + new Vector3(rh * 0.1f * speed, 0, rv * 0.1f * speed)) > 50)
             {
                 rh = 0;
                 rv = 0;
             }
-            PlayerCharacter2.transform.Translate(new Vector3(rh * 0.1f, 0, rv * 0.1f));
+            PlayerCharacter2.transform.Translate(new Vector3(rh * 0.1f * speed, 0, rv * 0.1f * speed));
         }
         //sv.drawLine();
 

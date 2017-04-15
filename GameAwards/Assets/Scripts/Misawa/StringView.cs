@@ -3,12 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class StringView : MonoBehaviour {
-    [SerializeField]
-    GameObject p1;
-
-    [SerializeField]
-    GameObject p2;
-
     [Range(0, 1)]
     public float t;
 
@@ -20,13 +14,16 @@ public class StringView : MonoBehaviour {
     [SerializeField, Tooltip("終点")]
     Transform tail;
 
+    //[SerializeField]
+    //AnimationCurve animCurve;
+
     int co = 0;
     Vector3 point;
 
     float coefficient;
 
     [SerializeField]
-    LayerMask mask;
+    LayerMask[] mask;
 
     // Use this for initialization
     void Start () {
@@ -70,7 +67,7 @@ public class StringView : MonoBehaviour {
     {
         var posList = new List<Vector3>();
 
-        posList.Add(head.position);
+        posList.Add(head.position + new Vector3(0, 3, 0));
         float length = 0f;
 
         co++;
@@ -84,13 +81,13 @@ public class StringView : MonoBehaviour {
 
         while (length < 1f)
         {
-            length += 0.1f;
+            length += 0.01f;
             {
                 posList.Add(
                     B_SplineCurve(
-                        head.position,
-                        tail.position,
-                        point,
+                        head.position + new Vector3(0, 3, 0),
+                        tail.position + new Vector3(0, 3, 0),
+                        point + new Vector3(0, 3/* * animCurve.Evaluate(length)*/, 0),
                         length
                     )
                 );
@@ -122,18 +119,22 @@ public class StringView : MonoBehaviour {
             {
                 Vector3 curve =
                     B_SplineCurve(
-                        head.position,
-                        tail.position,
-                        point,
+                        head.position + new Vector3(0,3,0),
+                        tail.position + new Vector3(0, 3, 0),
+                        point + new Vector3(0, 3 /** animCurve.Evaluate(length)*/, 0),
                         length
                     );
                 ray = new Ray(curve, -transform.up);
                 Debug.DrawRay(curve, -transform.up, new Color(0,0.5f,0), 15.0f);
                 RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, 10.0f,mask))
+                if (Physics.Raycast(ray, out hit, 10.0f,mask[0]))
                 {
                     //Debug.Log(hit.collider.name);
                     hit.collider.GetComponent<Monument>().Boot();
+                }
+                if (Physics.Raycast(ray, out hit, 10.0f, mask[1]))
+                {
+                    StartCoroutine(hit.collider.GetComponent<GrassTest>().Growth());
                 }
             }
         }
