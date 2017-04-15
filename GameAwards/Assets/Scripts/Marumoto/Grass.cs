@@ -37,7 +37,8 @@ public class Grass : MonoBehaviour
 	/// <returns></returns>
 	public IEnumerator Growth()
 	{
-		float _startTime = Time.timeSinceLevelLoad;
+        gameObject.layer = LayerMask.NameToLayer("Default");
+        float _startTime = Time.timeSinceLevelLoad;
 		bool _isGrowing = true;
 
 		//TODO:UniRxで書き換え。
@@ -53,6 +54,6 @@ public class Grass : MonoBehaviour
 			yield return null;
 		}
 
-		Destroy(this);
+		//Destroy(this);
 	}
 }

@@ -87,16 +87,20 @@ public class InputController : MonoBehaviour {
 
     private void CameraController()
     {
-        Vector3 camPos = Vector3.Lerp(PlayerCharacter1.transform.position, PlayerCharacter2.transform.position, 0.5f);
-        CameraObjct.transform.position = new Vector3(camPos.x, 10, camPos.z - 9);
+        Vector3 camPos = Vector3.Min(PlayerCharacter1.transform.position, PlayerCharacter2.transform.position);
+        camPos.x = Mathf.Lerp(PlayerCharacter1.transform.position.x, PlayerCharacter2.transform.position.x, 0.5f);
 
-        Vector2 pc1Pos = new Vector2(PlayerCharacter1.transform.position.x, PlayerCharacter1.transform.position.z);
-        Vector2 pc2Pos = new Vector2(PlayerCharacter2.transform.position.x, PlayerCharacter2.transform.position.z);
-        float dis = Vector2.Distance(pc1Pos,pc2Pos);
-        if (dis > 10f)
+        //Vector3 camPos = Vector3.Lerp(PlayerCharacter1.transform.position, PlayerCharacter2.transform.position, 0.5f);
+        //camPos.z = Mathf.Min(PlayerCharacter1.transform.position.z, PlayerCharacter2.transform.position.z);
+        CameraObjct.transform.position = new Vector3(camPos.x, camPos.y + 10, camPos.z - 9);
+
+        //Vector2 pc1Pos = new Vector2(PlayerCharacter1.transform.position.x, PlayerCharacter1.transform.position.z);
+        //Vector2 pc2Pos = new Vector2(PlayerCharacter2.transform.position.x, PlayerCharacter2.transform.position.z);
+        float dis = Vector3.Distance(PlayerCharacter1.transform.position, PlayerCharacter2.transform.position);
+        if (dis > 5f)
         {
-            dis -= 10f;
-            CameraObjct.transform.position += new Vector3(0, dis / 2, -dis / 2);
+            dis -= 5f;
+            CameraObjct.transform.position += new Vector3(0, dis / 1f , -dis / 1.5f);
         }
     }
 }

@@ -72,7 +72,7 @@ public class StringView : MonoBehaviour {
 
         co++;
 
-        point = Vector3.Lerp(point, Vector3.Lerp(head.position, tail.position, 0.5f), 0.005f * Vector2.Distance(head.position, tail.position));
+        point = Vector3.Lerp(point, Vector3.Lerp(head.position, tail.position, 0.5f), 0.005f / 10 * Vector3.Distance(head.position, tail.position));
 
         if (co % 60 == 0)
         {
@@ -81,7 +81,7 @@ public class StringView : MonoBehaviour {
 
         while (length < 1f)
         {
-            length += 0.01f;
+            length += 0.1f;
             {
                 posList.Add(
                     B_SplineCurve(
@@ -125,7 +125,7 @@ public class StringView : MonoBehaviour {
                         length
                     );
                 ray = new Ray(curve, -transform.up);
-                Debug.DrawRay(curve, -transform.up, new Color(0,0.5f,0), 15.0f);
+                Debug.DrawRay(curve, -transform.up, new Color(0,0.5f,0));
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit, 10.0f,mask[0]))
                 {
@@ -134,7 +134,9 @@ public class StringView : MonoBehaviour {
                 }
                 if (Physics.Raycast(ray, out hit, 10.0f, mask[1]))
                 {
-                    StartCoroutine(hit.collider.GetComponent<GrassTest>().Growth());
+                    Grass grassComponent = hit.collider.GetComponent<Grass>();
+                    if (grassComponent != null) ;
+                    StartCoroutine(grassComponent.Growth());
                 }
             }
         }
