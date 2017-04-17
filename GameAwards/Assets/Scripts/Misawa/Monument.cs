@@ -10,6 +10,9 @@ public class Monument : MonoBehaviour {
     [SerializeField]
     ParticleSystem particle;
 
+    [SerializeField]
+    float extendLength;
+
     Material mat;
 
     bool isOn;
@@ -30,6 +33,7 @@ public class Monument : MonoBehaviour {
             isOn = true;
             mat.color = objColor;
             particle.Play();
+            InputController.ExtendMaxDistanceLength(extendLength);
         }
     }
 }

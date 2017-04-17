@@ -24,8 +24,7 @@ public class InputController : MonoBehaviour {
     [SerializeField, Space(15)]
     float jumpPower;
 
-    [SerializeField]
-    StringView sv;
+    static float maxDistanceLength = 10;
 
     PlayerComponents PlayerCharacter1Components = new PlayerComponents();
     PlayerComponents PlayerCharacter2Components = new PlayerComponents();
@@ -51,7 +50,7 @@ public class InputController : MonoBehaviour {
         {
             if (Vector3.Distance(
                 PlayerCharacter1.transform.position + new Vector3(lh * 0.1f * speed, 0, lv * 0.1f * speed),
-                PlayerCharacter2.transform.position) > 50)
+                PlayerCharacter2.transform.position) > maxDistanceLength)
             {
                 lh = 0;
                 lv = 0;
@@ -62,14 +61,13 @@ public class InputController : MonoBehaviour {
         {
             if (Vector3.Distance(
                 PlayerCharacter1.transform.position,
-                PlayerCharacter2.transform.position + new Vector3(rh * 0.1f * speed, 0, rv * 0.1f * speed)) > 50)
+                PlayerCharacter2.transform.position + new Vector3(rh * 0.1f * speed, 0, rv * 0.1f * speed)) > maxDistanceLength)
             {
                 rh = 0;
                 rv = 0;
             }
             PlayerCharacter2.transform.Translate(new Vector3(rh * 0.1f * speed, 0, rv * 0.1f * speed));
         }
-        //sv.drawLine();
 
         if (Input.GetAxis("LeftJump") > 0.5 && PlayerCharacter1Components.playerModel.CanJump)
         {
@@ -90,17 +88,24 @@ public class InputController : MonoBehaviour {
         Vector3 camPos = Vector3.Min(PlayerCharacter1.transform.position, PlayerCharacter2.transform.position);
         camPos.x = Mathf.Lerp(PlayerCharacter1.transform.position.x, PlayerCharacter2.transform.position.x, 0.5f);
 
-        //Vector3 camPos = Vector3.Lerp(PlayerCharacter1.transform.position, PlayerCharacter2.transform.position, 0.5f);
-        //camPos.z = Mathf.Min(PlayerCharacter1.transform.position.z, PlayerCharacter2.transform.position.z);
         CameraObjct.transform.position = new Vector3(camPos.x, camPos.y + 10, camPos.z - 9);
 
-        //Vector2 pc1Pos = new Vector2(PlayerCharacter1.transform.position.x, PlayerCharacter1.transform.position.z);
-        //Vector2 pc2Pos = new Vector2(PlayerCharacter2.transform.position.x, PlayerCharacter2.transform.position.z);
         float dis = Vector3.Distance(PlayerCharacter1.transform.position, PlayerCharacter2.transform.position);
+
         if (dis > 5f)
         {
             dis -= 5f;
             CameraObjct.transform.position += new Vector3(0, dis / 1f , -dis / 1.5f);
         }
+    }
+
+    public static float GetMaxDistanceLength()
+    {
+        return maxDistanceLength;
+    }
+
+    public static void ExtendMaxDistanceLength(float extendLength)
+    {
+        maxDistanceLength += extendLength;
     }
 }
