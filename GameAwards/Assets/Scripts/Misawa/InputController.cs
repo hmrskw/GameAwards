@@ -47,71 +47,54 @@ public class InputController : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        float lh, lv, rh, rv;
-        lh = Input.GetAxis("LeftHorizontal") * 0.1f;
-        lv = Input.GetAxis("LeftVertical") * 0.1f;
-        rh = Input.GetAxis("RightHorizontal") * 0.1f;
-        rv = Input.GetAxis("RightVertical") * 0.1f;
+        float player1Horizontal = Input.GetAxis("LeftHorizontal") * 0.1f;
+        float player1Vertical = Input.GetAxis("LeftVertical") * 0.1f;
+        float player2Horizontal = Input.GetAxis("RightHorizontal") * 0.1f;
+        float player2Vertical = Input.GetAxis("RightVertical") * 0.1f;
 
         // カメラの方向から、X-Z平面の単位ベクトルを取得
         Vector3 cameraForward = Vector3.Scale(CameraPivot.transform.forward, new Vector3(1, 0, 1)).normalized;
 
-        if (lh != 0 || lv != 0)
+        if (player1Horizontal != 0 || player1Vertical != 0)
         {
-
             // 方向キーの入力値とカメラの向きから、移動方向を決定
-            Vector3 moveForward = cameraForward * lv + CameraPivot.transform.right * lh;
+            Vector3 moveForward = cameraForward * player1Vertical + CameraPivot.transform.right * player1Horizontal;
 
             if (Vector3.Distance(
-                PlayerCharacter1.transform.position + /*new Vector3(lh * 0.1f * speed, 0, lv * 0.1f * speed)*/(moveForward * speed),
-                PlayerCharacter2.transform.position) > maxDistanceLength)
+                Vector3.Scale(PlayerCharacter1.transform.position + (moveForward * speed), new Vector3(1, 0, 1)),
+                Vector3.Scale(PlayerCharacter2.transform.position, new Vector3(1, 0, 1))) > maxDistanceLength)
             {
-                lh = 0;
-                lv = 0;
+                moveForward.x = 0;
+                moveForward.z = 0;
             }
 
             // 移動方向にスピードを掛ける。ジャンプや落下がある場合は、別途Y軸方向の速度ベクトルを足す。
             PlayerCharacter1.transform.Translate(moveForward * speed);
-            /*
-            // キャラクターの向きを進行方向に
-            if (moveForward != Vector3.zero)
-            {
-                PlayerCharacter1.transform.rotation = Quaternion.LookRotation(moveForward);
-            }*/
-
-            //PlayerCharacter1.transform.Translate(new Vector3(lh * 0.1f * speed, 0, lv * 0.1f * speed));
         }
-        if (rh != 0 || rv != 0)
+
+        if (player2Horizontal != 0 || player2Vertical != 0)
         {
             // 方向キーの入力値とカメラの向きから、移動方向を決定
-            Vector3 moveForward = cameraForward * rv + CameraPivot.transform.right * rh;
+            Vector3 moveForward = cameraForward * player2Vertical + CameraPivot.transform.right * player2Horizontal;
 
             if (Vector3.Distance(
-                PlayerCharacter1.transform.position,
-                PlayerCharacter2.transform.position + (moveForward * speed))/*new Vector3(rh * 0.1f * speed, 0, rv * 0.1f * speed)*/ > maxDistanceLength)
+                Vector3.Scale(PlayerCharacter1.transform.position, new Vector3(1, 0, 1)),
+                Vector3.Scale(PlayerCharacter2.transform.position + (moveForward * speed), new Vector3(1, 0, 1))) > maxDistanceLength)
             {
-                rh = 0;
-                rv = 0;
+                moveForward.x = 0;
+                moveForward.z = 0;
             }
 
             // 移動方向にスピードを掛ける。ジャンプや落下がある場合は、別途Y軸方向の速度ベクトルを足す。
             PlayerCharacter2.transform.Translate(moveForward * speed);
-            /*
-            // キャラクターの向きを進行方向に
-            if (moveForward != Vector3.zero)
-            {
-                PlayerCharacter2.transform.rotation = Quaternion.LookRotation(moveForward);
-            }*/
-
-            //PlayerCharacter2.transform.Translate(new Vector3(rh * 0.1f * speed, 0, rv * 0.1f * speed));
         }
 
-        if (Input.GetButton("LeftJump") && PlayerCharacter1Components.playerModel.CanJump)
+        if (Input.GetButton("LeftJump") && PlayerCharacter1Components.playerModel.CanJump && PlayerCharacter1.transform.position.y - PlayerCharacter2.transform.position.y < maxDistanceLength)
         {
             PlayerCharacter1Components.playerModel.CanJump = false;
             PlayerCharacter1Components.rigidbody.AddForce(new Vector3(0, jumpPower, 0));
         }
-        if (Input.GetButton("RightJump") && PlayerCharacter2Components.playerModel.CanJump)
+        if (Input.GetButton("RightJump") && PlayerCharacter2Components.playerModel.CanJump && PlayerCharacter2.transform.position.y - PlayerCharacter1.transform.position.y < maxDistanceLength)
         {
             PlayerCharacter2Components.playerModel.CanJump = false;
             PlayerCharacter2Components.rigidbody.AddForce(new Vector3(0, jumpPower, 0));
@@ -122,13 +105,10 @@ public class InputController : MonoBehaviour {
 
     private void CameraController()
     {
-        //Vector3 camPos = Vector3.Min(PlayerCharacter1.transform.position, PlayerCharacter2.transform.position);
-        //camPos.x = Mathf.Lerp(PlayerCharacter1.transform.position.x, PlayerCharacter2.transform.position.x, 0.5f);
-
         Vector3 camPos = Vector3.Lerp(PlayerCharacter1.transform.position, PlayerCharacter2.transform.position, 0.5f);
 
         CameraPivot.transform.position = new Vector3(camPos.x, camPos.y, camPos.z);
-        CameraObjct.transform.localPosition = new Vector3(/*CameraPivot.transform.position.x, CameraPivot.transform.position.y + 10, CameraPivot.transform.position.z - 9*/0,10,-9);
+        CameraObjct.transform.localPosition = new Vector3(0,10,-9);
 
         float dis = Vector3.Distance(PlayerCharacter1.transform.position, PlayerCharacter2.transform.position);
 
@@ -138,11 +118,7 @@ public class InputController : MonoBehaviour {
             CameraObjct.transform.localPosition += new Vector3(0, dis * 1.5f , -dis * 1.5f);
         }
 
-        //if (Input.GetAxis("RotateCameraLeft"))
-            CameraPivot.transform.Rotate(0, Input.GetAxis("RotateCameraLeft") * 2, 0, Space.Self);
-        /*if (Input.GetButton("RotateCameraRight"))
-            CameraPivot.transform.Rotate(0, -2, 0, Space.Self);
-            */
+        CameraPivot.transform.Rotate(0, Input.GetAxis("RotateCameraLeft") * 2, 0, Space.Self);
     }
 
     public static float GetMaxDistanceLength()
