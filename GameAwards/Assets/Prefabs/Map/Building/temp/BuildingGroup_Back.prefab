@@ -134,7 +134,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4807630629491310}
   m_Layer: 0
-  m_Name: "BuildingG\broup_Back"
+  m_Name: BuildingGroup_Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
