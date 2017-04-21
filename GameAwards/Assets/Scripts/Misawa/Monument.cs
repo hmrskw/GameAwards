@@ -9,6 +9,11 @@ public class Monument : MonoBehaviour {
 
     [SerializeField]
     ParticleSystem particle;
+    [SerializeField]
+    ParticleSystem guideParticle;
+
+    [SerializeField]
+    Monument nextMonument;
 
     [SerializeField]
     float extendLength;
@@ -33,7 +38,19 @@ public class Monument : MonoBehaviour {
             isOn = true;
             mat.color = objColor;
             particle.Play();
+            if(nextMonument != null) nextMonument.Guid();
             InputController.ExtendMaxDistanceLength(extendLength);
+        }else if (guideParticle.isPlaying)
+        {
+            guideParticle.Stop();
+        }
+    }
+
+    public void Guid()
+    {
+        if(isOn == false && guideParticle.isPlaying == false)
+        {
+            guideParticle.Play();
         }
     }
 }

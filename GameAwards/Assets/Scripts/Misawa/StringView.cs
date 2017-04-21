@@ -69,7 +69,7 @@ public class StringView : MonoBehaviour {
 
         co++;
 
-        point = Vector3.Lerp(point, Vector3.Lerp(head.position, tail.position, 0.5f), 0.005f / (InputController.GetMaxDistanceLength()/5f) * Vector3.Distance(head.position, tail.position));
+        point = Vector3.Lerp(point, Vector3.Lerp(head.position, tail.position, 0.5f), 0.1f * Vector3.Distance(head.position, tail.position) / (InputController.GetMaxDistanceLength()));
 
         if (co % 60 == 0)
         {

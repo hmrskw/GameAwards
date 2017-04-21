@@ -53,7 +53,7 @@ public class Grass : MonoBehaviour
 			if (_growthRatio >= 1.0f) _isGrowing = false;
 			yield return null;
 		}
-
+		
 		//Destroy(this);
 	}
 }
