@@ -3310,7 +3310,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1612205331779764}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -2.21}
+  m_LocalPosition: {x: 882, y: 0, z: 713}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4455994395691150}
@@ -3813,7 +3813,7 @@ MonoBehaviour:
   PlayerCharacter2: {fileID: 1936938296704512}
   CameraObjct: {fileID: 1393928003483458}
   CameraPivot: {fileID: 1626205844913746}
-  speed: 6
+  speed: 10
   jumpPower: 500
 --- !u!114 &114184356156988506
 MonoBehaviour:
@@ -3826,6 +3826,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 850ec6b1b87dd5d4b963d7d0533fa81c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &114932403877197800
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3837,6 +3840,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 850ec6b1b87dd5d4b963d7d0533fa81c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!120 &120524347860241554
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -3939,9 +3945,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 1
-  m_Height: 5.751581
+  m_Height: 6
   m_Direction: 1
-  m_Center: {x: 0, y: 2.9063745, z: 0}
+  m_Center: {x: 0, y: 3, z: 0}
 --- !u!136 &136675045005405464
 CapsuleCollider:
   m_ObjectHideFlags: 1

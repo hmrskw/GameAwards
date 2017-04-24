@@ -16,8 +16,10 @@ public class InputController : MonoBehaviour {
     [SerializeField]
     GameObject PlayerCharacter2;
 
+    /*
     [SerializeField]
     GameObject CameraObjct;
+    */
     [SerializeField]
     GameObject CameraPivot;
 
@@ -32,7 +34,7 @@ public class InputController : MonoBehaviour {
     PlayerComponents PlayerCharacter1Components = new PlayerComponents();
     PlayerComponents PlayerCharacter2Components = new PlayerComponents();
 
-    bool camMode = false;
+    //bool camMode = false;
 
     void Awake()
     {
@@ -52,7 +54,7 @@ public class InputController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (camMode == false)
+        //if (camMode == false)
         {
 
             float character1Horizontal = Input.GetAxis("LeftHorizontal") * 0.1f;
@@ -60,11 +62,8 @@ public class InputController : MonoBehaviour {
             float character2Horizontal = Input.GetAxis("RightHorizontal") * 0.1f;
             float character2Vertical = Input.GetAxis("RightVertical") * 0.1f;
 
-            if(character1Horizontal != 0 || character1Vertical != 0) PlayerCharacter1Components.animator.SetBool("IsWalk",true);
-            else PlayerCharacter1Components.animator.SetBool("IsWalk", false);
-
-            if (character2Horizontal != 0 || character2Vertical != 0) PlayerCharacter2Components.animator.SetBool("IsWalk", true);
-            else PlayerCharacter2Components.animator.SetBool("IsWalk", false);
+            PlayerCharacter1Components.animator.SetBool("IsWalk", (character1Horizontal != 0 || character1Vertical != 0));
+            PlayerCharacter2Components.animator.SetBool("IsWalk", (character2Horizontal != 0 || character2Vertical != 0));
 
             // カメラの方向から、X-Z平面の単位ベクトルを取得
             Vector3 cameraForward = Vector3.Scale(CameraPivot.transform.forward, new Vector3(1, 0, 1)).normalized;
@@ -76,7 +75,6 @@ public class InputController : MonoBehaviour {
                 Vector3.Scale(PlayerCharacter1.transform.position, new Vector3(1, 0, 1)),
                 Vector3.Scale(PlayerCharacter2.transform.position, new Vector3(1, 0, 1))) > maxDistanceLength)
             {
-
                 if (PlayerCharacter1.transform.position.x - PlayerCharacter2.transform.position.x > 0)
 
                {
@@ -105,9 +103,9 @@ public class InputController : MonoBehaviour {
                 {
                     Vector3 moveVector = character2moveForward - character1moveForward;
 
-                    if (moveVector.z < 0)
+                    if (moveVector.z < 0f)
                     {
-                        float v = (character1moveForward.z + character2moveForward.z) / 3;
+                        float v = (character1moveForward.z + character2moveForward.z) / 3f;
                         character1moveForward.z = v;
                         character2moveForward.z = v;
                     }
@@ -116,24 +114,21 @@ public class InputController : MonoBehaviour {
                 {
                     Vector3 moveVector = character1moveForward - character2moveForward;
 
-                    if (moveVector.z < 0)
+                    if (moveVector.z < 0f)
                     {
-                        float v = (character1moveForward.z + character2moveForward.z) / 3;
+                        float v = (character1moveForward.z + character2moveForward.z) / 3f;
                         character1moveForward.z = v;
                         character2moveForward.z = v;
                     }
                 }
             }
 
-            var direction = new Vector3(character1moveForward.x, 0, character1moveForward.z);
-            PlayerCharacter1.transform.LookAt(PlayerCharacter1.transform.position + direction);
-
-            direction = new Vector3(character2moveForward.x, 0, character2moveForward.z);
-            PlayerCharacter2.transform.LookAt(PlayerCharacter2.transform.position + direction);
+            PlayerCharacter1.transform.LookAt(PlayerCharacter1.transform.position + new Vector3(character1moveForward.x, 0, character1moveForward.z));
+            PlayerCharacter2.transform.LookAt(PlayerCharacter2.transform.position + new Vector3(character2moveForward.x, 0, character2moveForward.z));
 
             // 移動方向にスピードを掛ける。ジャンプや落下がある場合は、別途Y軸方向の速度ベクトルを足す。
             PlayerCharacter1.transform.Translate(character1moveForward * speed, Space.World);
-            PlayerCharacter2.transform.Translate(character2moveForward * speed,Space.World);
+            PlayerCharacter2.transform.Translate(character2moveForward * speed, Space.World);
         }
 
         if (Input.GetButton("LeftJump") && PlayerCharacter1Components.playerModel.CanJump && PlayerCharacter1.transform.position.y - PlayerCharacter2.transform.position.y < maxDistanceLength)
@@ -147,11 +142,11 @@ public class InputController : MonoBehaviour {
             PlayerCharacter2Components.rigidbody.AddForce(new Vector3(0, jumpPower, 0));
         }
 
-        CameraController();
+        //CameraController();
     }
 
+    /*
     Vector2 camRotate = new Vector2(0,0);
-
     private void CameraController()
     {
         Vector3 camPos = Vector3.Lerp(PlayerCharacter1.transform.position, PlayerCharacter2.transform.position, 0.5f);
@@ -188,7 +183,7 @@ public class InputController : MonoBehaviour {
 
         CameraPivot.transform.Rotate(0, Input.GetAxis("RotateCameraLeft") * 2, 0, Space.Self);
     }
-
+    */
     public static float GetMaxDistanceLength()
     {
         return maxDistanceLength;

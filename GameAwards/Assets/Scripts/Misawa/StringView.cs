@@ -26,7 +26,6 @@ public class StringView : MonoBehaviour {
     void Start () {
         lineRenderer = gameObject.GetComponent<LineRenderer>();
         point = Vector3.Lerp(head.position, tail.position, 0.5f);
-
     }
 
     /// <summary>
@@ -78,7 +77,7 @@ public class StringView : MonoBehaviour {
 
         while (length < 1f)
         {
-            length += 0.1f;
+            length += 0.05f;
             {
                 posList.Add(
                     B_SplineCurve(
@@ -113,6 +112,7 @@ public class StringView : MonoBehaviour {
                         point + new Vector3(0, 3, 0),
                         length
                     );
+
                 ray = new Ray(curve, -transform.up);
                 Debug.DrawRay(curve, -transform.up, new Color(0,0.5f,0));
                 RaycastHit hit;
