@@ -1068,6 +1068,7 @@ GameObject:
   - component: {fileID: 4559246284814278}
   - component: {fileID: 23535997311641360}
   - component: {fileID: 33070396473634778}
+  - component: {fileID: 114993512865867800}
   m_Layer: 0
   m_Name: CameraPivot
   m_TagString: Untagged
@@ -3310,7 +3311,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1612205331779764}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 882, y: 0, z: 713}
+  m_LocalPosition: {x: 2212, y: 88, z: 784}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4455994395691150}
@@ -3755,7 +3756,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: d971fe17b5d39284dbd0d1e4b9cad5d2, type: 3}
   m_Controller: {fileID: 9100000, guid: 775f445e4961cfd419d972eb6c0ffff6, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -3811,7 +3812,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerCharacter1: {fileID: 1900308965114958}
   PlayerCharacter2: {fileID: 1936938296704512}
-  CameraObjct: {fileID: 1393928003483458}
   CameraPivot: {fileID: 1626205844913746}
   speed: 10
   jumpPower: 500
@@ -3829,6 +3829,9 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 256
+  gravity: 0.98
+  speed: 10
+  jumpPower: 500
 --- !u!114 &114932403877197800
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3843,6 +3846,23 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 256
+  gravity: 0.98
+  speed: 10
+  jumpPower: 500
+--- !u!114 &114993512865867800
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1626205844913746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a627d19f9104ae40b9deccc18109f54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerCharacter1: {fileID: 1900308965114958}
+  PlayerCharacter2: {fileID: 1936938296704512}
+  CameraObjct: {fileID: 1393928003483458}
 --- !u!120 &120524347860241554
 LineRenderer:
   m_ObjectHideFlags: 1
