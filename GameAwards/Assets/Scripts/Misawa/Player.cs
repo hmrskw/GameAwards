@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Player : MonoBehaviour {
     [SerializeField]
@@ -25,11 +26,22 @@ public class Player : MonoBehaviour {
     [SerializeField]
     Material mat;
 
+
+    [SerializeField]
+    float jpower = 0.49f;
+
+    float velocity = 0;
+
     //接地中か
     bool canJump;
     public bool CanJump {
-        set { canJump = value; }
-        get { return canJump; }
+        set {
+            velocity = jpower;
+            canJump = value;
+        }
+        get {
+            return canJump;
+        }
     }
 
     //坂道を滑っているか
@@ -43,32 +55,44 @@ public class Player : MonoBehaviour {
     // Use this for initialization
     void Start () {
         animator = GetComponent<Animator>();
-        canJump = true;
+        canJump = false;
     }
 
     // Update is called once per frame
-    void FixedUpdate () {
+    void Update () {
 
         Vector3 slope = Sliding();
+
+        
+        if (canJump == false)
+        {
+            velocity += Physics.gravity.y * Time.fixedDeltaTime;
+            if (velocity < -2) velocity = -2;
+        }
 
         //DEBUG:キャラのステートに合わせて色を変える
         if (isSliding)
         {
             mat.color = Color.red;
         }
+        else if (canJump == false)
+        {
+            mat.color = Color.blue;
+        }
         else
         {
+            slope = Vector3.zero;
             mat.color = Color.gray;
         }
-
         //移動している間アニメーションを動かす
         animator.SetBool("IsWalk", (characterMoveForward != Vector3.zero));
+        animator.SetBool("IsJump", (!canJump));
 
         //移動方向を向かせる(移動方向+坂の傾き)
         transform.LookAt(transform.position + new Vector3(characterMoveForward.x, 0f, characterMoveForward.z) + (new Vector3(slope.x, 0f, slope.z) * speed / 10f));
         
         // 移動方向にスピードを掛けたものに、坂を滑り落ちる速度を加算
-        transform.Translate((characterMoveForward * speed) + (new Vector3(slope.x , 0f, slope.z) * speed), Space.World);
+        transform.Translate((characterMoveForward * speed) + (new Vector3(slope.x , velocity, slope.z) * speed), Space.World);
     }
 
     /// <summary>
@@ -79,6 +103,7 @@ public class Player : MonoBehaviour {
     {
         RaycastHit hit;
 
+        Debug.DrawRay(transform.position + new Vector3(0, 3f, 0), Vector3.down, Color.red);
         if (Physics.Raycast(transform.position + new Vector3(0, 0.5f, 0), Vector3.down, out hit, slopeAngle / 10f, mask))
         {
             //ジャンプ中でなければキャラクターを地面に接地する高さにずらす
@@ -100,9 +125,56 @@ public class Player : MonoBehaviour {
     /// <param name="other">当たったオブジェクト</param>
     void OnCollisionEnter(Collision other)
     {
+        if(other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Player"))
+        {
+            RaycastHit hit;
+
+            if (Physics.Raycast(transform.position + new Vector3(0, 5f, 0), Vector3.down, out hit, 6f, mask))
+            {
+                    transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
+            }
+            canJump = true;
+            
+            velocity = 0;
+            
+        }
+    }
+
+    /*void OnTriggerEnter(Collider col)
+    {
+        Debug.Log("hit");
+
+        velocity = 0;
+        canJump = true;
+
+        Vector3 hitPoint = col.ClosestPointOnBounds(transform.position);
+
+        Debug.Log(hitPoint + " === " + transform.position);
+        Vector3 a = hitPoint - transform.position;
+        Debug.Log("a = " + a);
+
+        a = a.normalized;
+
+        Debug.Log("a.normalized = " + a);
+
+        Debug.Log("point" + hitPoint + "a" + a);
+        Plane p = new Plane(a,hitPoint);
+        
+        float dis = p.GetDistanceToPoint(transform.position);
+
+        Debug.Log(dis);
+
+        transform.position += a * dis;
+    }*/
+    
+    void OnCollisionExit(Collision other)
+    {
         if (other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Player"))
         {
-            canJump = true;
+            RaycastHit hit;
+
+            if (Physics.Raycast(transform.position+new Vector3(0, 5f, 0), Vector3.down, out hit, 6f, mask) == false)
+                canJump = false;
         }
     }
 

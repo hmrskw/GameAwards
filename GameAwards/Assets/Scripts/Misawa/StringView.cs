@@ -81,9 +81,9 @@ public class StringView : MonoBehaviour {
             {
                 posList.Add(
                     B_SplineCurve(
-                        head.position + new Vector3(0, 3, 0),
-                        tail.position + new Vector3(0, 3, 0),
-                        point + new Vector3(0, 3, 0),
+                        head.position + new Vector3(0, 3, 0.5f),
+                        tail.position + new Vector3(0, 3, 0.5f),
+                        point + new Vector3(0, 3, 0.5f),
                         length
                     )
                 );

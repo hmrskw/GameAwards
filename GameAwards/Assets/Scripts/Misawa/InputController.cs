@@ -5,7 +5,7 @@ using UnityEngine;
 public class InputController : MonoBehaviour {
     class PlayerComponents
     {
-        public Rigidbody rigidbody;
+        //public Rigidbody rigidbody;
         public Player playerModel;
     }
 
@@ -36,10 +36,10 @@ public class InputController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        PlayerCharacter1Components.rigidbody = PlayerCharacter1.GetComponent<Rigidbody>();
+        //PlayerCharacter1Components.rigidbody = PlayerCharacter1.GetComponent<Rigidbody>();
         PlayerCharacter1Components.playerModel = PlayerCharacter1.GetComponent<Player>();
 
-        PlayerCharacter2Components.rigidbody = PlayerCharacter2.GetComponent<Rigidbody>();
+        //PlayerCharacter2Components.rigidbody = PlayerCharacter2.GetComponent<Rigidbody>();
         PlayerCharacter2Components.playerModel = PlayerCharacter2.GetComponent<Player>();
     }
 
@@ -72,16 +72,6 @@ public class InputController : MonoBehaviour {
                 CalculateMoveDirection(ref character1MoveDirection.z, ref character2MoveDirection.z);
             else
                 CalculateMoveDirection(ref character2MoveDirection.z, ref character1MoveDirection.z);
- 
-            if (PlayerCharacter1Components.playerModel.IsSliding)
-            {
-                character2MoveDirection = new Vector3(0,0,0);
-            }
-            if (PlayerCharacter2Components.playerModel.IsSliding)
-            {
-                character1MoveDirection = new Vector3(0, 0, 0);
-            }
-
         }
 
         //各キャラを移動
@@ -92,12 +82,12 @@ public class InputController : MonoBehaviour {
         if (Input.GetButton("LeftJump") && PlayerCharacter1Components.playerModel.CanJump && PlayerCharacter1.transform.position.y - PlayerCharacter2.transform.position.y < maxDistanceLength)
         {
             PlayerCharacter1Components.playerModel.CanJump = false;
-            PlayerCharacter1Components.rigidbody.AddForce(new Vector3(0, jumpPower, 0));
+            //PlayerCharacter1Components.rigidbody.AddForce(new Vector3(0, jumpPower, 0));
         }
         if (Input.GetButton("RightJump") && PlayerCharacter2Components.playerModel.CanJump && PlayerCharacter2.transform.position.y - PlayerCharacter1.transform.position.y < maxDistanceLength)
         {
             PlayerCharacter2Components.playerModel.CanJump = false;
-            PlayerCharacter2Components.rigidbody.AddForce(new Vector3(0, jumpPower, 0));
+            //PlayerCharacter2Components.rigidbody.AddForce(new Vector3(0, jumpPower, 0));
         }
     }
 
