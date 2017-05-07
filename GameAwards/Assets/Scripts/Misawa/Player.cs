@@ -90,9 +90,9 @@ public class Player : MonoBehaviour {
 
         //移動方向を向かせる(移動方向+坂の傾き)
         transform.LookAt(transform.position + new Vector3(characterMoveForward.x, 0f, characterMoveForward.z) + (new Vector3(slope.x, 0f, slope.z) * speed / 10f));
-        
+        //Debug.Log(((characterMoveForward + new Vector3(slope.x, velocity, slope.z)) * speed));
         // 移動方向にスピードを掛けたものに、坂を滑り落ちる速度を加算
-        transform.Translate((characterMoveForward * speed) + (new Vector3(slope.x , velocity, slope.z) * speed), Space.World);
+        transform.Translate(((characterMoveForward + new Vector3(slope.x , velocity, slope.z)) * speed), Space.World);
     }
 
     /// <summary>
@@ -114,7 +114,7 @@ public class Player : MonoBehaviour {
 
             isSliding = (Vector3.Angle(hit.normal, Vector3.up) > slopeAngle);
         }
-
+        //Debug.Log(Vector3.Angle(hit.normal, Vector3.up));
         //地面の傾斜方向を調べる
         return hit.normal;
     }
@@ -131,7 +131,7 @@ public class Player : MonoBehaviour {
 
             if (Physics.Raycast(transform.position + new Vector3(0, 5f, 0), Vector3.down, out hit, 6f, mask))
             {
-                    transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
+                transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
             }
             canJump = true;
             

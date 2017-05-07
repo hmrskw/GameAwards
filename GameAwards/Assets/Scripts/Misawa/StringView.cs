@@ -114,7 +114,7 @@ public class StringView : MonoBehaviour {
                     );
 
                 ray = new Ray(curve, -transform.up);
-                Debug.DrawRay(curve, -transform.up, new Color(0,0.5f,0));
+                //Debug.DrawRay(curve, -transform.up, new Color(0,0.5f,0));
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit, 10.0f,mask[0]))
                 {
