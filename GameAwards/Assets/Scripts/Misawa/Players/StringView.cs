@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class StringView : MonoBehaviour {
+    static StringView instance;
+
+    public static StringView Instance
+    {
+        get { return instance; }
+    }
+
     [Range(0, 1)]
     public float t;
 
@@ -21,6 +28,16 @@ public class StringView : MonoBehaviour {
 
     [SerializeField]
     LayerMask[] mask;
+
+    void Awake()
+    {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+    }
 
     // Use this for initialization
     void Start () {
@@ -116,17 +133,42 @@ public class StringView : MonoBehaviour {
                 ray = new Ray(curve, -transform.up);
                 //Debug.DrawRay(curve, -transform.up, new Color(0,0.5f,0));
                 RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, 10.0f,mask[0]))
+                if (Physics.Raycast(ray, out hit, 10.0f,LayerMask.GetMask("Monument")))
                 {
                     hit.collider.GetComponent<Monument>().Boot();
                 }
-                if (Physics.Raycast(ray, out hit, 10.0f, mask[1]))
+                if (Physics.Raycast(ray, out hit, 10.0f, LayerMask.GetMask("Grass")))
                 {
                     Grass grassComponent = hit.collider.GetComponent<Grass>();
                     if (grassComponent != null)
                         StartCoroutine(grassComponent.Growth());
-                }
+                }/*
+                if(Physics.Raycast(ray, out hit, 10.0f, LayerMask.GetMask("WillO")))
+                {
+                    hit.collider.GetComponent<WillOTheWisp>().Absorbed();
+                }*/
             }
         }
+    }
+
+    public bool OnHitLine(Vector3 position)
+    {
+        float length = 0f;
+
+        while (length < 1f)
+        {
+            length += 0.1f;
+            {
+                Vector3 curve =
+                    B_SplineCurve(
+                        head.position + new Vector3(0, 3, 0),
+                        tail.position + new Vector3(0, 3, 0),
+                        point + new Vector3(0, 3, 0),
+                        length
+                    );
+                if (Vector3.Distance(curve, position) < 1) return true;
+            }
+        }
+        return false;
     }
 }
