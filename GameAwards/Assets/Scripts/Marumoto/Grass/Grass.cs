@@ -41,7 +41,6 @@ public class Grass : MonoBehaviour
         float _startTime = Time.timeSinceLevelLoad;
 		bool _isGrowing = true;
 
-		//TODO:UniRxで書き換え。
 		while (_isGrowing)
 		{
 			float _elapsedTime = Time.timeSinceLevelLoad - _startTime;
@@ -53,7 +52,5 @@ public class Grass : MonoBehaviour
 			if (_growthRatio >= 1.0f) _isGrowing = false;
 			yield return null;
 		}
-		
-		//Destroy(this);
 	}
 }

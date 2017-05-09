@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4999786738891860}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GrassObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,7 +51,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4434798005386748}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Grass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -66,7 +66,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4303379244520354}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Grass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,7 +83,7 @@ GameObject:
   - component: {fileID: 4162596527059712}
   - component: {fileID: 33355504702720248}
   - component: {fileID: 23053808108288308}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Quad (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 4251677435094540}
   - component: {fileID: 33652607483693996}
   - component: {fileID: 23079266244658114}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Quad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -316,6 +316,6 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 0
   _growthBaseTime: 2
-  _randomMin: {x: 0.8, y: 0.8, z: 0.8}
-  _randomMax: {x: 1.3, y: 2, z: 1.3}
+  _randomMin: {x: 1.3, y: 1, z: 1.3}
+  _randomMax: {x: 1.8, y: 2.5, z: 1.8}
   _grassTransform: {fileID: 4434798005386748}

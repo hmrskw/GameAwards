@@ -20,7 +20,7 @@ public class GrassMesh : MonoBehaviour {
 
 	enum Drawer
 	{
-		DrawMesh=0,
+		DrawMesh = 0,
 		DrawMeshInstanced,
 	}
 
@@ -48,7 +48,7 @@ public class GrassMesh : MonoBehaviour {
 
 	void Update()
 	{
-		DrawMeshInstanced();
+
 
 		switch (_drawer)
 		{
@@ -95,10 +95,11 @@ public class GrassMesh : MonoBehaviour {
 
 	void SetupMatrix(int _Width, int _Depth)
 	{
+		const int num = 30;
 		List<Matrix4x4> _matWidth = new List<Matrix4x4>();
-		for (int j = 0; j < 30; j++)
+		for (int j = 0; j < num; j++)
 		{
-			for (int i = 0; i < 30; i++)
+			for (int i = 0; i < num; i++)
 			{
 				_matWidth.Add(Matrix4x4.TRS(new Vector3(1 * i + 30 * _Width, 0.5f, 1 * j + 30 * _Depth),
 													   Quaternion.identity,
