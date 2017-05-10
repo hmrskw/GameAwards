@@ -103,7 +103,7 @@ public class Player : MonoBehaviour {
     {
         RaycastHit hit;
 
-        Debug.DrawRay(transform.position + new Vector3(0, 3f, 0), Vector3.down, Color.red);
+        //Debug.DrawRay(transform.position + new Vector3(0, 3f, 0), Vector3.down, Color.red);
         if (Physics.Raycast(transform.position + new Vector3(0, 0.5f, 0), Vector3.down, out hit, slopeAngle / 10f, mask))
         {
             //ジャンプ中でなければキャラクターを地面に接地する高さにずらす

@@ -47,7 +47,7 @@ public class CameraController : MonoBehaviour {
     {
         RaycastHit hit;
 
-        Debug.DrawRay(transform.position + new Vector3(0, 2f, 0), transform.TransformDirection(Vector3.forward)*5f, Color.blue);
+        //Debug.DrawRay(transform.position + new Vector3(0, 2f, 0), transform.TransformDirection(Vector3.forward)*5f, Color.blue);
 
         if (Physics.Raycast(transform.position + new Vector3(0, 2f, 0), transform.TransformDirection(Vector3.forward), out hit, 10f, LayerMask.GetMask("Ground")))
         {

@@ -9,7 +9,7 @@ public class InputController : MonoBehaviour {
         public Player playerModel;
     }
 
-    [SerializeField]
+    [SerializeField, Header("プレイヤー")]
     GameObject PlayerCharacter1;
 
     [SerializeField]

@@ -11,6 +11,8 @@ public class GrassManager : MonoBehaviour {
 	int _createWidth;
 	[SerializeField]
 	int _createDepth;
+    [SerializeField]
+    LayerMask _lm;
 
 	private Vector3 _playerLocation = new Vector3();
 	private Vector3 _oldLocation = new Vector3();
@@ -129,13 +131,12 @@ public class GrassManager : MonoBehaviour {
 	private void SetupDummyPoint()
 	{
 		const int _tipNum = 2000;
-		LayerMask _lm = LayerMask.NameToLayer("Ground");
-
+		
 		for (int i = 0; i < _tipNum; i++)
 		{
 			for (int j = 0; j < _tipNum; j++)
 			{
-				SetPoint(j, i, _lm);
+				SetPoint(j, i);
 			}
 		}
 
@@ -148,14 +149,13 @@ public class GrassManager : MonoBehaviour {
 			{
 				_str += "(" + _maptipsIndices[0, 1, i * 5 + j].x + ", " + _maptipsIndices[0, 1, i * 5 + j].y + "), ";
 			}
-			Debug.Log(_maptipsIndices);
 		}
 	}
 
-	private void SetPoint(int _indexX, int _indexZ, LayerMask _lm)
+	private void SetPoint(int _indexX, int _indexZ)
 	{
 		Vector3 _point = new Vector3(_indexX * 4, 100, _indexZ * 4);
-		Ray _ray = new Ray(_point, new Vector3(0, 1, 0));
+		Ray _ray = new Ray(_point, new Vector3(0, -1, 0));
 		RaycastHit _hit = new RaycastHit();
 
 		if (Physics.Raycast(_ray, out _hit, 200, _lm))
@@ -165,7 +165,7 @@ public class GrassManager : MonoBehaviour {
 		}
 		else
 		{
-			_maptipsDummyPoint[_indexZ, _indexX] = new GrassDummyPoint(new Vector3(_point.x, 0, _point.z), true);
+            _maptipsDummyPoint[_indexZ, _indexX] = new GrassDummyPoint(new Vector3(_point.x, 0, _point.z), true);
 		}
 	}
 }

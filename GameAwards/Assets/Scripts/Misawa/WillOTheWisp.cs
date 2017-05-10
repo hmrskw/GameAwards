@@ -23,11 +23,6 @@ public class WillOTheWisp : MonoBehaviour {
         StartCoroutine(Amplitude());
         StartCoroutine(Move());
     }
-	
-	// Update is called once per frame
-	void Update () {
-        
-	}
 
     /*public void Absorbed()
     {
@@ -66,7 +61,6 @@ public class WillOTheWisp : MonoBehaviour {
         obj.transform.LookAt(targetPosition[tartgetID]);
         while (StringView.Instance.OnHitLine(obj.transform.position) == false)
         {
-            Debug.Log(Vector3.Distance(obj.transform.position, targetPosition[tartgetID].position));
             if (Vector3.Distance(obj.transform.position, targetPosition[tartgetID].position) < 5) {
                 tartgetID = Random.Range(0, targetPosition.Length);
                 obj.transform.LookAt(targetPosition[tartgetID]);
