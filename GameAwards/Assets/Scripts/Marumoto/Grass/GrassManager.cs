@@ -32,6 +32,10 @@ public class GrassManager : MonoBehaviour {
 		SetupDummyPoint();
 		StartCoroutine(Search());
 		InitGrasses();
+		for (int i = 0; i < 10; i++)
+		{
+
+		}
 	}
 	
 	void Update ()
@@ -96,7 +100,8 @@ public class GrassManager : MonoBehaviour {
 		for (int i = 0; i < 25; i++)
 		{
 			Vector2 _index = _maptipsIndices[_chunkDepth, _chunkWidth, i];
-			_pooledObjects[_count][i].transform.SetPositionAndRotation(_maptipsDummyPoint[(int)_index.x, (int)_index.y].Position, Quaternion.identity);
+			GrassDummyPoint _dummyPoint = _maptipsDummyPoint[(int)_index.x, (int)_index.y];
+			_pooledObjects[_count][i].transform.SetPositionAndRotation(_dummyPoint.Position, _dummyPoint.Rotation);
 		}
 	}
 
@@ -161,11 +166,11 @@ public class GrassManager : MonoBehaviour {
 		if (Physics.Raycast(_ray, out _hit, 200, _lm))
 		{
 			_point = _hit.point;
-			_maptipsDummyPoint[_indexZ, _indexX] = new GrassDummyPoint(_point, true);
+			_maptipsDummyPoint[_indexZ, _indexX] = new GrassDummyPoint(_point, Quaternion.FromToRotation(-_ray.direction, _hit.normal), true,_hit.normal);
 		}
 		else
 		{
-            _maptipsDummyPoint[_indexZ, _indexX] = new GrassDummyPoint(new Vector3(_point.x, 0, _point.z), true);
+			_maptipsDummyPoint[_indexZ, _indexX] = new GrassDummyPoint(new Vector3(_point.x, 0, _point.z), Quaternion.identity, true, new Vector3(0, 0, 0));
 		}
 	}
 }
