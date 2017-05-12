@@ -139,9 +139,9 @@ public class StringView : MonoBehaviour {
                 }
                 if (Physics.Raycast(ray, out hit, 10.0f, LayerMask.GetMask("Grass")))
                 {
-                    Grass grassComponent = hit.collider.GetComponent<Grass>();
+                    var grassComponent = hit.collider.GetComponent<GrassesController>();
                     if (grassComponent != null)
-                        StartCoroutine(grassComponent.Growth());
+                        grassComponent.Growth();
                 }/*
                 if(Physics.Raycast(ray, out hit, 10.0f, LayerMask.GetMask("WillO")))
                 {
