@@ -23,10 +23,12 @@ public class ObjectPooler : MonoBehaviour {
 		for (int i = 0; i < _poolingBlockNum; i++)
 		{
 			List<GameObject> _chunk = new List<GameObject>();
+			var _emptyObj = new GameObject();
+			_emptyObj.transform.SetParent(_parent);
 
 			for (int j = 0; j < 25; j++)
 			{
-				var _refObj = Instantiate(_pooledTargetObject, _parent);
+				var _refObj = Instantiate(_pooledTargetObject, _emptyObj.transform);
 				_chunk.Add(_refObj);
 			}
 

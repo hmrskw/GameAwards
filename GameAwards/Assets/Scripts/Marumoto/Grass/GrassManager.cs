@@ -13,9 +13,15 @@ public class GrassManager : MonoBehaviour {
 	int _createDepth;
     [SerializeField]
     LayerMask _lm;
+	[SerializeField]
+	Transform _aa;
+
+	private int _halfWidth;
+	private int _halfDepth;
 
 	private Vector3 _playerLocation = new Vector3();
 	private Vector3 _oldLocation = new Vector3();
+	private Vector3 _movedChunkDirection = new Vector3();
 
 	private Vector3 _startIndex = new Vector3();
 	private Vector3 _endIndex = new Vector3();
@@ -25,24 +31,31 @@ public class GrassManager : MonoBehaviour {
 	private Vector2[,,] _maptipsIndices = new Vector2[800, 800, 25];
 
 	List<List<GameObject>> _pooledObjects = new List<List<GameObject>>();
+	List<List<int>> _chunkIndices = new List<List<int>>();
 
 	void Start ()
 	{
+		if (_createWidth % 2 == 1) _halfWidth = (_createWidth - 1) / 2;
+		else _halfWidth = _createWidth / 2;
+		if (_createDepth % 2 == 1) _halfDepth = (_createDepth - 1) / 2;
+		else _halfDepth = _createDepth / 2;
+
 		_pooledObjects = _pooler.GetObjects();
 		SetupDummyPoint();
 		StartCoroutine(Search());
+		SetIndex();
 		InitGrasses();
-		for (int i = 0; i < 10; i++)
-		{
-
-		}
 	}
 	
 	void Update ()
 	{
 		if (_oldLocation != _playerLocation)
 		{
-			InitGrasses();
+			_oldLocation = _playerLocation;
+			SetIndex();
+			//InitGrasses();
+			UpdateChunkIndices();
+			Debug.Log(_aa.position);
 		}
 	}
 
@@ -61,17 +74,14 @@ public class GrassManager : MonoBehaviour {
 										  0,
 										  (int)_player.position.z / _chunkSize);
 
-			SetIndex();
+			_movedChunkDirection = _playerLocation - _oldLocation;
 
-			yield return new WaitForSeconds(0.3f);
+			yield return new WaitForSeconds(0.1f);
 		}
 	}
 
 	private void SetIndex()
 	{
-		int _halfWidth = _createWidth / 2;
-		int _halfDepth = _createDepth / 2;
-
 		int _startX = (int)System.Math.Max(0, _playerLocation.x - _halfWidth);
 		int _endX = (int)System.Math.Min(_limitIndexCount, _playerLocation.x + _halfWidth);
 
@@ -82,16 +92,99 @@ public class GrassManager : MonoBehaviour {
 		_endIndex = new Vector3(_endX, 0, _endZ);
 	}
 
+	private void UpdateChunkIndices()
+	{
+		if (_movedChunkDirection == Vector3.zero) return;
+
+		if (_movedChunkDirection.x == 1)
+		{
+			int _count = 0;
+			for (int i = 0; i <= _endIndex.z - _startIndex.z; i++)
+			{
+				var _index = _chunkIndices[i][0];
+				_chunkIndices[i].RemoveAt(0);
+				_chunkIndices[i].Insert(_chunkIndices[i].Count, _index);
+
+				for (int k = 0; k < 25; k++)
+				{
+					Vector2 _ind = _maptipsIndices[(int)_startIndex.z + _count, (int)_endIndex.x, k];
+					GrassDummyPoint _dummyPoint = _maptipsDummyPoint[(int)_ind.x, (int)_ind.y];
+					_pooledObjects[_index][k].transform.SetPositionAndRotation(_dummyPoint.Position, _dummyPoint.Rotation);
+				}
+				_count++;
+			}
+		}
+		else if (_movedChunkDirection.x == -1)
+		{
+			int _count = 0;
+			for (int i = 0; i <= _endIndex.z - _startIndex.z; i++)
+			{
+				var _index = _chunkIndices[i][_chunkIndices[i].Count - 1];
+				_chunkIndices[i].RemoveAt(_chunkIndices[i].Count - 1);
+				_chunkIndices[i].Insert(0, _index);
+
+				for (int k = 0; k < 25; k++)
+				{
+					Vector2 _ind = _maptipsIndices[(int)_startIndex.z + _count, (int)_startIndex.x, k];
+					GrassDummyPoint _dummyPoint = _maptipsDummyPoint[(int)_ind.x, (int)_ind.y];
+					_pooledObjects[_index][k].transform.SetPositionAndRotation(_dummyPoint.Position, _dummyPoint.Rotation);
+				}
+				_count++;
+			}
+		}
+
+		if (_movedChunkDirection.z == 1)
+		{
+			var _indicesLine = _chunkIndices[0];
+			_chunkIndices.RemoveAt(0);
+			_chunkIndices.Insert(_chunkIndices.Count, _indicesLine);
+
+			int _count = 0;
+			foreach (var _index in _indicesLine)
+			{
+				for (int i = 0; i < 25; i++)
+				{
+					Vector2 _ind = _maptipsIndices[(int)_endIndex.z, (int)_startIndex.x + _count, i];
+					GrassDummyPoint _dummyPoint = _maptipsDummyPoint[(int)_ind.x, (int)_ind.y];
+					_pooledObjects[_index][i].transform.SetPositionAndRotation(_dummyPoint.Position, _dummyPoint.Rotation);
+				}
+				_count++;
+			}
+		}
+		else if (_movedChunkDirection.z == -1)
+		{
+			var _indicesLine = _chunkIndices[_chunkIndices.Count - 1];
+			_chunkIndices.RemoveAt(_chunkIndices.Count - 1);
+			_chunkIndices.Insert(0,_indicesLine);
+
+			int _count = 0;
+			foreach (var _index in _indicesLine)
+			{
+				for (int i = 0; i < 25; i++)
+				{
+					Vector2 _ind = _maptipsIndices[(int)_startIndex.z, (int)_startIndex.x + _count, i];
+					GrassDummyPoint _dummyPoint = _maptipsDummyPoint[(int)_ind.x, (int)_ind.y];
+					_pooledObjects[_index][i].transform.SetPositionAndRotation(_dummyPoint.Position, _dummyPoint.Rotation);
+				}
+				_count++;
+			}
+		}
+	}
+
 	private void InitGrasses()
 	{
 		int _count = 0;
-		for (int i = (int)_startIndex.z; i < _endIndex.z; i++)
+
+		for (int i = (int)_startIndex.z; i <= _endIndex.z; i++)
 		{
-			for(int j = (int)_startIndex.x; j < _endIndex.x; j++)
+			List<int> _indicesLine = new List<int>();
+			for(int j = (int)_startIndex.x; j <= _endIndex.x; j++)
 			{
 				GrassUpdate(j, i, _count);
+				_indicesLine.Add(_count);
 				_count++;
 			}
+			_chunkIndices.Add(_indicesLine);
 		}
 	}
 
