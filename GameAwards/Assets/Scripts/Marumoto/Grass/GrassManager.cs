@@ -188,7 +188,7 @@ public class GrassManager : MonoBehaviour {
 		for (int i = _startIndexZ; i <= _endIndexZ; i++)
 		{
 			List<int> _indicesLine = new List<int>();
-			for(int j = (int)_startIndexX; j <= _endIndexX; j++)
+			for(int j = _startIndexX; j <= _endIndexX; j++)
 			{
 				GrassUpdate(j, i, _count);
 				_indicesLine.Add(_count);

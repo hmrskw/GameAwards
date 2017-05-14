@@ -29,6 +29,9 @@ public class StringView : MonoBehaviour {
     [SerializeField]
     LayerMask[] mask;
 
+	[SerializeField]
+	GrassManager _grassManager;
+
     void Awake()
     {
         if (instance != null)
@@ -141,6 +144,11 @@ public class StringView : MonoBehaviour {
                 {
 					if (hit.transform.tag == "WitheredGrass")
 					{
+						int _xIndex = 0;
+						int _zIndex = 0;
+						_grassManager.SearchDummyPointIndex(hit.point, out _xIndex, out _zIndex);
+						_grassManager.ChangeHasGrown(_xIndex, _zIndex, true);
+
 						var grassComponent = hit.collider.GetComponent<GrassesController>();
 						if (grassComponent != null)
 							grassComponent.Growth();
