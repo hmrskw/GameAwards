@@ -39,11 +39,11 @@ public class GrassesController : MonoBehaviour {
 		}
 	}
 
-	public void SetScaleZero()
+	public void ForceScaleZero()
 	{
 		foreach(var _grass in _grasses)
 		{
-			_grass.SetScaleZero();
+			_grass.ForceScaleZero();
 		}
 	}
 }

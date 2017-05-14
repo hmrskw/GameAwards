@@ -14,6 +14,7 @@ public class Grass : MonoBehaviour
 	private float _growthTime = 0.0f;
 
 	private bool _isAnimation = false;
+	private IEnumerator _coroutine;
 
 	public void Setup(Vector3 _randomMin, Vector3 _randomMax, float _growthBaseTime, AnimationCurve _curve)
 	{
@@ -39,6 +40,7 @@ public class Grass : MonoBehaviour
 		if (_isAnimation) yield break;
 		_isAnimation = true;
 
+		_coroutine = Growth();
 		_tagTransform.tag = "GrownGrass";
 
         float _startTime = Time.timeSinceLevelLoad;
@@ -53,6 +55,7 @@ public class Grass : MonoBehaviour
 			if (_growthRatio >= 1.0f)
 			{
 				_isAnimation = false;
+				_coroutine = null;
 			}
 			yield return null;
 		}
@@ -63,6 +66,7 @@ public class Grass : MonoBehaviour
 		if (_isAnimation) yield break;
 		_isAnimation = true;
 
+		_coroutine = Wither();
 		_tagTransform.tag = "WitheredGrass";
 
 		float _startTime = Time.timeSinceLevelLoad;
@@ -78,13 +82,19 @@ public class Grass : MonoBehaviour
 			if (_growthRatio <= 0.0f)
 			{
 				_isAnimation = false;
+				_coroutine = null;
 			}
 			yield return null;
 		}
 	}
 
-	public void SetScaleZero()
+	public void ForceScaleZero()
 	{
+		if (_coroutine != null)
+		{
+			StopCoroutine(_coroutine);
+			_isAnimation = false;
+		}
 		_tagTransform.tag = "WitheredGrass";
 		_grassTransform.localScale = Vector3.zero;
 	}
