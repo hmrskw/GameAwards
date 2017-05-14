@@ -43,7 +43,34 @@ public class GrassManager : MonoBehaviour {
 	List<List<GameObject>> _pooledObjects = new List<List<GameObject>>();
 	List<List<int>> _chunkIndices = new List<List<int>>();
 
-	void Start ()
+	/// <summary>
+	/// 渡された第一引数のPosition値から、対応するDummyPointのXとZのインデックスを代入する。
+	/// </summary>
+	/// <param name="_position">ポジション</param>
+	/// <param name="_xIndex">Xのインデックスを受け取りたい変数</param>
+	/// <param name="_zIndex">Zのインデックスを受け取りたい変数</param>
+	public void SearchDummyPointIndex(Vector3 _position, out int _xIndex, out int _zIndex)
+	{
+		const int _objectSize = 4;
+		_xIndex = new int();
+		_zIndex = new int();
+
+		_xIndex = (int)_position.x / _objectSize;
+		_zIndex = (int)_position.z / _objectSize;
+	}
+
+	/// <summary>
+	/// DummyPointのBool値HasGrownを変更。
+	/// </summary>
+	/// <param name="_xIndex">ダミーポイントのXインデックス</param>
+	/// <param name="_zIndex">ダミーポイントのZインデックス</param>
+	/// <param name="_cond">生えていることにしたいならtrue、生えてないならfalse</param>
+	public void ChangeHasGrown(int _xIndex, int _zIndex, bool _cond)
+	{
+		_maptipsDummyPoint[_zIndex, _xIndex].SetHasGrown(_cond);
+	}
+
+	private void Start ()
 	{
 		if (_createWidth % 2 == 1) _halfWidth = (_createWidth - 1) / 2;
 		else _halfWidth = _createWidth / 2;
@@ -57,7 +84,7 @@ public class GrassManager : MonoBehaviour {
 		InitGrasses();
 	}
 	
-	void Update ()
+	private void Update ()
 	{
 		if (_oldLocation != _playerLocation)
 		{
@@ -67,7 +94,7 @@ public class GrassManager : MonoBehaviour {
 		}
 	}
 
-	IEnumerator Search()
+	private IEnumerator Search()
 	{
 		int _chunkSize = 20;
 		_playerLocation = new Vector3((int)_player.position.x / _chunkSize,
@@ -177,7 +204,20 @@ public class GrassManager : MonoBehaviour {
 		{
 			Vector2 _index = _maptipsIndices[_chunkDepth, _chunkWidth, i];
 			GrassDummyPoint _dummyPoint = _maptipsDummyPoint[(int)_index.x, (int)_index.y];
-			_pooledObjects[_count][i].transform.SetPositionAndRotation(_dummyPoint.Position, _dummyPoint.Rotation);
+			GameObject _targetObj =_pooledObjects[_count][i];
+
+			if (_dummyPoint.CanGrow)
+			{
+				if (_dummyPoint.HasGrown)
+				{
+					_targetObj.GetComponentInChildren<GrassesController>().Growth();
+				}
+				else
+				{
+					_targetObj.GetComponentInChildren<GrassesController>().ForceScaleZero();
+				}
+			}
+			_targetObj.transform.SetPositionAndRotation(_dummyPoint.Position, _dummyPoint.Rotation);
 		}
 	}
 
