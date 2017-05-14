@@ -137,7 +137,7 @@ public class StringView : MonoBehaviour {
                 {
                     hit.collider.GetComponent<Monument>().Boot();
                 }
-                if (Physics.Raycast(ray, out hit, 10.0f, LayerMask.GetMask("Grass")))
+                if (Physics.Raycast(ray, out hit, 10.0f, LayerMask.GetMask("WitheredGrass")))
                 {
                     var grassComponent = hit.collider.GetComponent<GrassesController>();
                     if (grassComponent != null)

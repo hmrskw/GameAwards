@@ -8,6 +8,7 @@ public class GrassesController : MonoBehaviour {
 
 	public void Growth()
 	{
+		gameObject.layer = LayerMask.NameToLayer("GrownGrass");
 		foreach(var _grass in _grasses)
 		{
 			StartCoroutine(_grass.Growth());

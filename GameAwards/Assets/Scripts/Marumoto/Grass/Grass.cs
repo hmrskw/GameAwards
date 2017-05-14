@@ -5,7 +5,7 @@ using UnityEngine;
 public class Grass : MonoBehaviour
 {
 	[SerializeField]
-	private AnimationCurve _curve;
+	private AnimationCurve _growthCurve;
 	[SerializeField, Tooltip("高さ１の植物が成長しきるまでにかかる時間(秒)")]
 	private float _growthBaseTime;
 	[SerializeField]
@@ -37,7 +37,6 @@ public class Grass : MonoBehaviour
 	/// <returns></returns>
 	public IEnumerator Growth()
 	{
-        gameObject.layer = LayerMask.NameToLayer("Default");
         float _startTime = Time.timeSinceLevelLoad;
 		bool _isGrowing = true;
 
@@ -45,7 +44,7 @@ public class Grass : MonoBehaviour
 		{
 			float _elapsedTime = Time.timeSinceLevelLoad - _startTime;
 			float _elapsedTimeRatio = _elapsedTime / _growthTime;
-			float _growthRatio = _curve.Evaluate(_elapsedTimeRatio);
+			float _growthRatio = _growthCurve.Evaluate(_elapsedTimeRatio);
 
 			_grassTransform.localScale = _limitGrowthScale * _growthRatio;
 
