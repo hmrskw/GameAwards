@@ -82,4 +82,10 @@ public class Grass : MonoBehaviour
 			yield return null;
 		}
 	}
+
+	public void SetScaleZero()
+	{
+		_tagTransform.tag = "WitheredGrass";
+		_grassTransform.localScale = Vector3.zero;
+	}
 }

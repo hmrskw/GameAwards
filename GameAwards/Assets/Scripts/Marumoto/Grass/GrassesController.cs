@@ -38,4 +38,12 @@ public class GrassesController : MonoBehaviour {
 			StartCoroutine(_grass.Wither());
 		}
 	}
+
+	public void SetScaleZero()
+	{
+		foreach(var _grass in _grasses)
+		{
+			_grass.SetScaleZero();
+		}
+	}
 }
