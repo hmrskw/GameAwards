@@ -129,9 +129,9 @@ GameObject:
   - component: {fileID: 4091537265883106}
   - component: {fileID: 114884025071187326}
   - component: {fileID: 65474632202725660}
-  m_Layer: 12
+  m_Layer: 10
   m_Name: Collider
-  m_TagString: Untagged
+  m_TagString: WitheredGrass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -515,7 +515,7 @@ Transform:
   m_GameObject: {fileID: 1173811264871468}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 4691282483777006}
   m_Father: {fileID: 4943460002230408}
@@ -555,7 +555,7 @@ Transform:
   m_GameObject: {fileID: 1194110216821846}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 4863959294326216}
   m_Father: {fileID: 4151193106967236}
@@ -569,7 +569,7 @@ Transform:
   m_GameObject: {fileID: 1024006520006376}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 4049513236803730}
   m_Father: {fileID: 4961775269538944}
@@ -719,7 +719,7 @@ Transform:
   m_GameObject: {fileID: 1532348332301100}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 4188732688058830}
   m_Father: {fileID: 4544944168176052}
@@ -1121,28 +1121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26cc4630652a614fa31a5c19911bed1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _growthCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  _growthBaseTime: 2
-  _randomMin: {x: 1.3, y: 1, z: 1.3}
-  _randomMax: {x: 1.8, y: 2.5, z: 1.8}
   _grassTransform: {fileID: 4455785919578000}
+  _tagTransform: {fileID: 4091537265883106}
 --- !u!114 &114247704252522182
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1154,28 +1134,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26cc4630652a614fa31a5c19911bed1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _growthCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  _growthBaseTime: 2
-  _randomMin: {x: 1.3, y: 1, z: 1.3}
-  _randomMax: {x: 1.8, y: 2.5, z: 1.8}
   _grassTransform: {fileID: 4284103883225154}
+  _tagTransform: {fileID: 4091537265883106}
 --- !u!114 &114512624491916898
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1187,28 +1147,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26cc4630652a614fa31a5c19911bed1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _growthCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  _growthBaseTime: 2
-  _randomMin: {x: 1.3, y: 1, z: 1.3}
-  _randomMax: {x: 1.8, y: 2.5, z: 1.8}
   _grassTransform: {fileID: 4916467488938302}
+  _tagTransform: {fileID: 4091537265883106}
 --- !u!114 &114884025071187326
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1225,18 +1165,7 @@ MonoBehaviour:
   - {fileID: 114247704252522182}
   - {fileID: 114512624491916898}
   - {fileID: 114135059223161310}
---- !u!114 &114907993323690536
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1018277684006522}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c26cc4630652a614fa31a5c19911bed1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _growthCurve:
+  _curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
@@ -1244,6 +1173,12 @@ MonoBehaviour:
       value: 0
       inSlope: 2
       outSlope: 2
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.48361152
+      value: 0.8585373
+      inSlope: 0.9828806
+      outSlope: 0.9828806
       tangentMode: 0
     - serializedVersion: 2
       time: 1
@@ -1255,6 +1190,18 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 0
   _growthBaseTime: 2
-  _randomMin: {x: 1.3, y: 1, z: 1.3}
-  _randomMax: {x: 1.8, y: 2.5, z: 1.8}
+  _randomMin: {x: 2, y: 2, z: 2}
+  _randomMax: {x: 2.5, y: 3.5, z: 2.5}
+--- !u!114 &114907993323690536
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1018277684006522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c26cc4630652a614fa31a5c19911bed1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _grassTransform: {fileID: 4448975055792234}
+  _tagTransform: {fileID: 4091537265883106}

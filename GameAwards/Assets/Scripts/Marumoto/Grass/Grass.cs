@@ -5,21 +5,20 @@ using UnityEngine;
 public class Grass : MonoBehaviour
 {
 	[SerializeField]
-	private AnimationCurve _growthCurve;
-	[SerializeField, Tooltip("高さ１の植物が成長しきるまでにかかる時間(秒)")]
-	private float _growthBaseTime;
-	[SerializeField]
-	private Vector3 _randomMin;
-	[SerializeField]
-	private Vector3 _randomMax;
-	[SerializeField]
 	private Transform _grassTransform;
+	[SerializeField]
+	private Transform _tagTransform;
 
+	private AnimationCurve _animationCurve;
 	private Vector3 _limitGrowthScale;
 	private float _growthTime = 0.0f;
 
-	private void Awake()
+	private bool _isAnimation = false;
+
+	public void Setup(Vector3 _randomMin, Vector3 _randomMax, float _growthBaseTime, AnimationCurve _curve)
 	{
+		_animationCurve = _curve;
+
 		_limitGrowthScale = new Vector3(Random.Range(_randomMin.x, _randomMax.x),
 										Random.Range(_randomMin.y, _randomMax.y),
 										Random.Range(_randomMin.z, _randomMax.z));
@@ -37,18 +36,49 @@ public class Grass : MonoBehaviour
 	/// <returns></returns>
 	public IEnumerator Growth()
 	{
-        float _startTime = Time.timeSinceLevelLoad;
-		bool _isGrowing = true;
+		if (_isAnimation) yield break;
+		_isAnimation = true;
 
-		while (_isGrowing)
+		_tagTransform.tag = "GrownGrass";
+
+        float _startTime = Time.timeSinceLevelLoad;
+
+		while (_isAnimation)
 		{
 			float _elapsedTime = Time.timeSinceLevelLoad - _startTime;
 			float _elapsedTimeRatio = _elapsedTime / _growthTime;
-			float _growthRatio = _growthCurve.Evaluate(_elapsedTimeRatio);
+			float _growthRatio = _animationCurve.Evaluate(_elapsedTimeRatio);
+			_grassTransform.localScale = _limitGrowthScale * _growthRatio;
+
+			if (_growthRatio >= 1.0f)
+			{
+				_isAnimation = false;
+			}
+			yield return null;
+		}
+	}
+
+	public IEnumerator Wither()
+	{
+		if (_isAnimation) yield break;
+		_isAnimation = true;
+
+		_tagTransform.tag = "WitheredGrass";
+
+		float _startTime = Time.timeSinceLevelLoad;
+
+		while (_isAnimation)
+		{
+			float _elapsedTime = Time.timeSinceLevelLoad - _startTime;
+			float _elapsedTimeRatio = 1.0f - (_elapsedTime / _growthTime);
+			float _growthRatio = _animationCurve.Evaluate(_elapsedTimeRatio);
 
 			_grassTransform.localScale = _limitGrowthScale * _growthRatio;
 
-			if (_growthRatio >= 1.0f) _isGrowing = false;
+			if (_growthRatio <= 0.0f)
+			{
+				_isAnimation = false;
+			}
 			yield return null;
 		}
 	}
