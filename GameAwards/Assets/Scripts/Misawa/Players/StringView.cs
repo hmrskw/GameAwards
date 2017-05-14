@@ -137,17 +137,21 @@ public class StringView : MonoBehaviour {
                 {
                     hit.collider.GetComponent<Monument>().Boot();
                 }
-                if (Physics.Raycast(ray, out hit, 10.0f, LayerMask.GetMask("WitheredGrass")))
+                if (Physics.Raycast(ray, out hit, 10.0f, LayerMask.GetMask("Grass")))
                 {
-                    var grassComponent = hit.collider.GetComponent<GrassesController>();
-                    if (grassComponent != null)
-                        grassComponent.Growth();
-                }/*
+					if (hit.transform.tag == "WitheredGrass")
+					{
+						var grassComponent = hit.collider.GetComponent<GrassesController>();
+						if (grassComponent != null)
+							grassComponent.Growth();
+					}
+                }
+				/*
                 if(Physics.Raycast(ray, out hit, 10.0f, LayerMask.GetMask("WillO")))
                 {
                     hit.collider.GetComponent<WillOTheWisp>().Absorbed();
                 }*/
-            }
+			}
         }
     }
 
