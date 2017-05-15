@@ -21,13 +21,13 @@ public class MarumotoGrassTest : MonoBehaviour
 		{
 			for(int j = 0; j < _numOfCreateWidth; j++)
 			{
-				Instantiate(_grassObject, new Vector3(j, 0, i), Quaternion.identity, _parent);
+				Instantiate(_grassObject, new Vector3(j*4, 0, i*4), Quaternion.identity, _parent);
 			}
 		}
 		_grasses = GetComponentsInChildren<Grass>().ToList();
 	}
 	
-	// Update is called once per frame
+
 	void Update ()
 	{
 		if (!Input.GetKeyDown(KeyCode.G)) return;

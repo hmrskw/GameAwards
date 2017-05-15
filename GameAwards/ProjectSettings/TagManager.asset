@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - GrownGrass
+  - WitheredGrass
   layers:
   - Default
   - TransparentFX
@@ -17,7 +19,7 @@ TagManager:
   - Ground
   - Monument
   - Grass
-  - 
+  - WillO
   - 
   - 
   - 
