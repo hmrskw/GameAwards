@@ -11,7 +11,7 @@ public class ObjectPooler : MonoBehaviour {
 	Transform _parent;
 
 
-	List<List<GameObject>> _pooledObjects = new List<List<GameObject>>();
+	List<List<GrassObject>> _pooledObjects = new List<List<GrassObject>>();
 
 	void Awake ()
 	{
@@ -22,21 +22,21 @@ public class ObjectPooler : MonoBehaviour {
 	{
 		for (int i = 0; i < _poolingBlockNum; i++)
 		{
-			List<GameObject> _chunk = new List<GameObject>();
+			List<GrassObject> _chunk = new List<GrassObject>();
 			var _emptyObj = new GameObject();
 			_emptyObj.transform.SetParent(_parent);
 
 			for (int j = 0; j < 25; j++)
 			{
 				var _refObj = Instantiate(_pooledTargetObject, _emptyObj.transform);
-				_chunk.Add(_refObj);
+				_chunk.Add(new GrassObject(_refObj, _refObj.GetComponentInChildren<GrassesController>()));
 			}
 
 			_pooledObjects.Add(_chunk);
 		}
 	}
 
-	public List<List<GameObject>> GetObjects()
+	public List<List<GrassObject>> GetObjects()
 	{
 		return _pooledObjects;
 	}

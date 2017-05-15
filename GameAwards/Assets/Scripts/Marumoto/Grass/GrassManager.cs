@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 enum MoveDirection
 {
@@ -21,6 +22,8 @@ public class GrassManager : MonoBehaviour {
 	int _createDepth;
     [SerializeField]
     LayerMask _lm;
+	[SerializeField]
+	CreateGrassData _grassData;
 
 	private int _halfWidth;
 	private int _halfDepth;
@@ -40,7 +43,7 @@ public class GrassManager : MonoBehaviour {
 	private GrassDummyPoint[,] _maptipsDummyPoint = new GrassDummyPoint[2000, 2000];
 	private Vector2[,,] _maptipsIndices = new Vector2[800, 800, 25];
 
-	List<List<GameObject>> _pooledObjects = new List<List<GameObject>>();
+	List<List<GrassObject>> _pooledObjects = new List<List<GrassObject>>();
 	List<List<int>> _chunkIndices = new List<List<int>>();
 
 	/// <summary>
@@ -204,20 +207,20 @@ public class GrassManager : MonoBehaviour {
 		{
 			Vector2 _index = _maptipsIndices[_chunkDepth, _chunkWidth, i];
 			GrassDummyPoint _dummyPoint = _maptipsDummyPoint[(int)_index.x, (int)_index.y];
-			GameObject _targetObj =_pooledObjects[_count][i];
+			GrassObject _targetObj =_pooledObjects[_count][i];
 
 			if (_dummyPoint.CanGrow)
 			{
 				if (_dummyPoint.HasGrown)
 				{
-					_targetObj.GetComponentInChildren<GrassesController>().Growth();
+					_targetObj.Controller.Growth();
 				}
 				else
 				{
-					_targetObj.GetComponentInChildren<GrassesController>().ForceScaleZero();
+					_targetObj.Controller.ForceScaleZero();
 				}
 			}
-			_targetObj.transform.SetPositionAndRotation(_dummyPoint.Position, _dummyPoint.Rotation);
+			_targetObj.Object.transform.SetPositionAndRotation(_dummyPoint.Position, _dummyPoint.Rotation);
 		}
 	}
 
