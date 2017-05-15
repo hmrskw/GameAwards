@@ -123,7 +123,7 @@ public class StringView : MonoBehaviour {
 
         while (length < 1f)
         {
-            length += 0.01f;
+            length += 0.05f;
             {
                 Vector3 curve =
                     B_SplineCurve(

@@ -14,6 +14,9 @@ public class WillOTheWisp : MonoBehaviour {
     [SerializeField]
     float extendLength;
 
+    [SerializeField]
+    GrassManager _grassManager;
+
     AudioSource source;
 
     // Use this for initialization
@@ -23,7 +26,9 @@ public class WillOTheWisp : MonoBehaviour {
         StartCoroutine(Amplitude());
         StartCoroutine(Move());
     }
-
+    void Update()
+    {
+    }
     /*public void Absorbed()
     {
         InputController.ExtendMaxDistanceLength(5);
@@ -59,15 +64,37 @@ public class WillOTheWisp : MonoBehaviour {
     {
         int tartgetID = Random.Range(0, targetPosition.Length);
         obj.transform.LookAt(targetPosition[tartgetID]);
+
         while (StringView.Instance.OnHitLine(obj.transform.position) == false)
         {
             if (Vector3.Distance(obj.transform.position, targetPosition[tartgetID].position) < 5) {
                 tartgetID = Random.Range(0, targetPosition.Length);
                 obj.transform.LookAt(targetPosition[tartgetID]);
             }
-            obj.transform.Translate(0, 0, 0.1f, Space.Self);
+            obj.transform.Translate(0, 0, 0.5f, Space.Self);
+            var ray = new Ray(obj.transform.position, -transform.up);
+            RaycastHit hit;
+
+            //草を枯らす
+            if (Physics.Raycast(ray, out hit, 10.0f, LayerMask.GetMask("Grass")))
+            {
+                if (hit.transform.tag == "GrownGrass")
+                {
+                    int _xIndex = 0;
+                    int _zIndex = 0;
+                    _grassManager.SearchDummyPointIndex(hit.point, out _xIndex, out _zIndex);
+                    _grassManager.ChangeHasGrown(_xIndex, _zIndex, false);
+
+                    var grassComponent = hit.collider.GetComponent<GrassesController>();
+                    if (grassComponent != null)
+                    {
+                        grassComponent.Wither();
+                    }
+                }
+            }
             yield return null;
         }
+
         InputController.ExtendMaxDistanceLength(extendLength);
         StartCoroutine(Del());
     }
