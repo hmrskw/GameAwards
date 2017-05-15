@@ -39,7 +39,6 @@ public class Grass : MonoBehaviour
 	{
 		if (_isAnimation) yield break;
 		_isAnimation = true;
-        Debug.Log("Grown");
 
         _coroutine = Growth();
 		_tagTransform.tag = "GrownGrass";
@@ -66,7 +65,7 @@ public class Grass : MonoBehaviour
 	{
         if (_isAnimation) yield break;
         _isAnimation = true;
-        Debug.Log("Withered");
+
 		_coroutine = Wither();
 		_tagTransform.tag = "WitheredGrass";
 
