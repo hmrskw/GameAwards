@@ -28,13 +28,13 @@ public class CameraController : MonoBehaviour {
 
         transform.position = new Vector3(camPos.x, camPos.y, camPos.z);
 
-        CameraObjct.transform.localPosition = new Vector3(0, 9, -12);
+        CameraObjct.transform.localPosition = new Vector3(0, 10, -15);
 
         float dis = Vector3.Distance(PlayerCharacter1.transform.position, PlayerCharacter2.transform.position);
 
-        if (dis > 5f)
+        if (dis > 7f)
         {
-            dis -= 5f;
+            dis -= 7f;
             CameraObjct.transform.localPosition += new Vector3(0, dis * 0.5f, -dis * 1.5f);
         }
 

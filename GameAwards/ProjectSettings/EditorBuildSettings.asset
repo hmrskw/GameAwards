@@ -5,9 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Misawa_Develop.unity
     guid: cc79e90f8b2da4e43a5612baf5db7643
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/GameMain.unity
-    guid: 00000000000000000000000000000000
+    guid: 3655131f659c648428b4c6ccffcdad4c

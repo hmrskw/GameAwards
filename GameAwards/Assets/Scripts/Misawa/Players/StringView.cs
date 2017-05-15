@@ -178,7 +178,7 @@ public class StringView : MonoBehaviour {
                         point + new Vector3(0, 3, 0),
                         length
                     );
-                if (Vector3.Distance(curve, position) < 1) return true;
+                if (Vector3.Distance(curve, position) < 2) return true;
             }
         }
         return false;
