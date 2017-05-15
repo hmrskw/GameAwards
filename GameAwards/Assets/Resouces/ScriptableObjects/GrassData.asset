@@ -11,3 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75c144340e1f86049abb5f173f03e1af, type: 3}
   m_Name: GrassData
   m_EditorClassIdentifier: 
+  TerrainSize: 0
+  ChunkDepth: 0
+  ChunkWidth: 12
