@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
 enum MoveDirection
 {
@@ -23,7 +22,7 @@ public class GrassManager : MonoBehaviour {
     [SerializeField]
     LayerMask _lm;
 	[SerializeField]
-	CreateGrassData _grassData;
+	GrassData _grassData;
 
 	private int _halfWidth;
 	private int _halfDepth;
