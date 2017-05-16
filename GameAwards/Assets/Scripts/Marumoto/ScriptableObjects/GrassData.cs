@@ -12,7 +12,9 @@ public class GrassData : ScriptableObject
 	[Header("生成するチャンク数(奇数のみ)")]
 	public int ChunkDepth;
 	public int ChunkWidth;
+	[Header("1チャンクの1辺に並べる数")]
+	public int OneLinePerChunkTipNum;
 
 	[System.NonSerialized, Tooltip("草オブジェクト1つあたりのサイズ")]
-	public int ObjectSize = 4;
+	public int TipSize = 10;
 }
