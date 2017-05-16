@@ -10,11 +10,12 @@ public class Grass : MonoBehaviour
 	private AnimationCurve _animationCurve;
 	private Vector3 _limitGrowthScale;
 	private float _growthTime = 0.0f;
+	private float _witherTime = 0.0f;
 
 	private bool _isAnimation = false;
 	private IEnumerator _coroutine;
 
-	public void Setup(Vector3 _randomMin, Vector3 _randomMax, float _growthBaseTime, AnimationCurve _curve)
+	public void Setup(Vector3 _randomMin, Vector3 _randomMax, float _growthBaseTime, float _witherBaseTime, AnimationCurve _curve)
 	{
 		_animationCurve = _curve;
 
@@ -23,6 +24,7 @@ public class Grass : MonoBehaviour
 										Random.Range(_randomMin.z, _randomMax.z));
 
 		_growthTime = _growthBaseTime;
+		_witherTime = _witherBaseTime;
 
 		transform.rotation = Quaternion.Euler(0.0f,
 													Random.Range(0.0f, 90.0f),
@@ -40,6 +42,7 @@ public class Grass : MonoBehaviour
 
         _coroutine = Growth();
 		_tagTransform.tag = "GrownGrass";
+		_tagTransform.root.tag = "GrownGrass";
 
         float _startTime = Time.timeSinceLevelLoad;
 
@@ -66,13 +69,14 @@ public class Grass : MonoBehaviour
 
 		_coroutine = Wither();
 		_tagTransform.tag = "WitheredGrass";
+		_tagTransform.root.tag = "WitheredGrass";
 
 		float _startTime = Time.timeSinceLevelLoad;
 
 		while (_isAnimation)
 		{
 			float _elapsedTime = Time.timeSinceLevelLoad - _startTime;
-			float _elapsedTimeRatio = 1.0f - (_elapsedTime / _growthTime);
+			float _elapsedTimeRatio = 1.0f - (_elapsedTime / _witherTime);
 			float _growthRatio = _animationCurve.Evaluate(_elapsedTimeRatio);
 
 			transform.localScale = _limitGrowthScale * _growthRatio;
@@ -94,6 +98,8 @@ public class Grass : MonoBehaviour
 			_isAnimation = false;
 		}
 		_tagTransform.tag = "WitheredGrass";
+		_tagTransform.root.tag = "WitheredGrass";
+
 		transform.localScale = Vector3.zero;
 	}
 }

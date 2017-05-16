@@ -8,8 +8,10 @@ public class GrassesController : MonoBehaviour {
 
 	[SerializeField]
 	private AnimationCurve _curve;
-	[SerializeField, Tooltip("高さ１の植物が成長しきるまでにかかる時間(秒)")]
+	[SerializeField]
 	private float _growthBaseTime;
+	[SerializeField]
+	private float _witherBaseTime;
 	[SerializeField]
 	private Vector3 _randomMin;
 	[SerializeField]
@@ -19,7 +21,7 @@ public class GrassesController : MonoBehaviour {
 	{
 		foreach(var _grass in _grasses)
 		{
-			_grass.Setup(_randomMin, _randomMax, _growthBaseTime, _curve);
+			_grass.Setup(_randomMin, _randomMax, _growthBaseTime, _witherBaseTime, _curve);
 		}
 	}
 
@@ -33,9 +35,9 @@ public class GrassesController : MonoBehaviour {
 
 	public void Wither()
 	{
-		foreach(var _grass in _grasses)
+		foreach (var _grass in _grasses)
 		{
-			StartCoroutine(_grass.Wither());
+			StartCoroutine(_grass.Growth());
 		}
 	}
 

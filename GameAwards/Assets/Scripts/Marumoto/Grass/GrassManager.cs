@@ -170,10 +170,7 @@ public class GrassManager : MonoBehaviour {
 			_chunkIndices[i].RemoveAt(_removeIndex);
 			_chunkIndices[i].Insert(_insertIndex, _index);
 
-			for (int k = 0; k < _oneChunkTipNum; k++)
-			{
-				GrassUpdate(_width, _depth + _count, _index);
-			}
+			GrassUpdate(_width, _depth + _count, _index);
 			_count++;
 		}
 	}
@@ -217,7 +214,11 @@ public class GrassManager : MonoBehaviour {
 			GrassDummyPoint _dummyPoint = _maptipsDummyPoint[(int)_index.x, (int)_index.y];
 			GrassObject _targetObj = _pooledObjects[_count][i];
 
-			if (!_dummyPoint.CanGrow) return;
+			if (!_dummyPoint.CanGrow)
+			{
+				_targetObj.Object.transform.SetPositionAndRotation(new Vector3(50000, -100, 0), _dummyPoint.Rotation * _targetObj.Object.transform.rotation);
+				continue;
+			}
 
 			if (_dummyPoint.HasGrown)
 			{
@@ -227,7 +228,7 @@ public class GrassManager : MonoBehaviour {
 			{
 				_targetObj.Controller.ForceScaleZero();
 			}
-			_targetObj.Object.transform.SetPositionAndRotation(_dummyPoint.Position, _dummyPoint.Rotation * _targetObj.Object.transform.rotation);
+			_targetObj.Object.transform.SetPositionAndRotation(_dummyPoint.Position, _dummyPoint.Rotation * _targetObj.Rotation);
 		}
 	}
 
