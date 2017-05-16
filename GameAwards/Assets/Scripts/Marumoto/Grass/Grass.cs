@@ -5,8 +5,6 @@ using UnityEngine;
 public class Grass : MonoBehaviour
 {
 	[SerializeField]
-	private Transform _grassTransform;
-	[SerializeField]
 	private Transform _tagTransform;
 
 	private AnimationCurve _animationCurve;
@@ -26,7 +24,7 @@ public class Grass : MonoBehaviour
 
 		_growthTime = _growthBaseTime;
 
-		_grassTransform.rotation = Quaternion.Euler(0.0f,
+		transform.rotation = Quaternion.Euler(0.0f,
 													Random.Range(0.0f, 90.0f),
 													0.0f);
 	}
@@ -50,7 +48,7 @@ public class Grass : MonoBehaviour
 			float _elapsedTime = Time.timeSinceLevelLoad - _startTime;
 			float _elapsedTimeRatio = _elapsedTime / _growthTime;
 			float _growthRatio = _animationCurve.Evaluate(_elapsedTimeRatio);
-			_grassTransform.localScale = _limitGrowthScale * _growthRatio;
+			transform.localScale = _limitGrowthScale * _growthRatio;
 
 			if (_growthRatio >= 1.0f)
 			{
@@ -77,7 +75,7 @@ public class Grass : MonoBehaviour
 			float _elapsedTimeRatio = 1.0f - (_elapsedTime / _growthTime);
 			float _growthRatio = _animationCurve.Evaluate(_elapsedTimeRatio);
 
-			_grassTransform.localScale = _limitGrowthScale * _growthRatio;
+			transform.localScale = _limitGrowthScale * _growthRatio;
 
 			if (_growthRatio <= 0.0f)
 			{
@@ -96,6 +94,6 @@ public class Grass : MonoBehaviour
 			_isAnimation = false;
 		}
 		_tagTransform.tag = "WitheredGrass";
-		_grassTransform.localScale = Vector3.zero;
+		transform.localScale = Vector3.zero;
 	}
 }
