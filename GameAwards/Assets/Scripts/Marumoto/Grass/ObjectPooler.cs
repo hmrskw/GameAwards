@@ -31,7 +31,8 @@ public class ObjectPooler : MonoBehaviour {
 
 			for (int j = 0; j < _oneChunkTipNum; j++)
 			{
-				var _refObj = Instantiate(_pooledTargetObject, _emptyObj.transform);
+				var _refObj = Instantiate(_pooledTargetObject, _emptyObj.transform, false);
+				_refObj.transform.rotation = Quaternion.Euler(0, 90 * Random.Range(0, 4), 0);
 				_chunk.Add(new GrassObject(_refObj, _refObj.GetComponentInChildren<GrassesController>()));
 			}
 

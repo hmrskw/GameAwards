@@ -227,7 +227,7 @@ public class GrassManager : MonoBehaviour {
 			{
 				_targetObj.Controller.ForceScaleZero();
 			}
-			_targetObj.Object.transform.SetPositionAndRotation(_dummyPoint.Position, _dummyPoint.Rotation);
+			_targetObj.Object.transform.SetPositionAndRotation(_dummyPoint.Position, _dummyPoint.Rotation * _targetObj.Object.transform.rotation);
 		}
 	}
 

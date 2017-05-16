@@ -815,36 +815,6 @@ Transform:
   m_Father: {fileID: 666109657}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &338099418
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 338099419}
-  m_Layer: 0
-  m_Name: Managers
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &338099419
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 338099418}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 432409725}
-  - {fileID: 979427965}
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &358711563
 GameObject:
   m_ObjectHideFlags: 0
@@ -1183,50 +1153,6 @@ Transform:
   m_Father: {fileID: 666109657}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &432409723
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 432409725}
-  - component: {fileID: 432409724}
-  m_Layer: 0
-  m_Name: ObjectPooler
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &432409724
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 432409723}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6117817cf115373469b6f4ef25b16492, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _pooledTargetObject: {fileID: 1782214969329696, guid: f7593cc758adeea4cb768dc71fccdcf4,
-    type: 2}
-  _parent: {fileID: 432409725}
-  _grassData: {fileID: 11400000, guid: 4d433d5c3b05a914b989913462465aba, type: 2}
---- !u!4 &432409725
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 432409723}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 50000, y: 0, z: 50000}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 338099419}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &451117243
 GameObject:
   m_ObjectHideFlags: 0
@@ -1512,6 +1438,53 @@ Transform:
   m_Father: {fileID: 1018811479}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &694125804
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4643856628980266, guid: f6f2d4c45eda195429747fb83c1b2f84, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4643856628980266, guid: f6f2d4c45eda195429747fb83c1b2f84, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4643856628980266, guid: f6f2d4c45eda195429747fb83c1b2f84, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4643856628980266, guid: f6f2d4c45eda195429747fb83c1b2f84, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4643856628980266, guid: f6f2d4c45eda195429747fb83c1b2f84, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4643856628980266, guid: f6f2d4c45eda195429747fb83c1b2f84, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4643856628980266, guid: f6f2d4c45eda195429747fb83c1b2f84, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4643856628980266, guid: f6f2d4c45eda195429747fb83c1b2f84, type: 2}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114353013735148342, guid: f6f2d4c45eda195429747fb83c1b2f84,
+        type: 2}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 1580504471}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: f6f2d4c45eda195429747fb83c1b2f84, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &736832246
 GameObject:
   m_ObjectHideFlags: 0
@@ -1840,52 +1813,12 @@ Transform:
   m_Father: {fileID: 666109657}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &979427964
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 979427965}
-  - component: {fileID: 979427966}
-  m_Layer: 0
-  m_Name: GrassManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &979427965
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 979427964}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 338099419}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &979427966
+--- !u!114 &979427966 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 979427964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
+  m_PrefabParentObject: {fileID: 114353013735148342, guid: f6f2d4c45eda195429747fb83c1b2f84,
+    type: 2}
+  m_PrefabInternal: {fileID: 694125804}
   m_Script: {fileID: 11500000, guid: 9349a65c88989c9459a6ba5a5bc512b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _pooler: {fileID: 432409724}
-  _player: {fileID: 1580504471}
-  _lm:
-    serializedVersion: 2
-    m_Bits: 256
-  _grassData: {fileID: 11400000, guid: 4d433d5c3b05a914b989913462465aba, type: 2}
 --- !u!1 &1018811478
 GameObject:
   m_ObjectHideFlags: 0
