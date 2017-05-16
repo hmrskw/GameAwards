@@ -6,15 +6,18 @@ public class ObjectPooler : MonoBehaviour {
 	[SerializeField]
 	private GameObject _pooledTargetObject;
 	[SerializeField]
-	private int _poolingBlockNum;
-	[SerializeField]
 	Transform _parent;
+	[SerializeField]
+	GrassData _grassData;
 
-
+	private int _poolingBlockNum;
+	private int _oneChunkTipNum;
 	List<List<GrassObject>> _pooledObjects = new List<List<GrassObject>>();
 
 	void Awake ()
 	{
+		_poolingBlockNum = _grassData.ChunkDepth * _grassData.ChunkWidth;
+		_oneChunkTipNum = _grassData.OneLinePerChunkTipNum * _grassData.OneLinePerChunkTipNum;
 		CreateGrassChunks();
 	}
 
@@ -26,7 +29,7 @@ public class ObjectPooler : MonoBehaviour {
 			var _emptyObj = new GameObject();
 			_emptyObj.transform.SetParent(_parent);
 
-			for (int j = 0; j < 25; j++)
+			for (int j = 0; j < _oneChunkTipNum; j++)
 			{
 				var _refObj = Instantiate(_pooledTargetObject, _emptyObj.transform);
 				_chunk.Add(new GrassObject(_refObj, _refObj.GetComponentInChildren<GrassesController>()));
