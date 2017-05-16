@@ -10,9 +10,6 @@ public class StringView : MonoBehaviour {
         get { return instance; }
     }
 
-    [Range(0, 1)]
-    public float t;
-
     LineRenderer lineRenderer;
 
     [SerializeField,Tooltip("始点")]
@@ -31,6 +28,11 @@ public class StringView : MonoBehaviour {
 
 	[SerializeField]
 	GrassManager _grassManager;
+
+    [SerializeField]
+    Material[] mats;
+
+    public bool isSpin = false;
 
     void Awake()
     {
@@ -81,6 +83,15 @@ public class StringView : MonoBehaviour {
 
     void Update()
     {
+        if (isSpin)
+        {
+            lineRenderer.material = mats[1];
+        }
+        else
+        {
+            lineRenderer.material = mats[0];
+        }
+
         var posList = new List<Vector3>();
 
         posList.Add(head.position + new Vector3(0, 3, 0));
@@ -123,7 +134,7 @@ public class StringView : MonoBehaviour {
 
         while (length < 1f)
         {
-            length += 0.05f;
+            length += 0.01f;
             {
                 Vector3 curve =
                     B_SplineCurve(

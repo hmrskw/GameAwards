@@ -57,9 +57,21 @@ public class CameraController : MonoBehaviour {
                 CameraTiltPivot.transform.Rotate(-tiltSpeed, 0, 0, Space.Self);
             }
         }
+        //else if (Physics.Raycast(transform.position + new Vector3(0, 2f, 0), transform.TransformDirection(-Vector3.forward), out hit, 10f, LayerMask.GetMask("Ground")))
+        //{
+        //    float angle = Vector3.Angle(hit.normal, transform.rotation.eulerAngles);
+        //    if (angle > 0 && angle < 60 && Mathf.Abs(180 - CameraTiltPivot.transform.rotation.eulerAngles.x) > 180 - angle / 2)
+        //    {
+        //        CameraTiltPivot.transform.Rotate(tiltSpeed, 0, 0, Space.Self);
+        //    }
+        //}
         else if (CameraTiltPivot.transform.rotation.eulerAngles.x > 180 || CameraTiltPivot.transform.rotation.eulerAngles.x < 0f)
         {
             CameraTiltPivot.transform.Rotate(tiltSpeed, 0, 0, Space.Self);
         }
+        //else if (CameraTiltPivot.transform.rotation.eulerAngles.x < 180 || CameraTiltPivot.transform.rotation.eulerAngles.x > 0f)
+        //{
+        //    CameraTiltPivot.transform.Rotate(-tiltSpeed, 0, 0, Space.Self);
+        //}
     }
 }

@@ -23,6 +23,8 @@ public class Player : MonoBehaviour {
 
     Vector3 characterMoveForward;
 
+    Vector3 centripetalDirection;
+
     [SerializeField]
     Material mat;
 
@@ -52,6 +54,13 @@ public class Player : MonoBehaviour {
         get { return isSliding; }
     }
 
+    bool isPulled = false;
+    public bool IsPulled
+    {
+        set {isPulled = value; }
+        get { return isPulled; }
+    }
+
     // Use this for initialization
     void Start () {
         animator = GetComponent<Animator>();
@@ -62,7 +71,6 @@ public class Player : MonoBehaviour {
     void Update () {
 
         Vector3 slope = Sliding();
-
         
         if (canJump == false)
         {
@@ -79,20 +87,36 @@ public class Player : MonoBehaviour {
         {
             mat.color = Color.blue;
         }
+        else if (isPulled)
+        {
+            mat.color = Color.green;
+        }
         else
         {
             slope = Vector3.zero;
             mat.color = Color.gray;
         }
         //移動している間アニメーションを動かす
-        animator.SetBool("IsWalk", (characterMoveForward != Vector3.zero));
+        animator.SetBool("IsWalk", (characterMoveForward != Vector3.zero) && !isPulled);
         animator.SetBool("IsJump", (!canJump));
 
         //移動方向を向かせる(移動方向+坂の傾き)
-        transform.LookAt(transform.position + new Vector3(characterMoveForward.x, 0f, characterMoveForward.z) + (new Vector3(slope.x, 0f, slope.z) * speed / 10f));
+        if(!isPulled)
+        transform.LookAt(
+            transform.position + 
+            new Vector3(characterMoveForward.x, 0f, characterMoveForward.z) + 
+            new Vector3(slope.x, 0f, slope.z) +
+            new Vector3(centripetalDirection.x, 0f, centripetalDirection.z));
+        else
+            transform.LookAt((
+                transform.position -
+                new Vector3(characterMoveForward.x, 0f, characterMoveForward.z) -
+                new Vector3(slope.x, 0f, slope.z) -
+                new Vector3(centripetalDirection.x, 0f, centripetalDirection.z)));
         //Debug.Log(((characterMoveForward + new Vector3(slope.x, velocity, slope.z)) * speed));
-        // 移動方向にスピードを掛けたものに、坂を滑り落ちる速度を加算
-        transform.Translate(((characterMoveForward + new Vector3(slope.x , velocity, slope.z)) * speed), Space.World);
+        // 移動方向にスピードを掛けたものに、坂を滑り落ちる速度と向心力を加算
+        transform.Translate(((characterMoveForward + new Vector3(slope.x , velocity, slope.z)) * speed) + centripetalDirection, Space.World);
+        centripetalDirection = Vector3.zero;
     }
 
     /// <summary>
@@ -178,6 +202,16 @@ public class Player : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// 向心力の計算
+    /// </summary>
+    public void Centripetal(float distance,Vector3 direction ,Vector3 characterMoveDirection)
+    {
+        float f = (speed * speed) / distance;
+
+        float num = (Vector3.Angle(Vector3.Cross(-characterMoveDirection,Vector3.up), direction * f)-90f)/4.5f*speed;
+        centripetalDirection = Vector3.Cross(direction * f,Vector3.up)* num;
+    }
     /// <summary>
     /// 移動方向を取得する
     /// </summary>

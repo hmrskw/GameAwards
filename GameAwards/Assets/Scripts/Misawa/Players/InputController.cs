@@ -8,6 +8,12 @@ public class InputController : MonoBehaviour {
         //public Rigidbody rigidbody;
         public Player playerModel;
     }
+    enum PulledCharacter
+    {
+        NONE,CHARACTER1, CHARACTER2
+    }
+
+    PulledCharacter pulledCharacter = PulledCharacter.NONE;
 
     [SerializeField, Header("プレイヤー")]
     GameObject PlayerCharacter1;
@@ -46,10 +52,13 @@ public class InputController : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         //スティックの入力を受け取る
-        float character1Horizontal = Input.GetAxis("LeftHorizontal");
-        float character1Vertical = Input.GetAxis("LeftVertical");
-        float character2Horizontal = Input.GetAxis("RightHorizontal");
-        float character2Vertical = Input.GetAxis("RightVertical");
+        var character1Horizontal = Input.GetAxis("LeftHorizontal");
+        var character1Vertical = Input.GetAxis("LeftVertical");
+        var character2Horizontal = Input.GetAxis("RightHorizontal");
+        var character2Vertical = Input.GetAxis("RightVertical");
+
+        pulledCharacter = PulledCharacter.NONE;
+        StringView.Instance.isSpin = false;
 
         // カメラの方向から、X-Z平面の単位ベクトルを取得
         Vector3 cameraForward = Vector3.Scale(CameraPivot.transform.forward, new Vector3(1, 0, 1)).normalized;
@@ -58,11 +67,16 @@ public class InputController : MonoBehaviour {
         Vector3 character1MoveDirection = cameraForward * character1Vertical + CameraPivot.transform.right * character1Horizontal;
         Vector3 character2MoveDirection = cameraForward * character2Vertical + CameraPivot.transform.right * character2Horizontal;
 
-        //糸の上限値以上離れようとしたら移動方向を制限する
-        if (Vector3.Distance(
+        var distance = Vector3.Distance(
             Vector3.Scale(PlayerCharacter1.transform.position, new Vector3(1, 0, 1)),
-            Vector3.Scale(PlayerCharacter2.transform.position, new Vector3(1, 0, 1))) > maxDistanceLength)
+            Vector3.Scale(PlayerCharacter2.transform.position, new Vector3(1, 0, 1)));
+
+        //糸の上限値以上離れようとしたら移動方向を制御する
+        if (distance > maxDistanceLength)
         {
+            var LinputMoveDirection = character1MoveDirection;
+            var RinputMoveDirection = character2MoveDirection;
+            //移動量を各キャラの平均にする
             if (PlayerCharacter1.transform.position.x - PlayerCharacter2.transform.position.x > 0)
                 CalculateMoveDirection(ref character1MoveDirection.x, ref character2MoveDirection.x);
             else
@@ -72,8 +86,53 @@ public class InputController : MonoBehaviour {
                 CalculateMoveDirection(ref character1MoveDirection.z, ref character2MoveDirection.z);
             else
                 CalculateMoveDirection(ref character2MoveDirection.z, ref character1MoveDirection.z);
+
+            if (LinputMoveDirection.x == 0 && LinputMoveDirection.z == 0)
+            {
+                if (character1MoveDirection.x != 0f || character1MoveDirection.z != 0f)
+                    pulledCharacter = PulledCharacter.CHARACTER1;
+            }
+            else if (RinputMoveDirection.x == 0 && RinputMoveDirection.z == 0)
+            {
+                if (character2MoveDirection.x != 0f || character2MoveDirection.z != 0f)
+                    pulledCharacter = PulledCharacter.CHARACTER2;
+            }
+
+            //向心力を使う
+            if (pulledCharacter == PulledCharacter.CHARACTER1){
+                var heading = PlayerCharacter2.transform.position - PlayerCharacter1.transform.position;
+                var dis = heading.magnitude;
+                var direction = heading / dis;
+                PlayerCharacter1Components.playerModel.Centripetal(distance,direction, character2MoveDirection);
+            }
+            else if (pulledCharacter == PulledCharacter.CHARACTER2)
+            {
+                var heading = PlayerCharacter1.transform.position - PlayerCharacter2.transform.position;
+                var dis = heading.magnitude;
+                var direction = heading / dis;
+                PlayerCharacter2Components.playerModel.Centripetal(distance, direction, character1MoveDirection);
+            }
+            //TEST:糸を伸ばした状態で回転すると糸に特殊な判定
+            else {
+                if (LinputMoveDirection.x * RinputMoveDirection.x < 0f || LinputMoveDirection.z * RinputMoveDirection.z < 0f)
+                {
+                    StringView.Instance.isSpin = true;
+
+                    var heading = PlayerCharacter2.transform.position - PlayerCharacter1.transform.position;
+                    var dis = heading.magnitude;
+                    var direction = heading / dis;
+                    PlayerCharacter1Components.playerModel.Centripetal(distance, direction, RinputMoveDirection);
+
+                    heading = PlayerCharacter1.transform.position - PlayerCharacter2.transform.position;
+                    dis = heading.magnitude;
+                    direction = heading / dis;
+                    PlayerCharacter2Components.playerModel.Centripetal(distance, direction, LinputMoveDirection);
+                }
+            }
         }
 
+        PlayerCharacter1Components.playerModel.IsPulled = (pulledCharacter == PulledCharacter.CHARACTER1);
+        PlayerCharacter2Components.playerModel.IsPulled = (pulledCharacter == PulledCharacter.CHARACTER2);
         //各キャラを移動
         PlayerCharacter1Components.playerModel.SetCharacterMoveDirection(character1MoveDirection);
         PlayerCharacter2Components.playerModel.SetCharacterMoveDirection(character2MoveDirection);
@@ -102,7 +161,7 @@ public class InputController : MonoBehaviour {
 
         if (moveVector < 0f)
         {
-            float moveForward = (character1MoveDirection + character2MoveDirection) / 3f;
+            float moveForward = (character1MoveDirection + character2MoveDirection) / 2f;
             character1MoveDirection = moveForward;
             character2MoveDirection = moveForward;
         }

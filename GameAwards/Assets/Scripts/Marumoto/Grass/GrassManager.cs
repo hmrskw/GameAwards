@@ -268,11 +268,11 @@ public class GrassManager : MonoBehaviour {
 
 	private void SetPoint(int _indexX, int _indexZ)
 	{
-		Vector3 _point = new Vector3(_indexX * 4, 100, _indexZ * 4);
+		Vector3 _point = new Vector3(_indexX * 4, 500, _indexZ * 4);
 		Ray _ray = new Ray(_point, new Vector3(0, -1, 0));
 		RaycastHit _hit = new RaycastHit();
 
-		if (Physics.Raycast(_ray, out _hit, 200, _lm))
+		if (Physics.Raycast(_ray, out _hit, 600, _lm))
 		{
 			_point = _hit.point;
 			_maptipsDummyPoint[_indexZ, _indexX] = new GrassDummyPoint(_point, Quaternion.FromToRotation(-_ray.direction, _hit.normal), true,_hit.normal);
