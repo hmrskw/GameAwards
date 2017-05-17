@@ -37,7 +37,7 @@ public class GrassesController : MonoBehaviour {
 	{
 		foreach (var _grass in _grasses)
 		{
-			StartCoroutine(_grass.Growth());
+			StartCoroutine(_grass.Wither());
 		}
 	}
 

@@ -26,9 +26,7 @@ public class WillOTheWisp : MonoBehaviour {
         StartCoroutine(Amplitude());
         StartCoroutine(Move());
     }
-    void Update()
-    {
-    }
+
     /*public void Absorbed()
     {
         InputController.ExtendMaxDistanceLength(5);
@@ -65,16 +63,19 @@ public class WillOTheWisp : MonoBehaviour {
         int tartgetID = Random.Range(0, targetPosition.Length);
         obj.transform.LookAt(targetPosition[tartgetID]);
 
+        Ray ray = new Ray(obj.transform.position, -transform.up);
+        RaycastHit hit;
+
         while (StringView.Instance.OnHitLine(obj.transform.position) == false)
         {
             if (Vector3.Distance(obj.transform.position, targetPosition[tartgetID].position) < 5) {
                 tartgetID = Random.Range(0, targetPosition.Length);
                 obj.transform.LookAt(targetPosition[tartgetID]);
             }
-            obj.transform.Translate(0, 0, 0.5f, Space.Self);
-            var ray = new Ray(obj.transform.position, -transform.up);
-            RaycastHit hit;
 
+            obj.transform.Translate(0, 0, 0.5f, Space.Self);
+            ray = new Ray(obj.transform.position, -transform.up);
+            
             //草を枯らす
             if (Physics.Raycast(ray, out hit, 10.0f, LayerMask.GetMask("Grass")))
             {

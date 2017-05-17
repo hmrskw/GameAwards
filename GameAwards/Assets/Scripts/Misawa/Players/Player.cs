@@ -157,6 +157,7 @@ public class Player : MonoBehaviour {
             {
                 transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
             }
+
             canJump = true;
             
             velocity = 0;

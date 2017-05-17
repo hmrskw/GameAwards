@@ -32,6 +32,10 @@ public class StringView : MonoBehaviour {
     [SerializeField]
     Material[] mats;
 
+    Ray ray = new Ray();
+
+    RaycastHit hit;
+
     public bool isSpin = false;
 
     void Awake()
@@ -130,8 +134,6 @@ public class StringView : MonoBehaviour {
     {
         float length = 0f;
 
-        Ray ray;
-
         while (length < 1f)
         {
             length += 0.01f;
@@ -144,13 +146,13 @@ public class StringView : MonoBehaviour {
                         length
                     );
 
-                ray = new Ray(curve, -transform.up);
-                //Debug.DrawRay(curve, -transform.up, new Color(0,0.5f,0));
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, 10.0f,LayerMask.GetMask("Monument")))
+                ray.origin = curve;
+                ray.direction = -transform.up;
+
+                /*if (Physics.Raycast(ray, out hit, 10.0f,LayerMask.GetMask("Monument")))
                 {
                     hit.collider.GetComponent<Monument>().Boot();
-                }
+                }*/
                 if (Physics.Raycast(ray, out hit, 10.0f, LayerMask.GetMask("Grass")))
                 {
 					if (hit.transform.tag == "WitheredGrass")
@@ -165,11 +167,6 @@ public class StringView : MonoBehaviour {
 							grassComponent.Growth();
 					}
                 }
-				/*
-                if(Physics.Raycast(ray, out hit, 10.0f, LayerMask.GetMask("WillO")))
-                {
-                    hit.collider.GetComponent<WillOTheWisp>().Absorbed();
-                }*/
 			}
         }
     }
