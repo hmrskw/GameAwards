@@ -114,7 +114,7 @@ public class InputController : MonoBehaviour {
             }
             //TEST:糸を伸ばした状態で回転すると糸に特殊な判定
             else {
-                if (LinputMoveDirection.x * RinputMoveDirection.x < 0f || LinputMoveDirection.z * RinputMoveDirection.z < 0f)
+                if (LinputMoveDirection.x * RinputMoveDirection.x < 0f && LinputMoveDirection.z * RinputMoveDirection.z < 0f)
                 {
                     StringView.Instance.isSpin = true;
 
