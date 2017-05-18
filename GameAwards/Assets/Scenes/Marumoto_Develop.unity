@@ -86,7 +86,7 @@ LightmapSettings:
     m_PVRFilteringAtrousColorSigma: 1
     m_PVRFilteringAtrousNormalSigma: 1
     m_PVRFilteringAtrousPositionSigma: 1
-  m_LightingDataAsset: {fileID: 112000060, guid: 9a0440e881f84d94d9f15ca01a62b514,
+  m_LightingDataAsset: {fileID: 112000060, guid: df709ee075d4f084faf773506ed29d8e,
     type: 2}
   m_ShadowMaskMode: 2
 --- !u!196 &4
@@ -3177,6 +3177,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114054456982640548, guid: 50c322129bc6f264ab5bc22af753e5d9,
+        type: 2}
+      propertyPath: mats.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4736232399292496, guid: 50c322129bc6f264ab5bc22af753e5d9, type: 2}
       propertyPath: m_LocalPosition.x
       value: 1143
@@ -3310,6 +3315,16 @@ Prefab:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114054456982640548, guid: 50c322129bc6f264ab5bc22af753e5d9,
+        type: 2}
+      propertyPath: mats.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ef1b66d8a53448a449de1b5ec4e8e7aa, type: 2}
+    - target: {fileID: 114054456982640548, guid: 50c322129bc6f264ab5bc22af753e5d9,
+        type: 2}
+      propertyPath: mats.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 66c605560da14dc4a9f1c2046ae2ce62, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 50c322129bc6f264ab5bc22af753e5d9, type: 2}
   m_IsPrefabParent: 0
