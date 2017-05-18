@@ -273,16 +273,27 @@ public class GrassManager : MonoBehaviour {
 	{
 		Vector3 _point = new Vector3(_indexX * _tipSize, 1000, _indexZ * _tipSize);
 		Ray _ray = new Ray(_point, new Vector3(0, -1, 0));
-		RaycastHit _hit = new RaycastHit();
+		RaycastHit _hit;
+		_maptipsDummyPoint[_indexZ, _indexX] = new GrassDummyPoint(new Vector3(_point.x, -1000, _point.z), Quaternion.identity, true, new Vector3(0, 0, 0));
 
 		if (Physics.Raycast(_ray, out _hit, 2000, _lm))
 		{
-			_point = _hit.point;
-			_maptipsDummyPoint[_indexZ, _indexX] = new GrassDummyPoint(_point, Quaternion.FromToRotation(-_ray.direction, _hit.normal), true,_hit.normal);
+			_ray.origin = _point + new Vector3(_tipSize, 0, _tipSize);
+			RaycastHit _anotherHit;
+
+			if(Physics.Raycast(_ray,out _anotherHit, 2000, _lm))
+			{
+				if (CanGrow(_hit.point.y, _anotherHit.point.y))
+				{
+					_point = _hit.point;
+					_maptipsDummyPoint[_indexZ, _indexX] = new GrassDummyPoint(_point, Quaternion.FromToRotation(-_ray.direction, _hit.normal), true, _hit.normal);
+				}
+			}
 		}
-		else
-		{
-			_maptipsDummyPoint[_indexZ, _indexX] = new GrassDummyPoint(new Vector3(_point.x, 0, _point.z), Quaternion.identity, true, new Vector3(0, 0, 0));
-		}
+	}
+
+	private bool CanGrow(float _hit, float _anotherHit)
+	{
+		return ((-_grassData.Constraint < (_anotherHit - _hit)) && ((_anotherHit - _hit) < _grassData.Constraint));
 	}
 }

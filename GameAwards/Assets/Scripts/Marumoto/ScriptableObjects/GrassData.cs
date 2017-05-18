@@ -15,6 +15,11 @@ public class GrassData : ScriptableObject
 	[Header("1チャンクの1辺に並べる数")]
 	public int OneLinePerChunkTipNum;
 
+	[Space(5)]
+
+	[Header("草が生やせない判定にする対角点の高さの差")]
+	public int Constraint;
+
 	[System.NonSerialized, Tooltip("草オブジェクト1つあたりのサイズ")]
 	public int TipSize = 10;
 }
