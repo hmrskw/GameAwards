@@ -7,21 +7,13 @@ public class GrassesController : MonoBehaviour {
 	List<Grass> _grasses;
 
 	[SerializeField]
-	private AnimationCurve _curve;
-	[SerializeField]
-	private float _growthBaseTime;
-	[SerializeField]
-	private float _witherBaseTime;
-	[SerializeField]
-	private Vector3 _randomMin;
-	[SerializeField]
-	private Vector3 _randomMax;
+	GrassData _grassData;
 
 	private void Awake()
 	{
 		foreach(var _grass in _grasses)
 		{
-			_grass.Setup(_randomMin, _randomMax, _growthBaseTime, _witherBaseTime, _curve);
+			_grass.Setup(_grassData.RandomMin, _grassData.RandomMax, _grassData.GrowthBaseTime, _grassData.WitherBaseTime, _grassData.Curve);
 		}
 	}
 

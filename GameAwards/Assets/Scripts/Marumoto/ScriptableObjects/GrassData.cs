@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GrassData : ScriptableObject
 {
+	[Header("★マップに関する設定値")]
 	[Header("テラインの大きさ")]
 	public int TerrainSize;
 
@@ -19,6 +20,21 @@ public class GrassData : ScriptableObject
 
 	[Header("草が生やせない判定にする対角点の高さの差")]
 	public int Constraint;
+
+	[Space(15)]
+
+	[Header("★草オブジェクト1つについての設定")]
+
+	[Header("草のアニメーションカーブ")]
+	public AnimationCurve Curve;
+	[Header("生えるまでにかかる秒数")]
+	public float GrowthBaseTime;
+	[Header("枯れるまでにかかる秒数")]
+	public float WitherBaseTime;
+	[Header("スケールのランダム値の最小値")]
+	public Vector3 RandomMin;
+	[Header("スケールのランダム値の最大値")]
+	public Vector3 RandomMax;
 
 	[System.NonSerialized, Tooltip("草オブジェクト1つあたりのサイズ")]
 	public int TipSize = 10;
