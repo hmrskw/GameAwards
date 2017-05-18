@@ -61,6 +61,13 @@ public class Player : MonoBehaviour {
         get { return isPulled; }
     }
 
+    bool isStop = false;
+    public bool IsStop
+    {
+        set { isStop = value; }
+        get { return isStop; }
+    }
+
     // Use this for initialization
     void Start () {
         animator = GetComponent<Animator>();
@@ -87,6 +94,10 @@ public class Player : MonoBehaviour {
         {
             mat.color = Color.blue;
         }
+        else if (isStop)
+        {
+            mat.color = Color.yellow;
+        }
         else if (isPulled)
         {
             mat.color = Color.green;
@@ -97,7 +108,7 @@ public class Player : MonoBehaviour {
             mat.color = Color.gray;
         }
         //移動している間アニメーションを動かす
-        animator.SetBool("IsWalk", (characterMoveForward != Vector3.zero) && !isPulled);
+        animator.SetBool("IsWalk", (characterMoveForward != Vector3.zero) && !isPulled || StringView.Instance.isSpin);
         animator.SetBool("IsJump", (!canJump));
 
         //移動方向を向かせる(移動方向+坂の傾き)
@@ -218,6 +229,12 @@ public class Player : MonoBehaviour {
         float num = (Vector3.Angle(Vector3.Cross(-characterMoveDirection,Vector3.up), direction * f)-90f)/4.5f*speed;
         centripetalDirection = Vector3.Cross(direction * f,Vector3.up)* num;
     }
+
+    public void SetInputDirection(Vector3 inputDirection)
+    {
+
+    }
+
     /// <summary>
     /// 移動方向を取得する
     /// </summary>
