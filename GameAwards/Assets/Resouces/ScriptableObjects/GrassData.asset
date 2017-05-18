@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: GrassData
   m_EditorClassIdentifier: 
   TerrainSize: 8000
-  ChunkDepth: 15
-  ChunkWidth: 15
+  ChunkDepth: 31
+  ChunkWidth: 31
   OneLinePerChunkTipNum: 2
   Constraint: 20

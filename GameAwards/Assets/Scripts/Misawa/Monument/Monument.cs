@@ -30,7 +30,18 @@ public class Monument : MonoBehaviour {
         objColor = mat.color;
         mat.color = Color.grey;
         isOn = false;
+
+        StartCoroutine(Wait());
 	}
+
+    IEnumerator Wait()
+    {
+        while (StringView.Instance.OnHitLine(transform.position) == false)
+        {
+            yield return null;
+        }
+        Boot();
+    }
 	
     public void Boot() {
         if (isOn == false)
@@ -40,7 +51,8 @@ public class Monument : MonoBehaviour {
             particle.Play();
             if(nextMonument != null) nextMonument.Guid();
             InputController.ExtendMaxDistanceLength(extendLength);
-        }else if (guideParticle.isPlaying)
+        }
+        else if (guideParticle.isPlaying)
         {
             guideParticle.Stop();
         }
