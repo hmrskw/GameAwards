@@ -71,11 +71,34 @@ public class InputController : MonoBehaviour {
             Vector3.Scale(PlayerCharacter1.transform.position, new Vector3(1, 0, 1)),
             Vector3.Scale(PlayerCharacter2.transform.position, new Vector3(1, 0, 1)));
 
+        if (distance > maxDistanceLength - 4f)
+        {
+            var LinputMoveDirection = character1MoveDirection;
+            var RinputMoveDirection = character2MoveDirection;
+
+            //StringView.Instance.isSpin = true;
+            //TEST:糸を伸ばした状態で回転すると糸に特殊な判定
+            if (Vector3.Dot(LinputMoveDirection, RinputMoveDirection) < -0.5f)
+            {
+                StringView.Instance.isSpin = true;
+
+                var heading = PlayerCharacter2.transform.position - PlayerCharacter1.transform.position;
+                var dis = heading.magnitude;
+                var direction = heading / dis;
+                PlayerCharacter1Components.playerModel.Centripetal(distance, direction, RinputMoveDirection);
+
+                heading = PlayerCharacter1.transform.position - PlayerCharacter2.transform.position;
+                dis = heading.magnitude;
+                direction = heading / dis;
+                PlayerCharacter2Components.playerModel.Centripetal(distance, direction, LinputMoveDirection);
+            }
+        }
         //糸の上限値以上離れようとしたら移動方向を制御する
         if (distance > maxDistanceLength)
         {
             var LinputMoveDirection = character1MoveDirection;
             var RinputMoveDirection = character2MoveDirection;
+            
             //移動量を各キャラの平均にする
             if (PlayerCharacter1.transform.position.x - PlayerCharacter2.transform.position.x > 0)
                 CalculateMoveDirection(ref character1MoveDirection.x, ref character2MoveDirection.x);
@@ -111,23 +134,6 @@ public class InputController : MonoBehaviour {
                 var dis = heading.magnitude;
                 var direction = heading / dis;
                 PlayerCharacter2Components.playerModel.Centripetal(distance, direction, character1MoveDirection);
-            }
-            //TEST:糸を伸ばした状態で回転すると糸に特殊な判定
-            else {
-                if (LinputMoveDirection.x * RinputMoveDirection.x < 0f && LinputMoveDirection.z * RinputMoveDirection.z < 0f)
-                {
-                    StringView.Instance.isSpin = true;
-
-                    var heading = PlayerCharacter2.transform.position - PlayerCharacter1.transform.position;
-                    var dis = heading.magnitude;
-                    var direction = heading / dis;
-                    PlayerCharacter1Components.playerModel.Centripetal(distance, direction, RinputMoveDirection);
-
-                    heading = PlayerCharacter1.transform.position - PlayerCharacter2.transform.position;
-                    dis = heading.magnitude;
-                    direction = heading / dis;
-                    PlayerCharacter2Components.playerModel.Centripetal(distance, direction, LinputMoveDirection);
-                }
             }
         }
 

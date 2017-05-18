@@ -198,8 +198,13 @@ public class Player : MonoBehaviour {
         {
             RaycastHit hit;
 
-            if (Physics.Raycast(transform.position+new Vector3(0, 5f, 0), Vector3.down, out hit, 6f, mask) == false)
+            if (Physics.Raycast(transform.position, Vector3.down, out hit, 0.5f, mask))
+            {
+                transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
+            }
+            else {
                 canJump = false;
+            }
         }
     }
 

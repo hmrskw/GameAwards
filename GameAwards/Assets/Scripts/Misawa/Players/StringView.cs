@@ -116,9 +116,9 @@ public class StringView : MonoBehaviour {
             {
                 posList.Add(
                     B_SplineCurve(
-                        head.position + new Vector3(0, 3, 0.5f),
-                        tail.position + new Vector3(0, 3, 0.5f),
-                        point + new Vector3(0, 3, 0.5f),
+                        head.position + new Vector3(0, 3, 0),
+                        tail.position + new Vector3(0, 3, 0),
+                        point + new Vector3(0, 3, 0),
                         length
                     )
                 );
@@ -153,6 +153,7 @@ public class StringView : MonoBehaviour {
                 {
                     hit.collider.GetComponent<Monument>().Boot();
                 }*/
+
                 if (Physics.Raycast(ray, out hit, 10.0f, LayerMask.GetMask("Grass")))
                 {
 					if (hit.transform.tag == "WitheredGrass")
@@ -163,8 +164,10 @@ public class StringView : MonoBehaviour {
 						_grassManager.ChangeHasGrown(_xIndex, _zIndex, true);
 
 						var grassComponent = hit.collider.GetComponent<GrassesController>();
-						if (grassComponent != null)
-							grassComponent.Growth();
+                        if (grassComponent != null)
+                        {
+                            grassComponent.Growth();
+                        }
 					}
                 }
 			}
