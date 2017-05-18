@@ -15,3 +15,4 @@ MonoBehaviour:
   ChunkDepth: 15
   ChunkWidth: 15
   OneLinePerChunkTipNum: 2
+  Constraint: 20
