@@ -112,6 +112,8 @@ public class GrassManager : MonoBehaviour {
 									  0,
 									  (int)_player.position.z / _oneChunkSize);
 
+		var _waitSeconds = new WaitForSeconds(0.2f);
+
 		while (true)
 		{
 			_oldLocation = _playerLocation;
@@ -122,7 +124,7 @@ public class GrassManager : MonoBehaviour {
 
 			_movedChunkDirection = _playerLocation - _oldLocation;
 
-			yield return new WaitForSeconds(0.1f);
+			yield return _waitSeconds;
 		}
 	}
 
@@ -182,9 +184,9 @@ public class GrassManager : MonoBehaviour {
 		_chunkIndices.Insert(_insertIndex, _indicesLine);
 
 		int _count = 0;
-		foreach (var _index in _indicesLine)
+		for(int i = 0; i < _indicesLine.Count; i++)
 		{
-			GrassUpdate(_width + _count, _depth, _index);
+			GrassUpdate(_width + _count, _depth, _indicesLine[i]);
 			_count++;
 		}
 	}

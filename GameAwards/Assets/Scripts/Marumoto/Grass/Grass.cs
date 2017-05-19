@@ -42,7 +42,6 @@ public class Grass : MonoBehaviour
 
         _coroutine = Growth();
 		_tagTransform.tag = "GrownGrass";
-		_tagTransform.root.tag = "GrownGrass";
 
         float _startTime = Time.timeSinceLevelLoad;
 
@@ -69,7 +68,6 @@ public class Grass : MonoBehaviour
 
 		_coroutine = Wither();
 		_tagTransform.tag = "WitheredGrass";
-		_tagTransform.root.tag = "WitheredGrass";
 
 		float _startTime = Time.timeSinceLevelLoad;
 
@@ -98,7 +96,6 @@ public class Grass : MonoBehaviour
 			_isAnimation = false;
 		}
 		_tagTransform.tag = "WitheredGrass";
-		_tagTransform.root.tag = "WitheredGrass";
 
 		transform.localScale = Vector3.zero;
 	}

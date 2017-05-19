@@ -19,25 +19,25 @@ public class GrassesController : MonoBehaviour {
 
 	public void Growth()
 	{
-		foreach(var _grass in _grasses)
+		for (int i = 0; i < _grasses.Count; i++)
 		{
-			StartCoroutine(_grass.Growth());
+			StartCoroutine(_grasses[i].Growth());
 		}
 	}
 
 	public void Wither()
 	{
-		foreach (var _grass in _grasses)
+		for (int i = 0; i < _grasses.Count; i++)
 		{
-			StartCoroutine(_grass.Wither());
+			StartCoroutine(_grasses[i].Wither());
 		}
 	}
 
 	public void ForceScaleZero()
 	{
-		foreach(var _grass in _grasses)
+		for (int i = 0; i < _grasses.Count; i++)
 		{
-			_grass.ForceScaleZero();
+			_grasses[i].ForceScaleZero();
 		}
 	}
 }
