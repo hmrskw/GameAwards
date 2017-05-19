@@ -11,8 +11,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eae76b69d15b14b4cad51f49839c8b0f, type: 3}
   m_Name: GrassData
   m_EditorClassIdentifier: 
-  TerrainSize: 8000
+  TerrainSize: 3000
   ChunkDepth: 31
   ChunkWidth: 31
   OneLinePerChunkTipNum: 2
   Constraint: 20
+  Curve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  GrowthBaseTime: 0
+  WitherBaseTime: 0
+  RandomMin: {x: 0, y: 0, z: 0}
+  RandomMax: {x: 0, y: 0, z: 0}
