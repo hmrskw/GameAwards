@@ -9,6 +9,8 @@ public class GrassesController : MonoBehaviour {
 	[SerializeField]
 	GrassData _grassData;
 
+	ParticleSystem _particle;
+
 	private void Awake()
 	{
 		foreach(var _grass in _grasses)
@@ -23,6 +25,21 @@ public class GrassesController : MonoBehaviour {
 		{
 			StartCoroutine(_grasses[i].Growth());
 		}
+
+		//if (!GetComponent<ParticleSystem>())
+		//{
+		//	_particle = transform.gameObject.AddComponent<ParticleSystem>();
+		//	_particle.Stop();
+		//	var main = _particle.main;
+		//	main.loop = false;
+		//	main.startLifetime = 1.0f;
+		//	main.duration = 1.0f;
+		//	_particle.Play();
+		//}
+		//else
+		//{
+		//	_particle.Play();
+		//}
 	}
 
 	public void Wither()

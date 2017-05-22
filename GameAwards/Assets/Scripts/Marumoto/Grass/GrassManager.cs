@@ -20,6 +20,11 @@ public class GrassManager : MonoBehaviour {
 	[SerializeField]
 	GrassData _grassData;
 
+	[SerializeField]
+	List<Texture> _textures;
+
+	MaterialPropertyBlock _matPropBlock; 
+
 	private int _halfWidth;
 	private int _halfDepth;
 
@@ -80,6 +85,8 @@ public class GrassManager : MonoBehaviour {
 		_oneChunkSize = _tipSize * _oneLinePerChunkTipNum;
 		_dummyPointElements = _grassData.TerrainSize / _tipSize;
 		_maptipIndicesElements = _grassData.TerrainSize / _oneChunkSize;
+
+		_matPropBlock = new MaterialPropertyBlock();
 
 		_maptipsDummyPoint = new GrassDummyPoint[_dummyPointElements, _dummyPointElements];
 		_maptipsIndices = new Vector2[_maptipIndicesElements, _maptipIndicesElements, _oneChunkTipNum];
