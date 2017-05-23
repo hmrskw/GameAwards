@@ -38,6 +38,8 @@ public class StringView : MonoBehaviour {
 
     public bool isSpin = false;
 
+	int _texIndex = 0;
+
     void Awake()
     {
         if (instance != null)
@@ -87,7 +89,16 @@ public class StringView : MonoBehaviour {
 
     void Update()
     {
-        if (isSpin)
+		if (Input.GetKeyDown(KeyCode.C))
+		{
+			_texIndex = 1;
+		}
+		if (Input.GetKeyDown(KeyCode.R))
+		{
+			_texIndex = 0;
+		}
+
+		if (isSpin)
         {
             lineRenderer.material = mats[1];
         }
@@ -167,8 +178,27 @@ public class StringView : MonoBehaviour {
 						var grassComponent = hit.collider.GetComponent<GrassesController>();
                         if (grassComponent != null)
                         {
-                            grassComponent.Growth();
-                        }
+							if (_texIndex != _grassManager.GetDummyPoint(_xIndex, _zIndex).TexIndex)
+							{
+								_grassManager.ChangeTexIndex(_xIndex, _zIndex, _texIndex);
+								grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_texIndex));
+							}
+
+							grassComponent.Growth();
+						}
+					}
+					else if(hit.transform.tag == "GrownGrass")
+					{
+						var grassComponent = hit.collider.GetComponent<GrassesController>();
+						if (grassComponent != null)
+						{
+							if(_texIndex != _grassManager.GetDummyPoint(_xIndex, _zIndex).TexIndex)
+							{
+								_grassManager.ChangeTexIndex(_xIndex, _zIndex, _texIndex);
+								grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_texIndex));
+								grassComponent.Growth();
+							}
+						}
 					}
                 }
 			}
