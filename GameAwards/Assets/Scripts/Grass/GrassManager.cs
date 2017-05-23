@@ -23,7 +23,8 @@ public class GrassManager : MonoBehaviour {
 	[SerializeField]
 	List<Texture> _textures;
 
-	MaterialPropertyBlock _matPropBlock; 
+	private MaterialPropertyBlock _matPropBlock;
+	private int _matIndex = 0;
 
 	private int _halfWidth;
 	private int _halfDepth;
@@ -110,6 +111,11 @@ public class GrassManager : MonoBehaviour {
 			_oldLocation = _playerLocation;
 			SetIndex();
 			UpdateChunkIndices();
+		}
+
+		if (Input.GetKeyDown(KeyCode.C))
+		{
+			_matIndex = 1;
 		}
 	}
 
@@ -238,6 +244,13 @@ public class GrassManager : MonoBehaviour {
 				_targetObj.Controller.ForceScaleZero();
 			}
 			_targetObj.Object.transform.SetPositionAndRotation(_dummyPoint.Position, _dummyPoint.Rotation * _targetObj.Rotation);
+
+			_matPropBlock.SetTexture("_MainTex", _textures[_matIndex]);
+
+			foreach(var _rend in _targetObj.Renderers)
+			{
+				_rend.SetPropertyBlock(_matPropBlock);
+			}
 		}
 	}
 
