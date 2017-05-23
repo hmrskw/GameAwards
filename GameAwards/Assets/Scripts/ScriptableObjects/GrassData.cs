@@ -27,6 +27,8 @@ public class GrassData : ScriptableObject
 
 	[Header("草のアニメーションカーブ")]
 	public AnimationCurve Curve;
+	[Header("草のテクスチャが変わる時の生えなおしに使うカーブ")]
+	public AnimationCurve ChangedTexCurve;
 	[Header("生えるまでにかかる秒数")]
 	public float GrowthBaseTime;
 	[Header("枯れるまでにかかる秒数")]

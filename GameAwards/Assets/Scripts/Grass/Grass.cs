@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class Grass : MonoBehaviour
 	private Transform _tagTransform;
 
 	private AnimationCurve _animationCurve;
+	private AnimationCurve _changedTexCurve;
 	private Vector3 _limitGrowthScale;
 	private float _growthTime = 0.0f;
 	private float _witherTime = 0.0f;
@@ -15,20 +17,21 @@ public class Grass : MonoBehaviour
 	private bool _isAnimation = false;
 	private IEnumerator _coroutine;
 
-	public void Setup(Vector3 _randomMin, Vector3 _randomMax, float _growthBaseTime, float _witherBaseTime, AnimationCurve _curve)
+	public void Setup(Vector3 _randomMin, Vector3 _randomMax, float _growthBaseTime, float _witherBaseTime, AnimationCurve _curve, AnimationCurve _changeCurve)
 	{
 		_animationCurve = _curve;
+		_changedTexCurve = _changeCurve;
 
-		_limitGrowthScale = new Vector3(Random.Range(_randomMin.x, _randomMax.x),
-										Random.Range(_randomMin.y, _randomMax.y),
-										Random.Range(_randomMin.z, _randomMax.z));
+		_limitGrowthScale = new Vector3(UnityEngine.Random.Range(_randomMin.x, _randomMax.x),
+										UnityEngine.Random.Range(_randomMin.y, _randomMax.y),
+										UnityEngine.Random.Range(_randomMin.z, _randomMax.z));
 
 		_growthTime = _growthBaseTime;
 		_witherTime = _witherBaseTime;
 
 		transform.rotation = Quaternion.Euler(0.0f,
-													Random.Range(0.0f, 90.0f),
-													0.0f);
+											  UnityEngine.Random.Range(0.0f, 90.0f),
+											  0.0f);
 	}
 
 	/// <summary>
@@ -52,7 +55,7 @@ public class Grass : MonoBehaviour
 			float _growthRatio = _animationCurve.Evaluate(_elapsedTimeRatio);
 			transform.localScale = _limitGrowthScale * _growthRatio;
 
-			if (_growthRatio >= 1.0f)
+			if (_elapsedTimeRatio >= 1.0f)
 			{
 				_isAnimation = false;
 				_coroutine = null;
@@ -79,7 +82,7 @@ public class Grass : MonoBehaviour
 
 			transform.localScale = _limitGrowthScale * _growthRatio;
 
-			if (_growthRatio <= 0.0f)
+			if (_elapsedTimeRatio <= 0.0f)
 			{
 				_isAnimation = false;
 				_coroutine = null;
@@ -98,5 +101,40 @@ public class Grass : MonoBehaviour
 		_tagTransform.tag = "WitheredGrass";
 
 		transform.localScale = Vector3.zero;
+	}
+
+	public IEnumerator GrowthChangedTexture(Action _act)
+	{
+		_isAnimation = true;
+
+		if (_coroutine != null)
+		{
+			StopCoroutine(_coroutine);
+		}
+
+		_coroutine = GrowthChangedTexture(_act);
+
+		float _startTime = Time.timeSinceLevelLoad;
+		bool _hasAction = false;
+		while (_isAnimation)
+		{
+			float _elapsedTime = Time.timeSinceLevelLoad - _startTime;
+			float _elapsedTimeRatio = _elapsedTime / _witherTime;
+			float _growthRatio = _changedTexCurve.Evaluate(_elapsedTimeRatio);
+			transform.localScale = _limitGrowthScale * _growthRatio;
+
+			if(_elapsedTimeRatio >= 0.5f && !_hasAction)
+			{
+				_hasAction = true;
+				_act();
+			}
+
+			if (_elapsedTimeRatio >= 1.0f)
+			{
+				_isAnimation = false;
+				_coroutine = null;
+			}
+			yield return null;
+		}
 	}
 }

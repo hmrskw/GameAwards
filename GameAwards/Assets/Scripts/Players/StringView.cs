@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -195,8 +196,9 @@ public class StringView : MonoBehaviour {
 							if(_texIndex != _grassManager.GetDummyPoint(_xIndex, _zIndex).TexIndex)
 							{
 								_grassManager.ChangeTexIndex(_xIndex, _zIndex, _texIndex);
-								grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_texIndex));
-								grassComponent.Growth();
+								grassComponent.GrowthChangedTexture(() => {
+									grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_texIndex));
+								});
 							}
 						}
 					}

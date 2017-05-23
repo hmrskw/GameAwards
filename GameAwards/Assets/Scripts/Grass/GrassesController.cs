@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ public class GrassesController : MonoBehaviour {
 
 		foreach(var _grass in _grasses)
 		{
-			_grass.Setup(_grassData.RandomMin, _grassData.RandomMax, _grassData.GrowthBaseTime, _grassData.WitherBaseTime, _grassData.Curve);
+			_grass.Setup(_grassData.RandomMin, _grassData.RandomMax, _grassData.GrowthBaseTime, _grassData.WitherBaseTime, _grassData.Curve, _grassData.ChangedTexCurve);
 		}
 	}
 
@@ -42,6 +43,14 @@ public class GrassesController : MonoBehaviour {
 		for (int i = 0; i < _grasses.Count; i++)
 		{
 			_grasses[i].ForceScaleZero();
+		}
+	}
+
+	public void GrowthChangedTexture(Action _act)
+	{
+		for (int i = 0; i < _grasses.Count; i++)
+		{
+			StartCoroutine(_grasses[i].GrowthChangedTexture(_act));
 		}
 	}
 
