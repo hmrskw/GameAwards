@@ -78,6 +78,17 @@ public class GrassManager : MonoBehaviour {
 		_maptipsDummyPoint[_zIndex, _xIndex].SetHasGrown(_cond);
 	}
 
+	/// <summary>
+	/// DummyPointのTextureのインデックスを変更。
+	/// </summary>
+	/// <param name="_xIndex">ダミーポイントのXインデックス</param>
+	/// <param name="_zIndex">ダミーポイントのZインデックス</param>
+	/// <param name="_texIndex">テクスチャの状態に合わせてインデックスを変更。</param>
+	public void ChangeTexIndex(int _xIndex, int _zIndex, int _texIndex)
+	{
+		_maptipsDummyPoint[_zIndex, _xIndex].SetTexIndex(_texIndex);
+	}
+
 	private void Start ()
 	{
 		_tipSize = _grassData.TipSize;
@@ -246,11 +257,7 @@ public class GrassManager : MonoBehaviour {
 			_targetObj.Object.transform.SetPositionAndRotation(_dummyPoint.Position, _dummyPoint.Rotation * _targetObj.Rotation);
 
 			_matPropBlock.SetTexture("_MainTex", _textures[_matIndex]);
-
-			foreach(var _rend in _targetObj.Renderers)
-			{
-				_rend.SetPropertyBlock(_matPropBlock);
-			}
+			_targetObj.Controller.ChangeMaterials(_matPropBlock);
 		}
 	}
 

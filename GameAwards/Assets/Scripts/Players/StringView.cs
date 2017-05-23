@@ -156,11 +156,12 @@ public class StringView : MonoBehaviour {
 
                 if (Physics.Raycast(ray, out hit, 10.0f, LayerMask.GetMask("Grass")))
                 {
+					int _xIndex = 0;
+					int _zIndex = 0;
+					_grassManager.SearchDummyPointIndex(hit.point, out _xIndex, out _zIndex);
+
 					if (hit.transform.tag == "WitheredGrass")
 					{
-						int _xIndex = 0;
-						int _zIndex = 0;
-						_grassManager.SearchDummyPointIndex(hit.point, out _xIndex, out _zIndex);
 						_grassManager.ChangeHasGrown(_xIndex, _zIndex, true);
 
 						var grassComponent = hit.collider.GetComponent<GrassesController>();

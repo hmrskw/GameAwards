@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,10 +9,12 @@ public class GrassesController : MonoBehaviour {
 	[SerializeField]
 	GrassData _grassData;
 
-	ParticleSystem _particle;
+	List<MeshRenderer> _renderers;
 
 	private void Awake()
 	{
+		_renderers = GetComponentsInChildren<MeshRenderer>().ToList();
+
 		foreach(var _grass in _grasses)
 		{
 			_grass.Setup(_grassData.RandomMin, _grassData.RandomMax, _grassData.GrowthBaseTime, _grassData.WitherBaseTime, _grassData.Curve);
@@ -25,21 +27,6 @@ public class GrassesController : MonoBehaviour {
 		{
 			StartCoroutine(_grasses[i].Growth());
 		}
-
-		//if (!GetComponent<ParticleSystem>())
-		//{
-		//	_particle = transform.gameObject.AddComponent<ParticleSystem>();
-		//	_particle.Stop();
-		//	var main = _particle.main;
-		//	main.loop = false;
-		//	main.startLifetime = 1.0f;
-		//	main.duration = 1.0f;
-		//	_particle.Play();
-		//}
-		//else
-		//{
-		//	_particle.Play();
-		//}
 	}
 
 	public void Wither()
@@ -55,6 +42,14 @@ public class GrassesController : MonoBehaviour {
 		for (int i = 0; i < _grasses.Count; i++)
 		{
 			_grasses[i].ForceScaleZero();
+		}
+	}
+
+	public void ChangeMaterials(MaterialPropertyBlock _mat)
+	{
+		for(int i = 0; i < _renderers.Count; i++)
+		{
+			_renderers[i].SetPropertyBlock(_mat);
 		}
 	}
 }
