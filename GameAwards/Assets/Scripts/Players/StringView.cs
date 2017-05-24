@@ -207,6 +207,19 @@ public class StringView : MonoBehaviour {
         }
     }
 
+    public void GrassTextureUpdate(int value)
+    {
+        _texIndex += value;
+
+        if (_texIndex < 0)
+        {
+            _texIndex = 0;
+        }
+        else if(_texIndex > 1){
+            _texIndex = 1;
+        }
+    }
+
     public bool OnHitLine(Vector3 position)
     {
         float length = 0f;

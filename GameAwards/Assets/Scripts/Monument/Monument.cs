@@ -40,6 +40,7 @@ public class Monument : MonoBehaviour {
         {
             yield return null;
         }
+        StringView.Instance.GrassTextureUpdate(1);
         SoundManager.Instance.PlaySE("se object");
         Boot();
     }

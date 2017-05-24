@@ -60,5 +60,5 @@ MonoBehaviour:
     m_RotationOrder: 0
   GrowthBaseTime: 2
   WitherBaseTime: 1
-  RandomMin: {x: 3, y: 4, z: 3}
-  RandomMax: {x: 4, y: 5, z: 4}
+  RandomMin: {x: 1.5, y: 2, z: 1.5}
+  RandomMax: {x: 2, y: 2.5, z: 2}

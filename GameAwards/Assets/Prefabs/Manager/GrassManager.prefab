@@ -102,3 +102,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _grassData: {fileID: 11400000, guid: 4d433d5c3b05a914b989913462465aba, type: 2}
+  _textures:
+  - {fileID: 2800000, guid: b59c92ccbd188b3489788caac8fe07f2, type: 3}
+  - {fileID: 2800000, guid: 3513c072e9315c741b43e6ac513be10f, type: 3}
