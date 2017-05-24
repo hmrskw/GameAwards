@@ -24,11 +24,25 @@ public class CameraController : MonoBehaviour {
 
     RaycastHit hit;
 
+    float time = 0.1f;
+
+    Vector3 endPosition;
+
+    [SerializeField]
+    AnimationCurve curve;
+
+    void Start()
+    {
+        endPosition = transform.position;
+        StartCoroutine(Up());
+    }
+
     // Update is called once per frame
     void Update () {
         Vector3 camPos = Vector3.Lerp(PlayerCharacter1.transform.position, PlayerCharacter2.transform.position, 0.5f);
 
-        transform.position = new Vector3(camPos.x, camPos.y, camPos.z);
+        //transform.position = new Vector3(camPos.x, camPos.y, camPos.z);
+        endPosition = new Vector3(camPos.x, camPos.y, camPos.z);
 
         CameraObjct.transform.localPosition = new Vector3(0, 12, -30);
 
@@ -47,7 +61,6 @@ public class CameraController : MonoBehaviour {
 
     void Check()
     {
-
         if (Physics.Raycast(transform.position + new Vector3(0, 2f, 0), transform.TransformDirection(Vector3.forward), out hit, 10f, LayerMask.GetMask("Ground")))
         {
             float angle = Vector3.Angle(hit.normal, transform.rotation.eulerAngles);
@@ -59,6 +72,30 @@ public class CameraController : MonoBehaviour {
         else if (CameraTiltPivot.transform.rotation.eulerAngles.x > 180 || CameraTiltPivot.transform.rotation.eulerAngles.x < 0f)
         {
             CameraTiltPivot.transform.Rotate(tiltSpeed, 0, 0, Space.Self);
+        }
+    }
+
+    IEnumerator Up()
+    {
+        float startTime = Time.timeSinceLevelLoad; ;
+        Vector3 startPosition = transform.position;
+
+        while (true)
+        {
+            var diff = Time.timeSinceLevelLoad - startTime;
+            //if (diff > time)
+            //{
+                startTime = Time.timeSinceLevelLoad;
+                startPosition = transform.position;
+                //CameraObjct.transform.localPosition = endPosition;
+            //}
+
+            var rate = diff / time;
+            var pos = curve.Evaluate(rate);
+
+            transform.position = Vector3.Lerp (startPosition, endPosition, pos);
+
+            yield return null;
         }
     }
 }
