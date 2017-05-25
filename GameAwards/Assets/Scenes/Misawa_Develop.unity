@@ -1344,7 +1344,13 @@ Prefab:
       propertyPath: m_Parameters.colorGradient.key1.b
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114993512865867800, guid: 50c322129bc6f264ab5bc22af753e5d9,
+        type: 2}
+      propertyPath: tiltSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 81610944896407796, guid: 50c322129bc6f264ab5bc22af753e5d9, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 50c322129bc6f264ab5bc22af753e5d9, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &592401208 stripped

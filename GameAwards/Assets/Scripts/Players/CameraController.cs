@@ -34,7 +34,7 @@ public class CameraController : MonoBehaviour {
     void Start()
     {
         endPosition = transform.position;
-        StartCoroutine(Up());
+        StartCoroutine(MoveCamera());
     }
 
     // Update is called once per frame
@@ -69,29 +69,42 @@ public class CameraController : MonoBehaviour {
                 CameraTiltPivot.transform.Rotate(-tiltSpeed, 0, 0, Space.Self);
             }
         }
-        else if (CameraTiltPivot.transform.rotation.eulerAngles.x > 180 || CameraTiltPivot.transform.rotation.eulerAngles.x < 0f)
+        else if(Physics.Raycast(transform.position + new Vector3(0, 2f, 0), transform.TransformDirection(Vector3.back), out hit, 10f, LayerMask.GetMask("Ground")))
+        {
+            float angle = Vector3.Angle(hit.normal, transform.rotation.eulerAngles);
+            if (angle > 0 && angle < 60 && Mathf.Abs(180 - CameraTiltPivot.transform.rotation.eulerAngles.x) >= 180 - angle / 2)
+            {
+                CameraTiltPivot.transform.Rotate(tiltSpeed, 0, 0, Space.Self);
+            }
+        }
+        else if (CameraTiltPivot.transform.rotation.eulerAngles.x > 180 || CameraTiltPivot.transform.rotation.eulerAngles.x < -1f)
         {
             CameraTiltPivot.transform.Rotate(tiltSpeed, 0, 0, Space.Self);
         }
+        else if (CameraTiltPivot.transform.rotation.eulerAngles.x > 1f)
+        {
+            CameraTiltPivot.transform.Rotate(-tiltSpeed, 0, 0, Space.Self);
+        }
+
+        Debug.Log(CameraTiltPivot.transform.rotation.eulerAngles.x.ToString());
+
     }
 
-    IEnumerator Up()
+    IEnumerator MoveCamera()
     {
         float startTime = Time.timeSinceLevelLoad; ;
         Vector3 startPosition = transform.position;
+        float diff = Time.timeSinceLevelLoad - startTime;
+        float pos;
 
         while (true)
         {
-            var diff = Time.timeSinceLevelLoad - startTime;
-            //if (diff > time)
-            //{
-                startTime = Time.timeSinceLevelLoad;
-                startPosition = transform.position;
-                //CameraObjct.transform.localPosition = endPosition;
-            //}
+            diff = Time.timeSinceLevelLoad - startTime;
 
-            var rate = diff / time;
-            var pos = curve.Evaluate(rate);
+            startTime = Time.timeSinceLevelLoad;
+            startPosition = transform.position;
+            
+            pos = curve.Evaluate(diff / time);
 
             transform.position = Vector3.Lerp (startPosition, endPosition, pos);
 
