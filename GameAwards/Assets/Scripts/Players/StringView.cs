@@ -182,9 +182,9 @@ public class StringView : MonoBehaviour {
 							if (_texIndex != _grassManager.GetDummyPoint(_xIndex, _zIndex).TexIndex)
 							{
 								_grassManager.ChangeTexIndex(_xIndex, _zIndex, _texIndex);
-								grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_texIndex));
 							}
 
+							grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_texIndex));
 							grassComponent.Growth();
 						}
 					}
@@ -196,9 +196,10 @@ public class StringView : MonoBehaviour {
 							if(_texIndex != _grassManager.GetDummyPoint(_xIndex, _zIndex).TexIndex)
 							{
 								_grassManager.ChangeTexIndex(_xIndex, _zIndex, _texIndex);
-								grassComponent.GrowthChangedTexture(() => {
-									grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_texIndex));
-								});
+								//grassComponent.GrowthChangedTexture(() => {
+									//grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_texIndex));
+								//});
+								grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_texIndex));
 							}
 						}
 					}
