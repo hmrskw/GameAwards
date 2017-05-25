@@ -24,11 +24,7 @@ public class Player : MonoBehaviour {
     Vector3 characterMoveForward;
 
     Vector3 centripetalDirection;
-
-    [SerializeField]
-    Material mat;
-
-
+    
     [SerializeField]
     float jpower = 0.49f;
 
@@ -85,34 +81,13 @@ public class Player : MonoBehaviour {
             if (velocity < -2) velocity = -2;
         }
 
-        //DEBUG:キャラのステートに合わせて色を変える
-        if (isSliding)
-        {
-            mat.color = Color.red;
-        }
-        else if (canJump == false)
-        {
-            mat.color = Color.blue;
-        }
-        else if (isStop)
-        {
-            mat.color = Color.yellow;
-        }
-        else if (isPulled)
-        {
-            mat.color = Color.green;
-        }
-        else
-        {
-            slope = Vector3.zero;
-            mat.color = Color.gray;
-        }
         //移動している間アニメーションを動かす
         animator.SetBool("IsWalk", (characterMoveForward != Vector3.zero) && !isPulled || StringView.Instance.isSpin);
         animator.SetBool("IsJump", (!canJump));
+        animator.SetBool("IsPulled", (isPulled));
 
         //移動方向を向かせる(移動方向+坂の傾き)
-        if(!isPulled)
+        if (!isPulled)
         transform.LookAt(
             transform.position + 
             new Vector3(characterMoveForward.x, 0f, characterMoveForward.z) + 
