@@ -9,8 +9,10 @@ public class Monument : MonoBehaviour {
 
     [SerializeField]
     ParticleSystem particle;
+
     [SerializeField]
-    ParticleSystem guideParticle;
+    GameObject guideObjct;
+    //ParticleSystem guideParticle;
 
     [SerializeField]
     Monument nextMonument;
@@ -26,6 +28,7 @@ public class Monument : MonoBehaviour {
 
     void Start ()
     {
+        guideObjct.SetActive(false);
         mat = monument.GetComponent<Renderer>().material;
         objColor = mat.color;
         mat.color = Color.grey;
@@ -54,17 +57,19 @@ public class Monument : MonoBehaviour {
             if(nextMonument != null) nextMonument.Guid();
             InputController.ExtendMaxDistanceLength(extendLength);
         }
-        else if (guideParticle.isPlaying)
+        else if (guideObjct.activeInHierarchy == true/*guideParticle.isPlaying*/)
         {
-            guideParticle.Stop();
+            guideObjct.SetActive(false);
+            //guideParticle.Stop();
         }
     }
 
     public void Guid()
     {
-        if(isOn == false && guideParticle.isPlaying == false)
+        if(isOn == false && guideObjct.activeInHierarchy == false/*guideParticle.isPlaying == false*/)
         {
-            guideParticle.Play();
+            guideObjct.SetActive(true);
+            //guideParticle.Play();
         }
     }
 }
