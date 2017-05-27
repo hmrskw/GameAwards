@@ -85,9 +85,6 @@ public class CameraController : MonoBehaviour {
         {
             CameraTiltPivot.transform.Rotate(-tiltSpeed, 0, 0, Space.Self);
         }
-
-        Debug.Log(CameraTiltPivot.transform.rotation.eulerAngles.x.ToString());
-
     }
 
     IEnumerator MoveCamera()
