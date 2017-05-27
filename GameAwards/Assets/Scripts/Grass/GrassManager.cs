@@ -24,7 +24,6 @@ public class GrassManager : MonoBehaviour {
 	List<Texture> _textures;
 
 	private MaterialPropertyBlock _matPropBlock;
-	private int _matIndex = 0;
 
 	private int _halfWidth;
 	private int _halfDepth;
