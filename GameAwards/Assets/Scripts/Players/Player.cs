@@ -184,7 +184,7 @@ public class Player : MonoBehaviour {
         {
             RaycastHit hit;
 
-            if (Physics.Raycast(transform.position, Vector3.down, out hit, 0.5f, mask))
+            if (Physics.Raycast(transform.position + new Vector3(0f,5f,0f), Vector3.down, out hit, 5.5f, mask))
             {
                 transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
             }
