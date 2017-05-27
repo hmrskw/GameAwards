@@ -25,6 +25,6 @@ Material:
     - PixelSnap: 0
     - _InvFade: 3
     m_Colors:
-    - _AddColor: {r: 1, g: 1, b: 1, a: 0}
+    - _AddColor: {r: 0.79995674, g: 1, b: 0.9816072, a: 0}
     - _AlpColor: {r: 1, g: 1, b: 1, a: 1}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
