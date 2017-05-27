@@ -17,6 +17,9 @@ public class WillOTheWisp : MonoBehaviour {
     [SerializeField]
     GrassManager _grassManager;
 
+	[SerializeField]
+	ParticleSystem _deathSmoke;
+
     AudioSource source;
 
     // Use this for initialization
@@ -36,13 +39,13 @@ public class WillOTheWisp : MonoBehaviour {
 
     IEnumerator Del()
     {
-        while(source.volume > 0)
+		_deathSmoke.Play();
+        while(_deathSmoke.isPlaying)
         {
-            source.volume -= 0.1f;
+            source.volume -= 0.07f;
             obj.transform.localScale = new Vector3(2 * source.volume, 2 * source.volume, 2 * source.volume);
             yield return null;
         }
-        
         Destroy(gameObject);
     }
 
