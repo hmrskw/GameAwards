@@ -186,6 +186,7 @@ public class StringView : MonoBehaviour {
 
 							grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_texIndex));
 							grassComponent.Growth();
+							grassComponent.PlayParticle();
 						}
 					}
 					else if(hit.transform.tag == "GrownGrass")

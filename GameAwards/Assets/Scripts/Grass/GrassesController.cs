@@ -10,6 +10,9 @@ public class GrassesController : MonoBehaviour {
 	[SerializeField]
 	GrassData _grassData;
 
+	[SerializeField]
+	List<ParticleSystem> _particle;
+
 	List<MeshRenderer> _renderers;
 
 	private void Awake()
@@ -59,6 +62,14 @@ public class GrassesController : MonoBehaviour {
 		for(int i = 0; i < _renderers.Count; i++)
 		{
 			_renderers[i].SetPropertyBlock(_mat);
+		}
+	}
+
+	public void PlayParticle()
+	{
+		foreach(var _part in _particle)
+		{
+			_part.Play();
 		}
 	}
 }
