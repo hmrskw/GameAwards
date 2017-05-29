@@ -20,6 +20,9 @@ public class WillOTheWisp : MonoBehaviour {
 	[SerializeField]
 	ParticleSystem _deathSmoke;
 
+    [SerializeField]
+    ParticleSystem smoke;
+
     AudioSource source;
 
     // Use this for initialization
@@ -29,13 +32,6 @@ public class WillOTheWisp : MonoBehaviour {
         StartCoroutine(Amplitude());
         StartCoroutine(Move());
     }
-
-    /*public void Absorbed()
-    {
-        InputController.ExtendMaxDistanceLength(5);
-        StopAllCoroutines();
-        StartCoroutine(Del());
-    }*/
 
     IEnumerator Del()
     {
@@ -94,6 +90,7 @@ public class WillOTheWisp : MonoBehaviour {
                     {
                         grassComponent.Wither();
                     }
+                    smoke.Play();
                 }
             }
             yield return null;
