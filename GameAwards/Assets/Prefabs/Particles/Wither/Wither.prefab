@@ -52,8 +52,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1136791259973658}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.125, y: -12, z: -0.9}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4986018558237770}
   m_Father: {fileID: 0}
@@ -126,8 +126,8 @@ ParticleSystem:
       m_RotationOrder: 4
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
-  scalingMode: 1
-  randomSeed: 1989504013
+  scalingMode: 0
+  randomSeed: 1189586078
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -203,7 +203,7 @@ ParticleSystem:
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 0.30882353, g: 1, b: 0.30882353, a: 1}
+        key1: {r: 0.30882353, g: 1, b: 0.30882353, a: 0.5882353}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -3046,8 +3046,8 @@ ParticleSystem:
       m_RotationOrder: 4
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
-  scalingMode: 1
-  randomSeed: -2117472375
+  scalingMode: 0
+  randomSeed: -1507052823
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3119,7 +3119,7 @@ ParticleSystem:
         m_RotationOrder: 0
     startColor:
       serializedVersion: 2
-      minMaxState: 1
+      minMaxState: 4
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -3894,8 +3894,8 @@ ParticleSystem:
       minMaxState: 1
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 0}
-        key1: {r: 0.75294137, g: 0.3602941, b: 1, a: 1}
+        key0: {r: 0.56470585, g: 1, b: 0.45588237, a: 0}
+        key1: {r: 0.7813389, g: 0.43382353, b: 1, a: 1}
         key2: {r: 0.6137934, g: 0, b: 1, a: 1}
         key3: {r: 0.6137934, g: 0, b: 1, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -3903,7 +3903,7 @@ ParticleSystem:
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
-        ctime1: 45875
+        ctime1: 39707
         ctime2: 65535
         ctime3: 65535
         ctime4: 0
@@ -3911,15 +3911,15 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 22937
-        atime2: 45875
+        atime1: 17540
+        atime2: 49537
         atime3: 65535
-        atime4: 0
+        atime4: 65535
         atime5: 0
         atime6: 0
         atime7: 0
         m_Mode: 0
-        m_NumColorKeys: 3
+        m_NumColorKeys: 2
         m_NumAlphaKeys: 4
       minGradient:
         serializedVersion: 2
@@ -5998,7 +5998,7 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 22f21186621af0d49ac326483ff66bb0, type: 2}
+  - {fileID: 2100000, guid: 86b95c63e93615d4b84f34135dba3e23, type: 2}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
