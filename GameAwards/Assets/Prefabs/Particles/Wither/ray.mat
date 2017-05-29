@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Smoke
-  m_Shader: {fileID: 4800000, guid: fad92e98fcfcf4448bf870bad85ab4d6, type: 3}
+  m_Name: ray
+  m_Shader: {fileID: 4800000, guid: 197133fec1495a943bbd65f2331d14bc, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -38,7 +38,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: bcb18f1ea1f2e144b958d4c13647a121, type: 3}
+        m_Texture: {fileID: 2800000, guid: b6292eff45b46eb49ad360914ad4446e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -62,7 +62,6 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _InvFade: 1
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -73,8 +72,7 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _AddColor: {r: 0, g: 0, b: 0, a: 0}
-    - _AlpColor: {r: 0.55017304, g: 0.7794118, b: 0.55017304, a: 0.39215687}
+    - _AddColor: {r: 1, g: 1, b: 1, a: 0}
+    - _AlpColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.084}
