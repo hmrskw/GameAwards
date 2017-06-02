@@ -5,16 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-public class CutScene : MonoBehaviour
+public class CutScene : Monument
 {
-
-    /*[System.Serializable]
-    public class CameraAction
-    {
-        public IEnumerable action;
-        public AnimationCurve curve;
-        public float time;
-    }*/
+    
     [System.Serializable]
     public struct CameraAndMask
     {
@@ -31,20 +24,39 @@ public class CutScene : MonoBehaviour
     [SerializeField]
     AnimationCurve curve;
     [SerializeField]
-    float moveTime;
+    float cameraMoveTime;
     [SerializeField]
+    float characterMoveSpeed;
+
+    [SerializeField,Tooltip("カメラの移動先")]
     Transform nextCameraPositionTransform;
-    [SerializeField]
+    [SerializeField,Tooltip("カメラはこのオブジェクトの方向を見続ける")]
     Transform targetTransform;
+    //[SerializeField]
+    //ParticleSystem pop;
     [SerializeField]
-    ParticleSystem pop;
+    Player p1;
+    [SerializeField]
+    Player p2;
+
+    [SerializeField]
+    GameObject playerCharacter;
+    [SerializeField]
+    GameObject cutSceneCharacter;
 
     //[SerializeField]
     //CameraAction[] cameraAction;
 
     int actionIndex = 0;
 
-    bool isFade = false;
+
+
+    bool isPlayCutScene = false;
+    public bool IsPlayCutScene
+    {
+        set { isPlayCutScene = value; }
+        get { return isPlayCutScene; }
+    }
 
     Transform initCameraTransform;
 
@@ -55,11 +67,12 @@ public class CutScene : MonoBehaviour
         {
             StartCutScene();
         }
+        Debug.Log(isPlayCutScene);
     }
 
     public void StartCutScene()
     {
-        if (isFade == false)
+        if (isPlayCutScene == false)
         {
             StartCoroutine(Task());
         }
@@ -67,17 +80,12 @@ public class CutScene : MonoBehaviour
 
     IEnumerator Task()
     {
-        isFade = true;
         yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera,1.0f));
         yield return StartCoroutine(MoveCharacter());
         yield return StartCoroutine(MoveCamera());
-        //yield return new WaitForSeconds(1f);
         yield return StartCoroutine(FlowerAnim());
         yield return StartCoroutine(FadeInFadeOut(CutSceneCamera, MainCamera, 1.0f));
-        isFade = false;
-        //StartCoroutine(MoveCharacter());
-        //yield return StartCoroutine(MoveCamera());
-        //yield return StartCoroutine(Flower());
+        //isPlayCutScene = false;
     }
 
     IEnumerator FadeInFadeOut(CameraAndMask fadeIn, CameraAndMask fadeOut,float time)
@@ -93,7 +101,10 @@ public class CutScene : MonoBehaviour
             fadeIn.mask.color = maskAlpha;
             yield return null;
         }
+        playerCharacter.SetActive(!playerCharacter.activeInHierarchy);
+        cutSceneCharacter.SetActive(!cutSceneCharacter.activeInHierarchy);
         fadeIn.camera.SetActive(false);
+        isPlayCutScene = !isPlayCutScene;
         fadeOut.camera.SetActive(true);
 
         startTime = Time.timeSinceLevelLoad;
@@ -109,7 +120,15 @@ public class CutScene : MonoBehaviour
 
     IEnumerator MoveCharacter()
     {
-        yield return null;
+        //float startTime = Time.timeSinceLevelLoad;
+        //float diff = Time.timeSinceLevelLoad - startTime;
+        //while (diff < moveTime)
+        {
+            //diff = Time.timeSinceLevelLoad - startTime;
+            p1.SetCharacterMoveDirection(new Vector3(0, 0, -characterMoveSpeed));
+            p2.SetCharacterMoveDirection(new Vector3(0, 0, -characterMoveSpeed));
+            yield return null;
+        }
     }
 
     IEnumerator MoveCamera()
@@ -120,11 +139,11 @@ public class CutScene : MonoBehaviour
         float diff = Time.timeSinceLevelLoad - startTime;
         float pos;
 
-        while (diff < moveTime)
+        while (diff < cameraMoveTime)
         {
             diff = Time.timeSinceLevelLoad - startTime;
 
-            pos = curve.Evaluate(diff / moveTime);
+            pos = curve.Evaluate(diff / cameraMoveTime);
 
             CutSceneCamera.camera.transform.LookAt(targetTransform);
             CutSceneCamera.camera.transform.position = Vector3.Lerp(startPosition, nextCameraPositionTransform.position, pos);
@@ -135,8 +154,8 @@ public class CutScene : MonoBehaviour
 
     IEnumerator FlowerAnim()
     {
-        pop.Play();
-        while (pop.isPlaying)
+        //pop.Play();
+        //while (pop.isPlaying)
         {
             yield return null;
         }

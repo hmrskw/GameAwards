@@ -82,7 +82,7 @@ public class Player : MonoBehaviour {
         }
 
         //移動している間アニメーションを動かす
-        animator.SetBool("IsWalk", (characterMoveForward != Vector3.zero) && !isPulled || StringView.Instance.isSpin);
+        animator.SetBool("IsWalk", (characterMoveForward != Vector3.zero) && !isPulled || StringView.Instance.IsSpin);
         animator.SetBool("IsJump", (!canJump));
         animator.SetBool("IsPulled", (isPulled));
 

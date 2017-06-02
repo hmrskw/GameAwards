@@ -19,6 +19,11 @@ public class StringView : MonoBehaviour {
     [SerializeField, Tooltip("終点")]
     Transform tail;
 
+    [SerializeField]
+    Transform cutP1;
+    [SerializeField]
+    Transform cutP2;
+
     int co = 0;
     Vector3 point;
 
@@ -33,13 +38,20 @@ public class StringView : MonoBehaviour {
     [SerializeField]
     Material[] mats;
 
+    [SerializeField]
+    CutScene cutScene;
+
     Ray ray = new Ray();
 
     RaycastHit hit;
 
-    public bool isSpin = false;
-
-	int _texIndex = 0;
+    bool isSpin = false;
+    public bool IsSpin
+    {
+        set { isSpin = value; }
+        get { return isSpin; }
+    }
+    int _texIndex = 0;
 
     void Awake()
     {
@@ -110,21 +122,30 @@ public class StringView : MonoBehaviour {
 
         var posList = new List<Vector3>();
 
-        posList.Add(head.position + new Vector3(0, 3, 0));
         float length = 0f;
 
         co++;
-
-        point = Vector3.Lerp(point, Vector3.Lerp(head.position, tail.position, 0.5f), 0.1f * Vector3.Distance(head.position, tail.position) / (InputController.GetMaxDistanceLength()));
 
         if (co % 60 == 0)
         {
             co = 0;
         }
 
+        if (cutScene.IsPlayCutScene == false)
+        {
+            posList.Add(head.position + new Vector3(0, 3, 0));
+            point = Vector3.Lerp(point, Vector3.Lerp(head.position, tail.position, 0.5f), 0.1f * Vector3.Distance(head.position, tail.position) / (InputController.GetMaxDistanceLength()));
+        }
+        else
+        {
+            posList.Add(cutP1.position + new Vector3(0, 3, 0));
+            point = Vector3.Lerp(point, Vector3.Lerp(cutP1.position, cutP2.position, 0.5f), 0.1f * Vector3.Distance(cutP1.position, cutP2.position) / (InputController.GetMaxDistanceLength()));
+        }
+
         while (length < 1f)
         {
             length += 0.05f;
+            if (cutScene.IsPlayCutScene == false)
             {
                 posList.Add(
                     B_SplineCurve(
@@ -135,11 +156,25 @@ public class StringView : MonoBehaviour {
                     )
                 );
             }
+            else
+            {
+                posList.Add(
+                    B_SplineCurve(
+                        cutP1.position + new Vector3(0, 3, 0),
+                        cutP2.position + new Vector3(0, 3, 0),
+                        point + new Vector3(0, 3, 0),
+                        length
+                    )
+                );
+            }
         }
         
         lineRenderer.positionCount = posList.Count;
         lineRenderer.SetPositions(posList.ToArray());
-        OnPassLine();
+        if (cutScene.IsPlayCutScene == false)
+        {
+            OnPassLine();
+        }
     }
     
     void OnPassLine()
@@ -229,11 +264,23 @@ public class StringView : MonoBehaviour {
         while (length < 1f)
         {
             length += 0.1f;
+            if (cutScene.IsPlayCutScene == false)
             {
                 Vector3 curve =
                     B_SplineCurve(
                         head.position + new Vector3(0, 3, 0),
                         tail.position + new Vector3(0, 3, 0),
+                        point + new Vector3(0, 3, 0),
+                        length
+                    );
+                if (Vector3.Distance(curve, position) < 2) return true;
+            }
+            else
+            {
+                Vector3 curve =
+                    B_SplineCurve(
+                        cutP1.position + new Vector3(0, 3, 0),
+                        cutP2.position + new Vector3(0, 3, 0),
                         point + new Vector3(0, 3, 0),
                         length
                     );

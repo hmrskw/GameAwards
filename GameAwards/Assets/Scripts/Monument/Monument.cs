@@ -23,6 +23,11 @@ public class Monument : MonoBehaviour {
     Material mat;
 
     bool isOn;
+    public bool IsOn
+    {
+        private set { isOn = value; }
+        get { return isOn; }
+    }
 
     Color objColor;
 
@@ -30,8 +35,8 @@ public class Monument : MonoBehaviour {
     {
         guideObjct.SetActive(false);
         mat = monument.GetComponent<Renderer>().material;
-        objColor = mat.color;
-        mat.color = Color.grey;
+        //objColor = mat.color;
+        //mat.color = Color.grey;
         isOn = false;
 
         StartCoroutine(Wait());

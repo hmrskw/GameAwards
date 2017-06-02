@@ -37,6 +37,12 @@ public class CameraController : MonoBehaviour {
         StartCoroutine(MoveCamera());
     }
 
+    void OnEnable()
+    {
+        endPosition = transform.position;
+        StartCoroutine(MoveCamera());
+    }
+
     // Update is called once per frame
     void Update () {
         Vector3 camPos = Vector3.Lerp(PlayerCharacter1.transform.position, PlayerCharacter2.transform.position, 0.5f);
