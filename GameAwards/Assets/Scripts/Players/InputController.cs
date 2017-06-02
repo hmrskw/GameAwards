@@ -148,6 +148,22 @@ public class InputController : MonoBehaviour {
         PlayerCharacter1Components.playerModel.SetCharacterMoveDirection(character1MoveDirection);
         PlayerCharacter2Components.playerModel.SetCharacterMoveDirection(character2MoveDirection);
 
+        if (character1MoveDirection != Vector3.zero || character2MoveDirection != Vector3.zero)
+        {
+            Debug.Log(character1MoveDirection +"ps"+ character2MoveDirection);
+            if (SoundManager.Instance.IsPlayBGM("asioto") == false)
+            {
+                SoundManager.Instance.PlayBGM("asioto");
+            }
+        }
+        else
+        {
+            if (SoundManager.Instance.IsPlayBGM("asioto") == true)
+            {
+                SoundManager.Instance.StopBGM("asioto");
+            }
+        }
+
         //ジャンプ
         if (Input.GetButton("LeftJump") && PlayerCharacter1Components.playerModel.CanJump &&
             PlayerCharacter1.transform.position.y - PlayerCharacter2.transform.position.y < maxDistanceLength)

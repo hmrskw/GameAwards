@@ -69,6 +69,7 @@ public class CutScene : MonoBehaviour
     {
         isFade = true;
         yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera,1.0f));
+        yield return StartCoroutine(MoveCharacter());
         yield return StartCoroutine(MoveCamera());
         //yield return new WaitForSeconds(1f);
         yield return StartCoroutine(FlowerAnim());

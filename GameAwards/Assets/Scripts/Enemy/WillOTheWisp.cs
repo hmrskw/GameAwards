@@ -36,6 +36,7 @@ public class WillOTheWisp : MonoBehaviour {
     IEnumerator Del()
     {
 		_deathSmoke.Play();
+        SoundManager.Instance.PlaySE("shoumetu");
         while(_deathSmoke.isPlaying)
         {
             source.volume -= 0.07f;
