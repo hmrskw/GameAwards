@@ -205,11 +205,6 @@ public class Player : MonoBehaviour {
         centripetalDirection = Vector3.Cross(direction * f,Vector3.up)* num;
     }
 
-    public void SetInputDirection(Vector3 inputDirection)
-    {
-
-    }
-
     /// <summary>
     /// 移動方向を取得する
     /// </summary>

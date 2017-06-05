@@ -190,7 +190,7 @@ public class SoundManager : MonoBehaviour
             {
                 if (source.clip != null && source.clip.name == bgmName)
                 {
-                    Debug.Log("stop");
+                    //Debug.Log("stop");
                     source.Stop();
                 }
             }

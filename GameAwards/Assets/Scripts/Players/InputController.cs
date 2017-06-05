@@ -151,7 +151,6 @@ public class InputController : MonoBehaviour {
 
         if (character1MoveDirection != Vector3.zero || character2MoveDirection != Vector3.zero)
         {
-            Debug.Log(character1MoveDirection +"ps"+ character2MoveDirection);
             if (SoundManager.Instance.IsPlayBGM("asioto") == false)
             {
                 SoundManager.Instance.PlayBGM("asioto");

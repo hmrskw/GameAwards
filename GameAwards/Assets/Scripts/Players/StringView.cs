@@ -24,7 +24,7 @@ public class StringView : MonoBehaviour {
     [SerializeField]
     Transform cutP2;
 
-    int co = 0;
+    //int co = 0;
     Vector3 point;
 
     float coefficient;
@@ -52,6 +52,10 @@ public class StringView : MonoBehaviour {
         get { return isSpin; }
     }
     int _texIndex = 0;
+
+    List<Vector3> posList = new List<Vector3>();
+
+    float length = 0f;
 
     void Awake()
     {
@@ -102,15 +106,6 @@ public class StringView : MonoBehaviour {
 
     void Update()
     {
-		if (Input.GetKeyDown(KeyCode.C))
-		{
-			_texIndex = 1;
-		}
-		if (Input.GetKeyDown(KeyCode.R))
-		{
-			_texIndex = 0;
-		}
-
 		if (isSpin)
         {
             lineRenderer.material = mats[1];
@@ -120,16 +115,16 @@ public class StringView : MonoBehaviour {
             lineRenderer.material = mats[0];
         }
 
-        var posList = new List<Vector3>();
+        posList.Clear();
 
-        float length = 0f;
+        length = 0f;
 
-        co++;
+        /*co++;
 
         if (co % 60 == 0)
         {
             co = 0;
-        }
+        }*/
 
         if (cutScene.IsPlayCutScene == false)
         {
@@ -196,11 +191,6 @@ public class StringView : MonoBehaviour {
                 ray.origin = curve;
                 ray.direction = -transform.up;
 
-                /*if (Physics.Raycast(ray, out hit, 10.0f,LayerMask.GetMask("Monument")))
-                {
-                    hit.collider.GetComponent<Monument>().Boot();
-                }*/
-
                 if (Physics.Raycast(ray, out hit, 10.0f, LayerMask.GetMask("Grass")))
                 {
 					int _xIndex = 0;
@@ -232,9 +222,6 @@ public class StringView : MonoBehaviour {
 							if(_texIndex != _grassManager.GetDummyPoint(_xIndex, _zIndex).TexIndex)
 							{
 								_grassManager.ChangeTexIndex(_xIndex, _zIndex, _texIndex);
-								//grassComponent.GrowthChangedTexture(() => {
-									//grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_texIndex));
-								//});
 								grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_texIndex));
 							}
 						}
@@ -263,7 +250,7 @@ public class StringView : MonoBehaviour {
 
         while (length < 1f)
         {
-            length += 0.1f;
+            length += 0.01f;
             if (cutScene.IsPlayCutScene == false)
             {
                 Vector3 curve =
@@ -273,7 +260,7 @@ public class StringView : MonoBehaviour {
                         point + new Vector3(0, 3, 0),
                         length
                     );
-                if (Vector3.Distance(curve, position) < 2) return true;
+                if (Vector2.Distance(new Vector2(curve.x, curve.z), new Vector2(position.x, position.z)) < 2) return true;
             }
             else
             {
@@ -284,7 +271,7 @@ public class StringView : MonoBehaviour {
                         point + new Vector3(0, 3, 0),
                         length
                     );
-                if (Vector3.Distance(curve, position) < 2) return true;
+                if (Vector3.Distance(new Vector2(curve.x, curve.z), new Vector2(position.x, position.z)) < 2) return true;
             }
         }
         return false;

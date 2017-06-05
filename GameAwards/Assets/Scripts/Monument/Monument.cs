@@ -8,7 +8,7 @@ public class Monument : MonoBehaviour {
     GameObject monument;
 
     [SerializeField]
-    ParticleSystem particle;
+    public ParticleSystem particle;
 
     [SerializeField]
     GameObject guideObjct;
@@ -20,29 +20,29 @@ public class Monument : MonoBehaviour {
     [SerializeField]
     float extendLength;
 
-    Material mat;
+    protected Animator openAnimation;
+    //Material mat;
 
-    bool isOn;
+    protected bool isOn;
     public bool IsOn
     {
         private set { isOn = value; }
         get { return isOn; }
     }
 
-    Color objColor;
+    protected float animationStart;
+    //Color objColor;
 
     void Start ()
     {
-        guideObjct.SetActive(false);
-        mat = monument.GetComponent<Renderer>().material;
-        //objColor = mat.color;
-        //mat.color = Color.grey;
+        if(guideObjct != null)guideObjct.SetActive(false);
+        openAnimation = GetComponent<Animator>();
         isOn = false;
 
         StartCoroutine(Wait());
 	}
 
-    IEnumerator Wait()
+    virtual protected IEnumerator Wait()
     {
         while (StringView.Instance.OnHitLine(transform.position) == false)
         {
@@ -50,23 +50,29 @@ public class Monument : MonoBehaviour {
         }
         StringView.Instance.GrassTextureUpdate(1);
         SoundManager.Instance.PlaySE("se object");
-        Boot();
+        StartCoroutine(Boot());
     }
-	
-    public void Boot() {
+
+    protected IEnumerator Boot() {
         if (isOn == false)
         {
             isOn = true;
-            mat.color = objColor;
-            particle.Play();
-            if(nextMonument != null) nextMonument.Guid();
+            openAnimation.SetTrigger("Open");
+            if(guideObjct != null && nextMonument != null) nextMonument.Guid();
             InputController.ExtendMaxDistanceLength(extendLength);
         }
-        else if (guideObjct.activeInHierarchy == true/*guideParticle.isPlaying*/)
+        else if (guideObjct != null && guideObjct.activeInHierarchy == true)
         {
             guideObjct.SetActive(false);
-            //guideParticle.Stop();
         }
+
+        while (
+            openAnimation.GetCurrentAnimatorStateInfo(0).shortNameHash == Animator.StringToHash("New State") ||
+            openAnimation.GetCurrentAnimatorStateInfo(0).normalizedTime < (40f / 45f))
+        {
+            yield return null;
+        }
+        particle.Play();
     }
 
     public void Guid()

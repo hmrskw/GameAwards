@@ -14,7 +14,7 @@ public class CutScene : Monument
         public GameObject camera;
         public Image mask;
     }
-    
+    [Space(15)]
     [SerializeField]
     CameraAndMask MainCamera;
 
@@ -32,8 +32,7 @@ public class CutScene : Monument
     Transform nextCameraPositionTransform;
     [SerializeField,Tooltip("カメラはこのオブジェクトの方向を見続ける")]
     Transform targetTransform;
-    //[SerializeField]
-    //ParticleSystem pop;
+
     [SerializeField]
     Player p1;
     [SerializeField]
@@ -44,13 +43,6 @@ public class CutScene : Monument
     [SerializeField]
     GameObject cutSceneCharacter;
 
-    //[SerializeField]
-    //CameraAction[] cameraAction;
-
-    int actionIndex = 0;
-
-
-
     bool isPlayCutScene = false;
     public bool IsPlayCutScene
     {
@@ -58,19 +50,7 @@ public class CutScene : Monument
         get { return isPlayCutScene; }
     }
 
-    Transform initCameraTransform;
-
-    // Use this for initialization
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            StartCutScene();
-        }
-        Debug.Log(isPlayCutScene);
-    }
-
-    public void StartCutScene()
+    void StartCutScene()
     {
         if (isPlayCutScene == false)
         {
@@ -78,14 +58,25 @@ public class CutScene : Monument
         }
     }
 
+    override protected IEnumerator Wait()
+    {
+        while (StringView.Instance.OnHitLine(transform.position) == false)
+        {
+            yield return null;
+        }
+
+        StringView.Instance.GrassTextureUpdate(1);
+        SoundManager.Instance.PlaySE("se object");
+        if (isPlayCutScene == false) StartCutScene();
+    }
+
     IEnumerator Task()
     {
         yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera,1.0f));
-        yield return StartCoroutine(MoveCharacter());
+        /*yield return*/ StartCoroutine(MoveCharacter());
         yield return StartCoroutine(MoveCamera());
         yield return StartCoroutine(FlowerAnim());
         yield return StartCoroutine(FadeInFadeOut(CutSceneCamera, MainCamera, 1.0f));
-        //isPlayCutScene = false;
     }
 
     IEnumerator FadeInFadeOut(CameraAndMask fadeIn, CameraAndMask fadeOut,float time)
@@ -106,6 +97,7 @@ public class CutScene : Monument
         fadeIn.camera.SetActive(false);
         isPlayCutScene = !isPlayCutScene;
         fadeOut.camera.SetActive(true);
+        CutSceneCamera.camera.transform.LookAt(targetTransform);
 
         startTime = Time.timeSinceLevelLoad;
         diff = Time.timeSinceLevelLoad - startTime;
@@ -118,22 +110,8 @@ public class CutScene : Monument
         }
     }
 
-    IEnumerator MoveCharacter()
-    {
-        //float startTime = Time.timeSinceLevelLoad;
-        //float diff = Time.timeSinceLevelLoad - startTime;
-        //while (diff < moveTime)
-        {
-            //diff = Time.timeSinceLevelLoad - startTime;
-            p1.SetCharacterMoveDirection(new Vector3(0, 0, -characterMoveSpeed));
-            p2.SetCharacterMoveDirection(new Vector3(0, 0, -characterMoveSpeed));
-            yield return null;
-        }
-    }
-
     IEnumerator MoveCamera()
     {
-        initCameraTransform = CutSceneCamera.camera.transform;
         float startTime = Time.timeSinceLevelLoad;
         Vector3 startPosition = CutSceneCamera.camera.transform.position;
         float diff = Time.timeSinceLevelLoad - startTime;
@@ -154,10 +132,20 @@ public class CutScene : Monument
 
     IEnumerator FlowerAnim()
     {
-        //pop.Play();
-        //while (pop.isPlaying)
+        yield return StartCoroutine(Boot());
+
+        while (openAnimation.GetCurrentAnimatorStateInfo(0).normalizedTime - animationStart < 1 || particle.isPlaying)
         {
             yield return null;
         }
+    }
+
+    IEnumerator MoveCharacter()
+    {
+        p1.SetCharacterMoveDirection(new Vector3(0, 0, -characterMoveSpeed));
+        p2.SetCharacterMoveDirection(new Vector3(0, 0, -characterMoveSpeed));
+        yield return new WaitForSeconds(2f);
+        p1.SetCharacterMoveDirection(new Vector3(0, 0, 0));
+        p2.SetCharacterMoveDirection(new Vector3(0, 0, 0));
     }
 }
