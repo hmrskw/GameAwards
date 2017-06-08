@@ -41,7 +41,9 @@ public class CutScene : Monument
     [SerializeField]
     GameObject playerCharacter;
     [SerializeField]
-    GameObject cutSceneCharacter;
+    GameObject cutSceneCharacters;
+    [SerializeField]
+    Transform cutSceneCharactersInitPosition;
 
     bool isPlayCutScene = false;
     public bool IsPlayCutScene
@@ -72,8 +74,12 @@ public class CutScene : Monument
 
     IEnumerator Task()
     {
+        
         yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera,1.0f));
-        /*yield return*/ StartCoroutine(MoveCharacter());
+        /*yield return*/
+        p1.transform.localPosition = new Vector3(-4f, 0f, 0f);
+        p2.transform.localPosition = new Vector3(4f, 0f, 0f);
+        StartCoroutine(MoveCharacter());
         yield return StartCoroutine(MoveCamera());
         yield return StartCoroutine(FlowerAnim());
         yield return StartCoroutine(FadeInFadeOut(CutSceneCamera, MainCamera, 1.0f));
@@ -92,9 +98,17 @@ public class CutScene : Monument
             fadeIn.mask.color = maskAlpha;
             yield return null;
         }
-        playerCharacter.SetActive(!playerCharacter.activeInHierarchy);
-        cutSceneCharacter.SetActive(!cutSceneCharacter.activeInHierarchy);
         fadeIn.camera.SetActive(false);
+
+        playerCharacter.SetActive(!playerCharacter.activeInHierarchy);
+
+        cutSceneCharacters.SetActive(!cutSceneCharacters.activeInHierarchy);
+        if(cutSceneCharacters.activeInHierarchy == true)
+        {
+            cutSceneCharacters.transform.position = cutSceneCharactersInitPosition.position;
+            cutSceneCharacters.transform.rotation = cutSceneCharactersInitPosition.rotation;
+        }
+
         isPlayCutScene = !isPlayCutScene;
         fadeOut.camera.SetActive(true);
         CutSceneCamera.camera.transform.LookAt(targetTransform);

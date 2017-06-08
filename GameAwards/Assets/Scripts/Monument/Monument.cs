@@ -11,14 +11,14 @@ public class Monument : MonoBehaviour {
     public ParticleSystem particle;
 
     [SerializeField]
-    GameObject guideObjct;
+    protected GameObject guideObjct;
     //ParticleSystem guideParticle;
 
     [SerializeField]
-    Monument nextMonument;
+    protected Monument nextMonument;
 
     [SerializeField]
-    float extendLength;
+    protected float extendLength;
 
     protected Animator openAnimation;
     //Material mat;
@@ -53,7 +53,7 @@ public class Monument : MonoBehaviour {
         StartCoroutine(Boot());
     }
 
-    protected IEnumerator Boot() {
+    virtual protected IEnumerator Boot() {
         if (isOn == false)
         {
             isOn = true;

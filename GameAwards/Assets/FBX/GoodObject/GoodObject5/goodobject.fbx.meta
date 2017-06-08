@@ -1,0 +1,229 @@
+fileFormatVersion: 2
+guid: 04b226c08437aad4fbe38da0922fcec5
+timeCreated: 1496627420
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: big_turu
+    100002: big_turu_1
+    100004: big_turu_2
+    100006: big_turu_3
+    100008: big_turu_4
+    100010: big_turu_5
+    100012: big_turu_6
+    100014: big_turu_7
+    100016: Flower_center
+    100018: Flower_center 1
+    100020: //RootNode
+    100022: hana
+    100024: hanabira
+    100026: hanabira1
+    100028: hanabira1_2
+    100030: hanabira2
+    100032: hanabira2_2
+    100034: hanabira3
+    100036: hanabira3_2
+    100038: hanabira4
+    100040: hanabira4_2
+    100042: hanabira5
+    100044: hanabira5_2
+    100046: hanabira6
+    100048: hanabira7
+    100050: hanabira7_2
+    100052: hanabira8
+    100054: hanabira8_2
+    100056: jhanabira6_2
+    100058: kuki
+    100060: leaf1
+    100062: leaf2
+    100064: leaf3
+    100066: leaf4
+    100068: leaf5
+    100070: leaf6
+    100072: leaf7
+    100074: leaf8
+    100076: rigu
+    100078: turu
+    100080: turu1
+    100082: turu1_1
+    100084: turu1_2
+    100086: turu1_3
+    100088: turu1_4
+    100090: turu1_5
+    100092: turu1_6
+    100094: turu1_7
+    100096: turu2
+    100098: turu2_1
+    100100: turu2_2
+    100102: turu2_3
+    100104: turu2_4
+    100106: turu2_5
+    100108: turu2_6
+    100110: turu2_7
+    400000: big_turu
+    400002: big_turu_1
+    400004: big_turu_2
+    400006: big_turu_3
+    400008: big_turu_4
+    400010: big_turu_5
+    400012: big_turu_6
+    400014: big_turu_7
+    400016: Flower_center
+    400018: Flower_center 1
+    400020: //RootNode
+    400022: hana
+    400024: hanabira
+    400026: hanabira1
+    400028: hanabira1_2
+    400030: hanabira2
+    400032: hanabira2_2
+    400034: hanabira3
+    400036: hanabira3_2
+    400038: hanabira4
+    400040: hanabira4_2
+    400042: hanabira5
+    400044: hanabira5_2
+    400046: hanabira6
+    400048: hanabira7
+    400050: hanabira7_2
+    400052: hanabira8
+    400054: hanabira8_2
+    400056: jhanabira6_2
+    400058: kuki
+    400060: leaf1
+    400062: leaf2
+    400064: leaf3
+    400066: leaf4
+    400068: leaf5
+    400070: leaf6
+    400072: leaf7
+    400074: leaf8
+    400076: rigu
+    400078: turu
+    400080: turu1
+    400082: turu1_1
+    400084: turu1_2
+    400086: turu1_3
+    400088: turu1_4
+    400090: turu1_5
+    400092: turu1_6
+    400094: turu1_7
+    400096: turu2
+    400098: turu2_1
+    400100: turu2_2
+    400102: turu2_3
+    400104: turu2_4
+    400106: turu2_5
+    400108: turu2_6
+    400110: turu2_7
+    2300000: Flower_center
+    2300002: kuki
+    2300004: leaf1
+    2300006: leaf2
+    2300008: leaf3
+    2300010: leaf4
+    2300012: leaf5
+    2300014: leaf6
+    2300016: leaf7
+    2300018: leaf8
+    3300000: Flower_center
+    3300002: kuki
+    3300004: leaf1
+    3300006: leaf2
+    3300008: leaf3
+    3300010: leaf4
+    3300012: leaf5
+    3300014: leaf6
+    3300016: leaf7
+    3300018: leaf8
+    4300000: turu1
+    4300002: turu2
+    4300004: big_turu
+    4300006: Flower_center
+    4300008: leaf8
+    4300010: leaf7
+    4300012: leaf6
+    4300014: leaf5
+    4300016: leaf4
+    4300018: leaf3
+    4300020: leaf2
+    4300022: leaf1
+    4300024: kuki
+    4300026: hanabira
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: big_turu
+    13700002: hanabira
+    13700004: turu1
+    13700006: turu2
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1.5
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
