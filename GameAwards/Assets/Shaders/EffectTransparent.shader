@@ -16,13 +16,13 @@ SubShader {
 	
 	ZWrite Off
 	Blend SrcAlpha OneMinusSrcAlpha 
+
+	GrabPass{}
 	
 	Pass {  
 		CGPROGRAM
-			#pragma vertex vert
-			#pragma fragment frag
-			#pragma target 2.0
-			#pragma multi_compile_fog
+			#pragma target 3.0
+			#pragma surface surf standard fullforwardshadows
 			
 			#include "UnityCG.cginc"
 
