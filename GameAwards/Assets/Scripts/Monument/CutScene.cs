@@ -45,16 +45,12 @@ public class CutScene : Monument
     [SerializeField]
     Transform cutSceneCharactersInitPosition;
 
-    bool isPlayCutScene = false;
-    public bool IsPlayCutScene
-    {
-        set { isPlayCutScene = value; }
-        get { return isPlayCutScene; }
-    }
+    [SerializeField]
+    Camera cutCamera;
 
     void StartCutScene()
     {
-        if (isPlayCutScene == false)
+        if (StringView.Instance.isPlayCutScene == false)
         {
             StartCoroutine(Task());
         }
@@ -69,14 +65,13 @@ public class CutScene : Monument
 
         StringView.Instance.GrassTextureUpdate(1);
         SoundManager.Instance.PlaySE("se object");
-        if (isPlayCutScene == false) StartCutScene();
+        if (StringView.Instance.isPlayCutScene == false) StartCutScene();
     }
 
     IEnumerator Task()
     {
         
         yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera,1.0f));
-        /*yield return*/
         p1.transform.localPosition = new Vector3(-4f, 0f, 0f);
         p2.transform.localPosition = new Vector3(4f, 0f, 0f);
         StartCoroutine(MoveCharacter());
@@ -109,7 +104,9 @@ public class CutScene : Monument
             cutSceneCharacters.transform.rotation = cutSceneCharactersInitPosition.rotation;
         }
 
-        isPlayCutScene = !isPlayCutScene;
+        StringView.Instance.cutP1 = p1.transform;
+        StringView.Instance.cutP2 = p2.transform;
+        StringView.Instance.isPlayCutScene = !StringView.Instance.isPlayCutScene;
         fadeOut.camera.SetActive(true);
         CutSceneCamera.camera.transform.LookAt(targetTransform);
 

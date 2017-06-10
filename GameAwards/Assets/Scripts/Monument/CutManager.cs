@@ -7,12 +7,20 @@ using UnityEngine.Events;
 
 public class CutManager : Monument
 {
-    enum CUT
+    public enum CUT
     {
-        Cut1, Cut2, Cut3, Cut4
+        Cut2, Cut3, Cut4
     }
     [SerializeField]
-    CUT cut;
+    public CUT cut;
+
+    [System.Serializable]
+    struct PaticlesTimeing
+    {
+        public float totalFrame;
+        public float playParticleFrame;
+        public ParticleSystem[] particle;
+    }
 
     [System.Serializable]
     public struct ZoomData
@@ -28,43 +36,47 @@ public class CutManager : Monument
         public GameObject camera;
         public Image mask;
     }
+
     [Space(15)]
     [SerializeField]
     CameraAndMask MainCamera;
 
     [SerializeField]
-    CameraAndMask CutSceneCamera;
+    CameraAndMask[] CutSceneCamera;
 
-    //[SerializeField, Tooltip("カメラはこのオブジェクトの方向を見続ける")]
-    //Transform targetTransform;
-
+    [SerializeField]
+    Transform targetTransform;
     [SerializeField]
     GameObject playerCharacter;
     [SerializeField]
     GameObject cutSceneP1;
     [SerializeField]
     GameObject cutSceneP2;
-    //GameObject cutSceneCharacters;
+    [SerializeField]
+    Transform P1Pivot;
+    [SerializeField]
+    Transform P2Pivot;
+
     [SerializeField]
     Animator cutAnim;
     [SerializeField]
     ZoomData[] zoomData;
     [SerializeField]
     AnimationCurve zoomCurve;
-
-    bool isPlayCutScene = false;
-    public bool IsPlayCutScene
-    {
-        set { isPlayCutScene = value; }
-        get { return isPlayCutScene; }
-    }
-
+    [SerializeField]
+    float totalFrame;
+    [SerializeField]
+    float playParticleFrame;
+    [SerializeField]
+    PaticlesTimeing[] pt;
     [SerializeField]
     Camera cutCamera;
 
+    int cameraIndex = 0;
+
     void StartCutScene()
     {
-        if (isPlayCutScene == false)
+        if (StringView.Instance.isPlayCutScene == false)
         {
             StartCoroutine(Task());
         }
@@ -79,16 +91,14 @@ public class CutManager : Monument
 
         StringView.Instance.GrassTextureUpdate(1);
         SoundManager.Instance.PlaySE("se object");
-        if (isPlayCutScene == false) StartCutScene();
+        if (StringView.Instance.isPlayCutScene == false) StartCutScene();
     }
 
     IEnumerator Task()
     {
-
-        yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera, 1.0f));
-        /*yield return*/
+        yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera[cameraIndex], 1.0f));
         yield return StartCoroutine(Anim());
-        yield return StartCoroutine(FadeInFadeOut(CutSceneCamera, MainCamera, 1.0f));
+        yield return StartCoroutine(FadeInFadeOut(CutSceneCamera[cameraIndex], MainCamera, 1.0f));
     }
 
     IEnumerator FadeInFadeOut(CameraAndMask fadeIn, CameraAndMask fadeOut, float time)
@@ -107,13 +117,14 @@ public class CutManager : Monument
         fadeIn.camera.SetActive(false);
 
         playerCharacter.SetActive(!playerCharacter.activeInHierarchy);
-        //cutSceneCharacters.SetActive(!cutSceneCharacters.activeInHierarchy);
         cutSceneP1.SetActive(!cutSceneP1.activeInHierarchy);
         cutSceneP2.SetActive(!cutSceneP2.activeInHierarchy);
 
-        isPlayCutScene = !isPlayCutScene;
+        StringView.Instance.cutP1 = P1Pivot.transform;
+        StringView.Instance.cutP2 = P2Pivot.transform;
+
+        StringView.Instance.isPlayCutScene = !StringView.Instance.isPlayCutScene;
         fadeOut.camera.SetActive(true);
-        //CutSceneCamera.camera.transform.LookAt(targetTransform);
 
         startTime = Time.timeSinceLevelLoad;
         diff = Time.timeSinceLevelLoad - startTime;
@@ -128,10 +139,11 @@ public class CutManager : Monument
 
     protected override IEnumerator Boot()
     {
+        int beforeAnimHash = cutAnim.GetCurrentAnimatorStateInfo(0).shortNameHash;
         if (isOn == false)
         {
             isOn = true;
-            cutAnim.SetTrigger("Open");
+            cutAnim.SetTrigger(cut.ToString());
             if (guideObjct != null && nextMonument != null) nextMonument.Guid();
             InputController.ExtendMaxDistanceLength(extendLength);
         }
@@ -139,12 +151,72 @@ public class CutManager : Monument
         {
             guideObjct.SetActive(false);
         }
-        
-        while (
-            openAnimation.GetCurrentAnimatorStateInfo(0).shortNameHash == Animator.StringToHash("New State") ||
-            openAnimation.GetCurrentAnimatorStateInfo(0).normalizedTime < (40f / 45f))//発生させたいフレーム/アニメーションの総フレーム数
+
+        bool cutChange = true;
+        if (cutChange)
         {
-            yield return null;
+
+            for (int i = 0; i < CutSceneCamera.Length - 1; i++)
+            {
+                while (
+                    cutAnim.GetCurrentAnimatorStateInfo(0).shortNameHash == beforeAnimHash ||
+                    cutAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)//発生させたいフレーム/アニメーションの総フレーム数
+                {
+                    if (cut.ToString() == "Cut3")
+                    {
+                        CutSceneCamera[cameraIndex].camera.transform.LookAt(targetTransform);
+                    }
+                    for (int j = 0; j < pt.Length; j++) {
+                        if (cutAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < (pt[j].playParticleFrame / pt[j].totalFrame))
+                        {
+                            for (int k = 0; k < pt[j].particle.Length; k++)
+                            {
+                                pt[j].particle[k].Play();
+                            }
+                        }
+                    }
+                    yield return null;
+                }
+
+                beforeAnimHash = cutAnim.GetCurrentAnimatorStateInfo(0).shortNameHash;
+
+                if (cameraIndex < CutSceneCamera.Length - 1)
+                {
+                    CutSceneCamera[cameraIndex].camera.SetActive(false);
+                    cameraIndex++;
+                    CutSceneCamera[cameraIndex].camera.SetActive(true);
+                    cutAnim.SetTrigger("Next");
+                }
+            }
+
+            while (
+                cutAnim.GetCurrentAnimatorStateInfo(0).shortNameHash == beforeAnimHash ||
+                cutAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < (playParticleFrame / totalFrame))//発生させたいフレーム/アニメーションの総フレーム数
+            {
+                CutSceneCamera[cameraIndex].camera.transform.LookAt(targetTransform);
+
+                for (int j = 0; j < pt.Length; j++)
+                {
+                    if (cutAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < (pt[j].playParticleFrame / pt[j].totalFrame))
+                    {
+                        for (int k = 0; k < pt[j].particle.Length; k++)
+                        {
+                            pt[j].particle[k].Play();
+                        }
+                    }
+                }
+                yield return null;
+            }
+        }
+        else
+        {
+            while (
+                cutAnim.GetCurrentAnimatorStateInfo(0).shortNameHash == Animator.StringToHash("New State") ||
+                cutAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < (40f / 45f))//発生させたいフレーム/アニメーションの総フレーム数
+            {
+
+                yield return null;
+            }
         }
         particle.Play();
     }

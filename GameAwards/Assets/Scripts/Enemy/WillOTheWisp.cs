@@ -27,12 +27,30 @@ public class WillOTheWisp : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        targetPosition = targets.GetComponentsInChildren<Transform>();
+        if (targets != null)
+        {
+            targetPosition = targets.GetComponentsInChildren<Transform>();
+        }
+
         source = obj.GetComponent<AudioSource>(); 
         StartCoroutine(Amplitude());
-        StartCoroutine(Move());
+        if (targets != null)
+        {
+            StartCoroutine(Move());
+        }
+        else {
+            StartCoroutine(Wait());
+        }
     }
 
+    IEnumerator Wait()
+    {
+        while (StringView.Instance.OnHitLine(obj.transform.position) == false)
+        {
+            yield return null;
+        }
+        StartCoroutine(Del());
+    }
     IEnumerator Del()
     {
 		_deathSmoke.Play();

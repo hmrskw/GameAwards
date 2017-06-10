@@ -19,12 +19,10 @@ public class StringView : MonoBehaviour {
     [SerializeField, Tooltip("終点")]
     Transform tail;
 
-    [SerializeField]
-    Transform cutP1;
-    [SerializeField]
-    Transform cutP2;
+    public Transform cutP1;
 
-    //int co = 0;
+    public Transform cutP2;
+
     Vector3 point;
 
     float coefficient;
@@ -38,8 +36,7 @@ public class StringView : MonoBehaviour {
     [SerializeField]
     Material[] mats;
 
-    [SerializeField]
-    CutScene cutScene;
+    public bool isPlayCutScene;
 
     Ray ray = new Ray();
 
@@ -106,7 +103,7 @@ public class StringView : MonoBehaviour {
 
     void Update()
     {
-		if (isSpin)
+        if (isSpin)
         {
             lineRenderer.material = mats[1];
         }
@@ -119,28 +116,21 @@ public class StringView : MonoBehaviour {
 
         length = 0f;
 
-        /*co++;
-
-        if (co % 60 == 0)
-        {
-            co = 0;
-        }*/
-
-        if (cutScene.IsPlayCutScene == false)
-        {
-            posList.Add(head.position + new Vector3(0, 3, 0));
-            point = Vector3.Lerp(point, Vector3.Lerp(head.position, tail.position, 0.5f), 0.1f * Vector3.Distance(head.position, tail.position) / (InputController.GetMaxDistanceLength()));
-        }
-        else
+        if (isPlayCutScene == true)
         {
             posList.Add(cutP1.position + new Vector3(0, 3, 0));
             point = Vector3.Lerp(point, Vector3.Lerp(cutP1.position, cutP2.position, 0.5f), 0.1f * Vector3.Distance(cutP1.position, cutP2.position) / (InputController.GetMaxDistanceLength()));
+        }
+        else
+        {
+            posList.Add(head.position + new Vector3(0, 3, 0));
+            point = Vector3.Lerp(point, Vector3.Lerp(head.position, tail.position, 0.5f), 0.1f * Vector3.Distance(head.position, tail.position) / (InputController.GetMaxDistanceLength()));
         }
 
         while (length < 1f)
         {
             length += 0.05f;
-            if (cutScene.IsPlayCutScene == false)
+            if (StringView.Instance.isPlayCutScene == false)
             {
                 posList.Add(
                     B_SplineCurve(
@@ -166,7 +156,7 @@ public class StringView : MonoBehaviour {
         
         lineRenderer.positionCount = posList.Count;
         lineRenderer.SetPositions(posList.ToArray());
-        if (cutScene.IsPlayCutScene == false)
+        if (StringView.Instance.isPlayCutScene == false)
         {
             OnPassLine();
         }
@@ -251,7 +241,7 @@ public class StringView : MonoBehaviour {
         while (length < 1f)
         {
             length += 0.01f;
-            if (cutScene.IsPlayCutScene == false)
+            if (StringView.Instance.isPlayCutScene == false)
             {
                 Vector3 curve =
                     B_SplineCurve(

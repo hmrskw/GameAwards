@@ -12,7 +12,6 @@ public class Monument : MonoBehaviour {
 
     [SerializeField]
     protected GameObject guideObjct;
-    //ParticleSystem guideParticle;
 
     [SerializeField]
     protected Monument nextMonument;
@@ -21,7 +20,6 @@ public class Monument : MonoBehaviour {
     protected float extendLength;
 
     protected Animator openAnimation;
-    //Material mat;
 
     protected bool isOn;
     public bool IsOn
@@ -31,7 +29,6 @@ public class Monument : MonoBehaviour {
     }
 
     protected float animationStart;
-    //Color objColor;
 
     void Start ()
     {
@@ -77,10 +74,9 @@ public class Monument : MonoBehaviour {
 
     public void Guid()
     {
-        if(isOn == false && guideObjct.activeInHierarchy == false/*guideParticle.isPlaying == false*/)
+        if(isOn == false && guideObjct.activeInHierarchy == false)
         {
             guideObjct.SetActive(true);
-            //guideParticle.Play();
         }
     }
 }
