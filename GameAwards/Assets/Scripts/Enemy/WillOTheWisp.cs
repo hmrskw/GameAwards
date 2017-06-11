@@ -109,7 +109,7 @@ public class WillOTheWisp : MonoBehaviour {
                     {
                         grassComponent.Wither();
                     }
-                    smoke.Play();
+                    if(smoke != null)smoke.Play();
                 }
             }
             yield return null;
