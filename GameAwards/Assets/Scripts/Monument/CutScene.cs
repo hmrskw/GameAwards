@@ -46,7 +46,7 @@ public class CutScene : Monument
     Transform cutSceneCharactersInitPosition;
 
     [SerializeField]
-    Camera cutCamera;
+    CameraAndMask[] cutCamera;
 
     void StartCutScene()
     {
@@ -70,14 +70,28 @@ public class CutScene : Monument
 
     IEnumerator Task()
     {
-        
         yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera,1.0f));
         p1.transform.localPosition = new Vector3(-4f, 0f, 0f);
         p2.transform.localPosition = new Vector3(4f, 0f, 0f);
         StartCoroutine(MoveCharacter());
         yield return StartCoroutine(MoveCamera());
         yield return StartCoroutine(FlowerAnim());
-        yield return StartCoroutine(FadeInFadeOut(CutSceneCamera, MainCamera, 1.0f));
+        if (cutCamera.Length > 0)
+        {
+            yield return StartCoroutine(FadeInFadeOut(CutSceneCamera, cutCamera[0], 1.0f));
+
+            for (int i = 1; i < cutCamera.Length; i++)
+            {
+                yield return new WaitForSeconds(1.0f);
+                yield return StartCoroutine(FadeInFadeOut(cutCamera[i - 1], cutCamera[i], 1.0f));
+            }
+            yield return new WaitForSeconds(1.0f);
+            yield return StartCoroutine(FadeInFadeOut(cutCamera[cutCamera.Length - 1], MainCamera, 1.0f));
+        }
+        else
+        {
+            yield return StartCoroutine(FadeInFadeOut(CutSceneCamera, MainCamera, 1.0f));
+        }
     }
 
     IEnumerator FadeInFadeOut(CameraAndMask fadeIn, CameraAndMask fadeOut,float time)
@@ -89,7 +103,7 @@ public class CutScene : Monument
         while (diff < (time/2f))
         {
             diff = Time.timeSinceLevelLoad - startTime;
-            maskAlpha.a = diff / (time/2);
+            maskAlpha.a = diff / (time/2f);
             fadeIn.mask.color = maskAlpha;
             yield return null;
         }
@@ -112,10 +126,10 @@ public class CutScene : Monument
 
         startTime = Time.timeSinceLevelLoad;
         diff = Time.timeSinceLevelLoad - startTime;
-        while (diff < time/2)
+        while (diff < time/2f)
         {
             diff = Time.timeSinceLevelLoad - startTime;
-            maskAlpha.a = 1 - (diff / (time / 2));
+            maskAlpha.a = 1 - (diff / (time / 2f));
             fadeOut.mask.color = maskAlpha;
             yield return null;
         }
