@@ -9,57 +9,49 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1761433755868112}
+  m_RootGameObject: {fileID: 1210068453617828}
   m_IsPrefabParent: 1
---- !u!1 &1761433755868112
+--- !u!1 &1210068453617828
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4820719394360314}
-  - component: {fileID: 114139831482417158}
+  - component: {fileID: 4327456678604332}
+  - component: {fileID: 114937844431850270}
   m_Layer: 0
-  m_Name: GrassManager
+  m_Name: ObjectPooler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4820719394360314
+--- !u!4 &4327456678604332
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1761433755868112}
+  m_GameObject: {fileID: 1210068453617828}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2207, y: 62.3, z: 801}
+  m_LocalPosition: {x: 50000, y: -100, z: 50000}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114139831482417158
+--- !u!114 &114937844431850270
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1761433755868112}
+  m_GameObject: {fileID: 1210068453617828}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9349a65c88989c9459a6ba5a5bc512b0, type: 3}
+  m_Script: {fileID: 11500000, guid: 6117817cf115373469b6f4ef25b16492, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pooler: {fileID: 0}
-  _player: {fileID: 0}
-  _lm:
-    serializedVersion: 2
-    m_Bits: 256
+  _pooledTargetObject: {fileID: 1554670856587782, guid: 6fa8a4e5925e4f04cb154c15dd708789,
+    type: 2}
+  _parent: {fileID: 4327456678604332}
   _grassData: {fileID: 11400000, guid: 4d433d5c3b05a914b989913462465aba, type: 2}
-  _textures:
-  - {fileID: 2800000, guid: b59c92ccbd188b3489788caac8fe07f2, type: 3}
-  - {fileID: 2800000, guid: 3513c072e9315c741b43e6ac513be10f, type: 3}
-  - {fileID: 2800000, guid: 24a50bd998c06a5479617f48e2da6e02, type: 3}
-  - {fileID: 2800000, guid: b4ffbdd56d330444197bbf39661bd51b, type: 3}
-  - {fileID: 2800000, guid: 7d7a9f0c6ca9e1c42bfa9904fbef463e, type: 3}
