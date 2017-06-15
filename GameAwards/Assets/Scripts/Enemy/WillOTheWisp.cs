@@ -23,6 +23,11 @@ public class WillOTheWisp : MonoBehaviour {
     [SerializeField]
     ParticleSystem smoke;
 
+    [SerializeField]
+    AudioClip[] clips;
+
+    int nowPlaingID = 0;
+
     AudioSource source;
 
     // Use this for initialization
@@ -51,6 +56,7 @@ public class WillOTheWisp : MonoBehaviour {
         }
         StartCoroutine(Del());
     }
+
     IEnumerator Del()
     {
 		_deathSmoke.Play();
@@ -72,6 +78,12 @@ public class WillOTheWisp : MonoBehaviour {
             obj.transform.position += new Vector3(Mathf.Cos(time) * 0.05f, Mathf.Sin(time)*0.1f, 0);
             time += 0.1f;
             if (Mathf.Sin(time) == 0) time = 0;
+            if (source.isPlaying == false && clips.Length > 0)
+            {
+                nowPlaingID = Random.Range(0, clips.Length);
+                source.clip = clips[nowPlaingID];
+                source.Play();
+            }
             yield return null;
         }
     }

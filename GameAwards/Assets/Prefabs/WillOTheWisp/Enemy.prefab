@@ -758,14 +758,14 @@ AudioSource:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1192571627826352}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 09e6aae8d31aba941b00e0d75262e30c, type: 3}
+  m_audioClip: {fileID: 8300000, guid: d11b92e6699bdaa4ca13f0995e1b9f5b, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -862,6 +862,24 @@ MonoBehaviour:
   _deathSmoke: {fileID: 198015579104478080, guid: 6e509c7ab2c9e3141b4f7bd6868b66cf,
     type: 2}
   smoke: {fileID: 0}
+  clips:
+  - {fileID: 8300000, guid: b4d87ab331becff4c8c7f799c775ee24, type: 3}
+  - {fileID: 8300000, guid: d11b92e6699bdaa4ca13f0995e1b9f5b, type: 3}
+  - {fileID: 8300000, guid: 27dbc521e975ce242b4fd9083723843d, type: 3}
+  - {fileID: 8300000, guid: 97aafbcca6a4db74e80883f654484fd7, type: 3}
+  - {fileID: 8300000, guid: d67d06b44d00d2b4dba213eca9c5f1c3, type: 3}
+  - {fileID: 8300000, guid: ca183d2b4cd2869429baf51952f83131, type: 3}
+  - {fileID: 8300000, guid: a25617f1791094c418ea1566275537f0, type: 3}
+  - {fileID: 8300000, guid: 601f46ae7445b654d896649698a811b2, type: 3}
+  - {fileID: 8300000, guid: 0124657b74ab35048b22102a4e42e2a4, type: 3}
+  - {fileID: 8300000, guid: 93c1bf9a7f31d704d998c6fd8b68b0d7, type: 3}
+  - {fileID: 8300000, guid: f54f822ba0b7ed04fa4d14996e58e120, type: 3}
+  - {fileID: 8300000, guid: cc3682e5165310749895f24c9a376c2d, type: 3}
+  - {fileID: 8300000, guid: 5dad4cc243b26a049aa5b9f9e2ab3389, type: 3}
+  - {fileID: 8300000, guid: 0086046201ac7d04ba74da60452c3f75, type: 3}
+  - {fileID: 8300000, guid: 0702f45a74516cf43bb4774f7334e8e0, type: 3}
+  - {fileID: 8300000, guid: d2ffc4ab2b78a844db076fdfb097495c, type: 3}
+  - {fileID: 8300000, guid: 758f0a271e649c04882a4c050c70d410, type: 3}
 --- !u!198 &198361673913920612
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -917,7 +935,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
-  randomSeed: 1407530446
+  randomSeed: 1894786052
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -6571,7 +6589,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
-  randomSeed: -1794303270
+  randomSeed: -2138382203
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -9450,7 +9468,7 @@ ParticleSystemRenderer:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1109354979817968}
   m_Enabled: 1
-  m_CastShadows: 0
+  m_CastShadows: 1
   m_ReceiveShadows: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0

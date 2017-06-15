@@ -64,7 +64,7 @@ public class CutScene : Monument
         }
 
         StringView.Instance.GrassTextureUpdate(1);
-        SoundManager.Instance.PlaySE("se object");
+        //SoundManager.Instance.PlaySE("se object");
         if (StringView.Instance.isPlayCutScene == false) StartCutScene();
     }
 
@@ -157,6 +157,7 @@ public class CutScene : Monument
 
     IEnumerator FlowerAnim()
     {
+        SoundManager.Instance.PlaySE("se check point");
         yield return StartCoroutine(Boot());
 
         while (openAnimation.GetCurrentAnimatorStateInfo(0).normalizedTime - animationStart < 1 || particle.isPlaying)

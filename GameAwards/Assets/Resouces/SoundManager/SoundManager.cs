@@ -76,7 +76,7 @@ public class SoundManager : MonoBehaviour
         //使用していないseSourceを探す
         for (int i = 0; i < seSource.Length; i++)
         {
-            if (seSource[i].clip != null && seSource[i].clip.name == seName)
+            if (seSource[i].clip != null/* && seSource[i].clip.name == seName*/)
             {
                 if (seSource[i].isPlaying == false)
                 {
