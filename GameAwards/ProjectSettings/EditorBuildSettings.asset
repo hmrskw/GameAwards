@@ -8,6 +8,3 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Misawa_Develop.unity
     guid: cc79e90f8b2da4e43a5612baf5db7643
-  - enabled: 0
-    path: Assets/Scenes/GameMain.unity
-    guid: 3655131f659c648428b4c6ccffcdad4c

@@ -58,7 +58,7 @@ public class InputController : MonoBehaviour {
         var character2Vertical = Input.GetAxis("RightVertical");
 
         pulledCharacter = PulledCharacter.NONE;
-        StringView.Instance.isSpin = false;
+        StringView.Instance.IsSpin = false;
 
         // カメラの方向から、X-Z平面の単位ベクトルを取得
         Vector3 cameraForward = Vector3.Scale(CameraPivot.transform.forward, new Vector3(1, 0, 1)).normalized;
@@ -84,7 +84,7 @@ public class InputController : MonoBehaviour {
 
             if (inputDot < -0.5f)
             {
-                StringView.Instance.isSpin = true;
+                StringView.Instance.IsSpin = true;
 
                 var heading = PlayerCharacter2.transform.position - PlayerCharacter1.transform.position;
                 var dis = heading.magnitude;
@@ -144,9 +144,25 @@ public class InputController : MonoBehaviour {
 
         PlayerCharacter1Components.playerModel.IsPulled = (pulledCharacter == PulledCharacter.CHARACTER1);
         PlayerCharacter2Components.playerModel.IsPulled = (pulledCharacter == PulledCharacter.CHARACTER2);
+
         //各キャラを移動
         PlayerCharacter1Components.playerModel.SetCharacterMoveDirection(character1MoveDirection);
         PlayerCharacter2Components.playerModel.SetCharacterMoveDirection(character2MoveDirection);
+
+        if (character1MoveDirection != Vector3.zero || character2MoveDirection != Vector3.zero)
+        {
+            if (SoundManager.Instance.IsPlayBGM("asioto") == false)
+            {
+                SoundManager.Instance.PlayBGM("asioto");
+            }
+        }
+        else
+        {
+            if (SoundManager.Instance.IsPlayBGM("asioto") == true)
+            {
+                SoundManager.Instance.StopBGM("asioto");
+            }
+        }
 
         //ジャンプ
         if (Input.GetButton("LeftJump") && PlayerCharacter1Components.playerModel.CanJump &&

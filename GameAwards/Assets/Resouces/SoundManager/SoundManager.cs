@@ -76,7 +76,7 @@ public class SoundManager : MonoBehaviour
         //使用していないseSourceを探す
         for (int i = 0; i < seSource.Length; i++)
         {
-            if (seSource[i].clip != null && seSource[i].clip.name == seName)
+            if (seSource[i].clip != null/* && seSource[i].clip.name == seName*/)
             {
                 if (seSource[i].isPlaying == false)
                 {
@@ -115,7 +115,6 @@ public class SoundManager : MonoBehaviour
             }
         }
     }
-
 
     /// <summary>
     /// BGMの音量を変更する
@@ -167,6 +166,18 @@ public class SoundManager : MonoBehaviour
         Debug.LogWarning("同時に再生できる音の数を超えたので鳴らせませんでした。");
     }
 
+    public bool IsPlayBGM(string bgmName)
+    {
+        foreach (AudioSource source in bgmSource)
+        {
+            if (source.clip != null && source.clip.name == bgmName)
+            {
+                return source.isPlaying;
+            }
+        }
+        return false;
+    }
+
     /// <summary>
     /// BGMを停止
     /// </summary>
@@ -177,7 +188,11 @@ public class SoundManager : MonoBehaviour
         {
             foreach (AudioSource source in bgmSource)
             {
-                if(source.name == bgmName) source.Stop();
+                if (source.clip != null && source.clip.name == bgmName)
+                {
+                    //Debug.Log("stop");
+                    source.Stop();
+                }
             }
         }
         else
