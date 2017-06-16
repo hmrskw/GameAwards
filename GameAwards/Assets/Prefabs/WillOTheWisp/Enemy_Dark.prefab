@@ -271,6 +271,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4426448873502862}
+  - component: {fileID: 82311022101492760}
   m_Layer: 0
   m_Name: Spilit_Dark
   m_TagString: Untagged
@@ -345,7 +346,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1770853509795718}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -70, y: 0.5, z: 7}
+  m_LocalPosition: {x: -70, y: 2, z: 7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4124171975835362}
@@ -813,6 +814,98 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1676266155613602}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!82 &82311022101492760
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1894574152808328}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: d11b92e6699bdaa4ca13f0995e1b9f5b, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 40
+  Pan2D: 0
+  rolloffMode: 2
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0.1
+      value: 1
+      inSlope: -10.0039835
+      outSlope: -10.0039835
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.2
+      value: 0.5
+      inSlope: -2.5009959
+      outSlope: -2.5009959
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.4
+      value: 0.25
+      inSlope: -0.62524897
+      outSlope: -0.62524897
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: -0.10003988
+      outSlope: -0.10003988
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!114 &114773512151491614
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -828,9 +921,26 @@ MonoBehaviour:
   obj: {fileID: 1894574152808328}
   extendLength: 1
   _grassManager: {fileID: 0}
-  _deathSmoke: {fileID: 198015579104478080, guid: 6e509c7ab2c9e3141b4f7bd6868b66cf,
-    type: 2}
+  _deathSmoke: {fileID: 198852600487728776}
   smoke: {fileID: 0}
+  clips:
+  - {fileID: 8300000, guid: b4d87ab331becff4c8c7f799c775ee24, type: 3}
+  - {fileID: 8300000, guid: d11b92e6699bdaa4ca13f0995e1b9f5b, type: 3}
+  - {fileID: 8300000, guid: 27dbc521e975ce242b4fd9083723843d, type: 3}
+  - {fileID: 8300000, guid: 97aafbcca6a4db74e80883f654484fd7, type: 3}
+  - {fileID: 8300000, guid: d67d06b44d00d2b4dba213eca9c5f1c3, type: 3}
+  - {fileID: 8300000, guid: ca183d2b4cd2869429baf51952f83131, type: 3}
+  - {fileID: 8300000, guid: a25617f1791094c418ea1566275537f0, type: 3}
+  - {fileID: 8300000, guid: 601f46ae7445b654d896649698a811b2, type: 3}
+  - {fileID: 8300000, guid: 0124657b74ab35048b22102a4e42e2a4, type: 3}
+  - {fileID: 8300000, guid: 93c1bf9a7f31d704d998c6fd8b68b0d7, type: 3}
+  - {fileID: 8300000, guid: f54f822ba0b7ed04fa4d14996e58e120, type: 3}
+  - {fileID: 8300000, guid: cc3682e5165310749895f24c9a376c2d, type: 3}
+  - {fileID: 8300000, guid: 5dad4cc243b26a049aa5b9f9e2ab3389, type: 3}
+  - {fileID: 8300000, guid: 0086046201ac7d04ba74da60452c3f75, type: 3}
+  - {fileID: 8300000, guid: 0702f45a74516cf43bb4774f7334e8e0, type: 3}
+  - {fileID: 8300000, guid: d2ffc4ab2b78a844db076fdfb097495c, type: 3}
+  - {fileID: 8300000, guid: 758f0a271e649c04882a4c050c70d410, type: 3}
 --- !u!198 &198409696733224382
 ParticleSystem:
   m_ObjectHideFlags: 1

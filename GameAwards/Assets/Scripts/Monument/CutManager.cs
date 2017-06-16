@@ -30,13 +30,6 @@ public class CutManager : Monument
         public float targetFoV;
     }
 
-    [System.Serializable]
-    public struct CameraAndMask
-    {
-        public GameObject camera;
-        public Image mask;
-    }
-
     [Space(15)]
     [SerializeField]
     CameraAndMask MainCamera;

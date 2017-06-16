@@ -8,12 +8,6 @@ using UnityEngine.Events;
 public class CutScene : Monument
 {
     
-    [System.Serializable]
-    public struct CameraAndMask
-    {
-        public GameObject camera;
-        public Image mask;
-    }
     [Space(15)]
     [SerializeField]
     CameraAndMask MainCamera;
@@ -164,6 +158,29 @@ public class CutScene : Monument
         {
             yield return null;
         }
+    }
+    override protected IEnumerator Boot()
+    {
+        if (isOn == false)
+        {
+            isOn = true;
+            yield return new WaitForSeconds(0.5f);
+            openAnimation.SetTrigger("Open");
+            if (guideObjct != null && nextMonument != null) nextMonument.Guid();
+            InputController.ExtendMaxDistanceLength(extendLength);
+        }
+        else if (guideObjct != null && guideObjct.activeInHierarchy == true)
+        {
+            guideObjct.SetActive(false);
+        }
+
+        while (
+            openAnimation.GetCurrentAnimatorStateInfo(0).shortNameHash == Animator.StringToHash("New State") ||
+            openAnimation.GetCurrentAnimatorStateInfo(0).normalizedTime < (30f / 45f))
+        {
+            yield return null;
+        }
+        particle.Play();
     }
 
     IEnumerator MoveCharacter()
