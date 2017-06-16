@@ -47,10 +47,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MaskTexLabel:
         m_Texture: {fileID: 2800000, guid: 41d6366fe3d5f0343b371a3bee2c9fea, type: 3}
-        m_Scale: {x: 1, y: 0}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskTexVessel:
-        m_Texture: {fileID: 2800000, guid: 6d1d54afbe2460744a1a7f441188df81, type: 3}
+        m_Texture: {fileID: 2800000, guid: fc2110cd2ad98cd4f93b4fa31a9e4ece, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -67,11 +67,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _PulseTex:
         m_Texture: {fileID: 2800000, guid: 2ce4570e27589ad42ba22b8c299363ba, type: 3}
-        m_Scale: {x: 4, y: 1}
+        m_Scale: {x: 3, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0
+    - _CutoffBorder: 0.1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
@@ -81,6 +82,7 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _ScrollSpeed: 5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
