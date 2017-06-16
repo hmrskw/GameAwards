@@ -17,7 +17,7 @@ public class CutManager : Monument
     [System.Serializable]
     struct PaticlesTimeing
     {
-        public float totalFrame;
+        //public float totalFrame;
         public float playParticleFrame;
         public ParticleSystem[] particle;
     }
@@ -26,19 +26,16 @@ public class CutManager : Monument
     public struct ZoomData
     {
         public int startFrame;
-        public float frameLength;
+        //public float frameLength;
         public float targetFoV;
     }
 
     [Space(15)]
+    [Header("カメラの切り替え")]
     [SerializeField]
     CameraAndMask MainCamera;
-
     [SerializeField]
     CameraAndMask[] CutSceneCamera;
-
-    [SerializeField]
-    Transform targetTransform;
     [SerializeField]
     GameObject playerCharacter;
     [SerializeField]
@@ -50,6 +47,13 @@ public class CutManager : Monument
     [SerializeField]
     Transform P2Pivot;
 
+    [SerializeField]
+    GameObject[] targetObjcts;
+    [SerializeField]
+    Transform targetTransform;
+
+    [Space(15)]
+    [Header("フレーム数に合わせてズームとパーティクルの実行を行う")]
     [SerializeField]
     Animator cutAnim;
     [SerializeField]
@@ -116,6 +120,11 @@ public class CutManager : Monument
         StringView.Instance.cutP1 = P1Pivot.transform;
         StringView.Instance.cutP2 = P2Pivot.transform;
 
+        for (int i = 0; i < targetObjcts.Length; i++)
+        {
+            targetObjcts[i].SetActive(true);
+        }
+        CutSceneCamera[cameraIndex].camera.transform.LookAt(targetTransform);
         StringView.Instance.isPlayCutScene = !StringView.Instance.isPlayCutScene;
         fadeOut.camera.SetActive(true);
 
@@ -160,7 +169,7 @@ public class CutManager : Monument
                         CutSceneCamera[cameraIndex].camera.transform.LookAt(targetTransform);
                     }
                     for (int j = 0; j < pt.Length; j++) {
-                        if (cutAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < (pt[j].playParticleFrame / pt[j].totalFrame))
+                        if (cutAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < (pt[j].playParticleFrame / totalFrame))
                         {
                             for (int k = 0; k < pt[j].particle.Length; k++)
                             {
@@ -190,7 +199,7 @@ public class CutManager : Monument
 
                 for (int j = 0; j < pt.Length; j++)
                 {
-                    if (cutAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < (pt[j].playParticleFrame / pt[j].totalFrame))
+                    if (cutAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < (pt[j].playParticleFrame / totalFrame))
                     {
                         for (int k = 0; k < pt[j].particle.Length; k++)
                         {
@@ -221,10 +230,10 @@ public class CutManager : Monument
         float diff = (Time.timeSinceLevelLoad - startTime) * 30f;
         float fov;
 
-        while (diff < zoomData[index].frameLength)
+        while (diff < totalFrame)
         {
             diff = (Time.timeSinceLevelLoad - startTime) * 30f;
-            fov = zoomCurve.Evaluate(diff / zoomData[index].frameLength);
+            fov = zoomCurve.Evaluate(diff / totalFrame);
             cutCamera.fieldOfView = Mathf.Lerp(startFov, zoomData[index].targetFoV, fov);
 
             yield return null;
