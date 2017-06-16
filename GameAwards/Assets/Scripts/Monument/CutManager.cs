@@ -10,7 +10,7 @@ public class CutManager : Monument
 {
     public enum CUT
     {
-        Cut2, Cut3, Cut4
+        Cut2, Cut3, ED
     }
     [SerializeField]
     public CUT cut;
@@ -96,7 +96,7 @@ public class CutManager : Monument
     {
         yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera[cameraIndex], 1.0f));
         yield return StartCoroutine(Anim());
-        if(cut != CUT.Cut4)
+        if(cut != CUT.ED)
             yield return StartCoroutine(FadeInFadeOut(CutSceneCamera[cameraIndex], MainCamera, 1.0f));
     }
 
@@ -192,7 +192,7 @@ public class CutManager : Monument
                 }
             }
 
-            if(cut == CUT.Cut4)
+            if(cut == CUT.ED)
             {
                 while (
                     cutAnim.GetCurrentAnimatorStateInfo(0).shortNameHash == beforeAnimHash ||
@@ -202,7 +202,7 @@ public class CutManager : Monument
                 }
                 yield return StartCoroutine(WhiteIn(CutSceneCamera[cameraIndex], 3f));
                 yield return new WaitForSeconds(1f);
-                yield return StartCoroutine(WhiteOut(CutSceneCamera[cameraIndex], 0.5f));
+                yield return StartCoroutine(WhiteOut(CutSceneCamera[cameraIndex], 1f));
             }
             while (
                 cutAnim.GetCurrentAnimatorStateInfo(0).shortNameHash == beforeAnimHash ||
@@ -291,7 +291,7 @@ public class CutManager : Monument
     IEnumerator Anim()
     {
         yield return StartCoroutine(Boot());
-        if (cut == CUT.Cut4) {
+        if (cut == CUT.ED) {
             while (openAnimation.GetCurrentAnimatorStateInfo(0).normalizedTime - animationStart < 1)
             {
                 yield return null;
