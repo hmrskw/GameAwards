@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class CutManager : Monument
 {
@@ -95,7 +96,8 @@ public class CutManager : Monument
     {
         yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera[cameraIndex], 1.0f));
         yield return StartCoroutine(Anim());
-        yield return StartCoroutine(FadeInFadeOut(CutSceneCamera[cameraIndex], MainCamera, 1.0f));
+        if(cut != CUT.Cut4)
+            yield return StartCoroutine(FadeInFadeOut(CutSceneCamera[cameraIndex], MainCamera, 1.0f));
     }
 
     IEnumerator FadeInFadeOut(CameraAndMask fadeIn, CameraAndMask fadeOut, float time)
@@ -157,7 +159,6 @@ public class CutManager : Monument
         bool cutChange = true;
         if (cutChange)
         {
-
             for (int i = 0; i < CutSceneCamera.Length - 1; i++)
             {
                 while (
@@ -191,6 +192,18 @@ public class CutManager : Monument
                 }
             }
 
+            if(cut == CUT.Cut4)
+            {
+                while (
+                    cutAnim.GetCurrentAnimatorStateInfo(0).shortNameHash == beforeAnimHash ||
+                    cutAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < (830 / totalFrame))//発生させたいフレーム/アニメーションの総フレーム数
+                {
+                    yield return null;
+                }
+                yield return StartCoroutine(WhiteIn(CutSceneCamera[cameraIndex], 3f));
+                yield return new WaitForSeconds(1f);
+                yield return StartCoroutine(WhiteOut(CutSceneCamera[cameraIndex], 0.5f));
+            }
             while (
                 cutAnim.GetCurrentAnimatorStateInfo(0).shortNameHash == beforeAnimHash ||
                 cutAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < (playParticleFrame / totalFrame))//発生させたいフレーム/アニメーションの総フレーム数
@@ -220,7 +233,7 @@ public class CutManager : Monument
                 yield return null;
             }
         }
-        particle.Play();
+        if(particle != null)particle.Play();
     }
 
     IEnumerator Zoom(int index)
@@ -241,13 +254,57 @@ public class CutManager : Monument
 
     }
 
+    IEnumerator WhiteIn(CameraAndMask fadeIn, float time)
+    {
+        float startTime = Time.timeSinceLevelLoad;
+        float diff = Time.timeSinceLevelLoad - startTime;
+        Color maskAlpha = new Color(1, 1, 1, 0);
+
+        while (diff < (time / 2f))
+        {
+            diff = Time.timeSinceLevelLoad - startTime;
+            maskAlpha.a = diff / (time / 2);
+            fadeIn.mask.color = maskAlpha;
+            yield return null;
+        }
+        //fadeIn.camera.SetActive(false);
+    }
+
+    IEnumerator WhiteOut(CameraAndMask fadeOut, float time)
+    {
+        float startTime = Time.timeSinceLevelLoad;
+        float diff = Time.timeSinceLevelLoad - startTime;
+        Color maskAlpha = new Color(1, 1, 1, 1);
+
+        startTime = Time.timeSinceLevelLoad;
+        diff = Time.timeSinceLevelLoad - startTime;
+        while (diff < time / 2)
+        {
+            diff = Time.timeSinceLevelLoad - startTime;
+            maskAlpha.a = 1 - (diff / (time / 2));
+            fadeOut.mask.color = maskAlpha;
+            yield return null;
+        }
+        //fadeIn.camera.SetActive(false);
+    }
+
     IEnumerator Anim()
     {
         yield return StartCoroutine(Boot());
-
-        while (openAnimation.GetCurrentAnimatorStateInfo(0).normalizedTime - animationStart < 1 || particle.isPlaying)
+        if (cut == CUT.Cut4) {
+            while (openAnimation.GetCurrentAnimatorStateInfo(0).normalizedTime - animationStart < 1)
+            {
+                yield return null;
+            }
+            yield return StartCoroutine(WhiteIn(CutSceneCamera[cameraIndex],2f));
+            SceneManager.LoadScene(0);
+        }
+        else
         {
-            yield return null;
+            while (openAnimation.GetCurrentAnimatorStateInfo(0).normalizedTime - animationStart < 1 || particle.isPlaying)
+            {
+                yield return null;
+            }
         }
     }
 }
