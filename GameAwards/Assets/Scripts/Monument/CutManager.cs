@@ -85,10 +85,10 @@ public class CutManager : Monument
         while (StringView.Instance.OnHitLine(transform.position) == false)
         {
             yield return null;
-        }
-
+        }        
         StringView.Instance.GrassTextureUpdate(1);
-        SoundManager.Instance.PlaySE("se object");
+        SoundManager.Instance.PlaySE("se check point");
+        //SoundManager.Instance.PlaySE("se object");
         if (StringView.Instance.isPlayCutScene == false) StartCutScene();
     }
 
@@ -128,6 +128,7 @@ public class CutManager : Monument
         }
         CutSceneCamera[cameraIndex].camera.transform.LookAt(targetTransform);
         StringView.Instance.isPlayCutScene = !StringView.Instance.isPlayCutScene;
+        SoundManager.Instance.StopBGM("asioto");
         fadeOut.camera.SetActive(true);
 
         startTime = Time.timeSinceLevelLoad;

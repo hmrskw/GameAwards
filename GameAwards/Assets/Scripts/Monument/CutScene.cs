@@ -56,6 +56,10 @@ public class CutScene : Monument
         {
             yield return null;
         }
+        if (SoundManager.Instance.IsPlayBGM("asioto") == true)
+        {
+            SoundManager.Instance.StopBGM("asioto");
+        }
 
         StringView.Instance.GrassTextureUpdate(1);
         //SoundManager.Instance.PlaySE("se object");
