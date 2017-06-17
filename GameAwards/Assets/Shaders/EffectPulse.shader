@@ -61,12 +61,15 @@ Shader "Effect/Pulsation"
 				fixed4 col3 = tex2D(_MaskTexVessel, i.uv);
 				
 				fixed alpha;
-				if(col2.r > 0.1 && col3.r > _CutoffBorder) {
-					alpha = col2.r * col3.r;
-				}
-				else {
-					alpha = 0;
-				}
+
+				//if(col2.r > 0.1 && col3.r > _CutoffBorder) {
+				//	alpha = col2.r * col3.r;
+				//}
+				//else {
+				//	alpha = 0;
+				//}
+				
+				alpha = col2.r * col3.r;
 
 				return fixed4(col.r, col.g, col.b, alpha);
 			}
