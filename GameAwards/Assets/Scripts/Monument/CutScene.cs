@@ -46,7 +46,7 @@ public class CutScene : Monument
     {
         if (StringView.Instance.isPlayCutScene == false)
         {
-            StartCoroutine(Task());
+            StartCoroutine(Task_op());
         }
     }
 
@@ -66,7 +66,7 @@ public class CutScene : Monument
         if (StringView.Instance.isPlayCutScene == false) StartCutScene();
     }
 
-    IEnumerator Task()
+    IEnumerator Task_op()
     {
         yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera,1.0f));
         p1.transform.localPosition = new Vector3(-4f, 0f, 0f);
@@ -74,6 +74,8 @@ public class CutScene : Monument
         StartCoroutine(MoveCharacter());
         yield return StartCoroutine(MoveCamera());
         yield return StartCoroutine(FlowerAnim());
+
+        //他の花を映す
         if (cutCamera.Length > 0)
         {
             yield return StartCoroutine(FadeInFadeOut(CutSceneCamera, cutCamera[0], 1.0f));
@@ -163,6 +165,7 @@ public class CutScene : Monument
             yield return null;
         }
     }
+
     override protected IEnumerator Boot()
     {
         if (isOn == false)

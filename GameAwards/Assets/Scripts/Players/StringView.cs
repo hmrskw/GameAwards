@@ -38,6 +38,27 @@ public class StringView : MonoBehaviour {
 
     public bool isPlayCutScene;
 
+    int destroyEnemyCount = 0;
+    public int DestroyEnemyCount
+    {
+        set { destroyEnemyCount += value; }
+        get { return destroyEnemyCount; }
+    }
+
+    int openFlowerCount = 0;
+    public int OpenFlowerCount
+    {
+        set { openFlowerCount += value;}
+        get { return openFlowerCount; }
+    }
+
+    int grownGrassCount = 0;
+    public int GrownGrassCount
+    {
+        set { grownGrassCount += value; }
+        get { return grownGrassCount; }
+    }
+
     Ray ray = new Ray();
 
     RaycastHit hit;
@@ -189,7 +210,9 @@ public class StringView : MonoBehaviour {
 
 					if (hit.transform.tag == "WitheredGrass")
 					{
-						_grassManager.ChangeHasGrown(_xIndex, _zIndex, true);
+                        grownGrassCount++;
+
+                        _grassManager.ChangeHasGrown(_xIndex, _zIndex, true);
 
 						var grassComponent = hit.collider.GetComponent<GrassesController>();
                         if (grassComponent != null)
@@ -273,7 +296,7 @@ public class StringView : MonoBehaviour {
                         point + new Vector3(0, 3, 0),
                         length
                     );
-                if (Vector3.Distance(new Vector2(curve.x, curve.z), new Vector2(position.x, position.z)) < 2) return true;
+                if (Vector3.Distance(new Vector3(curve.x, curve.z), new Vector3(position.x, position.z)) < 2) return true;
             }
         }
         return false;

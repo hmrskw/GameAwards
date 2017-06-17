@@ -63,6 +63,7 @@ public class Monument : MonoBehaviour {
         if (isOn == false)
         {
             isOn = true;
+            StringView.Instance.OpenFlowerCount = 1;
             particle.Play();
             yield return new WaitForSeconds(0.5f);
             openAnimation.SetTrigger("Open");
