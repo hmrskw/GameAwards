@@ -26,23 +26,47 @@ public class TitleController : MonoBehaviour {
 	[SerializeField, Tooltip("フェードアウトに掛かる時間(0秒だとゼロ除算でエラー)")]
 	float _fadeTime;
 
-	private bool _hasPushedAnyButtonAtFirst = false;
+	[SerializeField, Tooltip("プログレスバー(Slider)")]
+	Slider _slider;
+
+	[SerializeField, Tooltip("プログレスバー(Text)")]
+	Text _text;
+
+	private bool _isPushedAnyButtonOnce = false;
 	private bool _isEnableGameStartButton = false;
+	private bool _isPushedGameStartOnce = false;
+
+	AsyncOperation _ope;
+	private bool _operationCompleted = false;
+
+	/// <summary>
+	/// ロードしたシーンを有効化。
+	/// </summary>
+	public void ActivateScene()
+	{
+		if (_ope == null) return;
+		_ope.allowSceneActivation = true;
+	}
 
 	private void Update ()
 	{
-		if (!_hasPushedAnyButtonAtFirst)
+		if (_isPushedGameStartOnce) return;
+
+		if (!_isPushedAnyButtonOnce)
 		{
 			if (Input.anyKeyDown)
 			{
+				_isPushedAnyButtonOnce = true;
 				StartCoroutine(DisplayPopup());
+				StartCoroutine(LoadSceneAsync());
 			}
 		}
 
-		if (_isEnableGameStartButton)
+		if (_isEnableGameStartButton && _operationCompleted)
 		{
 			if (Input.GetButtonDown("Submit"))
 			{
+				_isPushedGameStartOnce = true;
 				StartCoroutine(GoToGamemain());
 			}
 		}
@@ -53,8 +77,8 @@ public class TitleController : MonoBehaviour {
 		_logos.SetActive(false);
 		_Popup.SetActive(true);
 
-		yield return new WaitForSeconds(3.0f);
-
+		yield return new WaitUntil(() => _operationCompleted);
+		Debug.Log("Complete!");
 		_isEnableGameStartButton = true;
 		_button.SetActive(true);
 	}
@@ -62,7 +86,7 @@ public class TitleController : MonoBehaviour {
 	private IEnumerator GoToGamemain()
 	{
 		yield return StartCoroutine(FadeOutScreen());
-		SceneManager.LoadScene(1);
+		SceneManager.UnloadSceneAsync(0);
 	}
 
 	private IEnumerator FadeOutScreen()
@@ -81,5 +105,23 @@ public class TitleController : MonoBehaviour {
 			_fadeMaskImage.color = _color;
 			yield return null;
 		}
+	}
+
+	private IEnumerator LoadSceneAsync()
+	{
+		_ope = SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive);
+		_ope.allowSceneActivation = false;
+
+		while(_ope.progress < 1.0f)
+		{
+			_slider.value = _ope.progress;
+			_text.text = (int)(_ope.progress * 100) + "%";
+			yield return null;
+		}
+
+		_slider.value = 1.0f;
+		_text.text = 100 + "%";
+
+		_operationCompleted = true;
 	}
 }
