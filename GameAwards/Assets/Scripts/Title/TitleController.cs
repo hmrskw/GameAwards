@@ -36,16 +36,24 @@ public class TitleController : MonoBehaviour {
 	private bool _isEnableGameStartButton = false;
 	private bool _isPushedGameStartOnce = false;
 
-	AsyncOperation _ope;
+	private AsyncOperation _loadOpe;
 	private bool _operationCompleted = false;
 
-	/// <summary>
-	/// ロードしたシーンを有効化。
-	/// </summary>
-	public void ActivateScene()
+	public IEnumerator LoadSceneAsync()
 	{
-		if (_ope == null) return;
-		_ope.allowSceneActivation = true;
+		_loadOpe = SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive);
+
+		while (!_loadOpe.isDone)
+		{
+			_slider.value = _loadOpe.progress;
+			_text.text = (int)(_loadOpe.progress * 100) + "%";
+			yield return null;
+		}
+
+		_slider.value = 1.0f;
+		_text.text = 100 + "%";
+
+		_operationCompleted = true;
 	}
 
 	private void Update ()
@@ -58,7 +66,6 @@ public class TitleController : MonoBehaviour {
 			{
 				_isPushedAnyButtonOnce = true;
 				StartCoroutine(DisplayPopup());
-				StartCoroutine(LoadSceneAsync());
 			}
 		}
 
@@ -67,7 +74,7 @@ public class TitleController : MonoBehaviour {
 			if (Input.GetButtonDown("Submit"))
 			{
 				_isPushedGameStartOnce = true;
-				StartCoroutine(GoToGamemain());
+				FadeManager.Instance.FadeScene(0, 3.0f, 6.0f, new Color(0, 0, 0), _loadOpe);
 			}
 		}
 	}
@@ -78,7 +85,7 @@ public class TitleController : MonoBehaviour {
 		_Popup.SetActive(true);
 
 		yield return new WaitUntil(() => _operationCompleted);
-		Debug.Log("Complete!");
+
 		_isEnableGameStartButton = true;
 		_button.SetActive(true);
 	}
@@ -105,23 +112,5 @@ public class TitleController : MonoBehaviour {
 			_fadeMaskImage.color = _color;
 			yield return null;
 		}
-	}
-
-	private IEnumerator LoadSceneAsync()
-	{
-		_ope = SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive);
-		_ope.allowSceneActivation = false;
-
-		while(_ope.progress < 1.0f)
-		{
-			_slider.value = _ope.progress;
-			_text.text = (int)(_ope.progress * 100) + "%";
-			yield return null;
-		}
-
-		_slider.value = 1.0f;
-		_text.text = 100 + "%";
-
-		_operationCompleted = true;
 	}
 }

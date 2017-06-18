@@ -1347,7 +1347,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!1001 &1865801452
+--- !u!1001 &1910617516
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2

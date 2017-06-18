@@ -50,6 +50,6 @@ public class TitlePopupController : MonoBehaviour {
 			yield return null;
 		}
 
-		_titleCtrl.ActivateScene();
+		StartCoroutine(_titleCtrl.LoadSceneAsync());
 	}
 }
