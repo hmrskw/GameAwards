@@ -87,7 +87,7 @@ public class CutManager : Monument
             yield return null;
         }        
         StringView.Instance.GrassTextureUpdate(1);
-        SoundManager.Instance.PlaySE("se check point");
+        SoundManager.Instance.PlaySE("se object");
         //SoundManager.Instance.PlaySE("se object");
         if (StringView.Instance.isPlayCutScene == false) StartCutScene();
     }
@@ -149,7 +149,7 @@ public class CutManager : Monument
         {
             isOn = true;
             cutAnim.SetTrigger(cut.ToString());
-            if (guideObjct != null && nextMonument != null) nextMonument.Guid();
+            //if (guideObjct != null && nextMonument != null) nextMonument.Guid();
             InputController.ExtendMaxDistanceLength(extendLength);
         }
         else if (guideObjct != null && guideObjct.activeInHierarchy == true)

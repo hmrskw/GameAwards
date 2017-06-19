@@ -134,7 +134,7 @@ public class Cut5 : Monument {
     IEnumerator FlowerAnim()
     {
         Destroy(moveCharacter);
-        SoundManager.Instance.PlaySE("se check point");
+        SoundManager.Instance.PlaySE("se object");
         yield return StartCoroutine(Boot());
 
         while (openAnimation.GetCurrentAnimatorStateInfo(0).normalizedTime - animationStart < 1 || particle.isPlaying)
@@ -150,7 +150,7 @@ public class Cut5 : Monument {
             isOn = true;
             yield return new WaitForSeconds(0.5f);
             openAnimation.SetTrigger("Open");
-            if (guideObjct != null && nextMonument != null) nextMonument.Guid();
+            //if (guideObjct != null && nextMonument != null) nextMonument.Guid();
             InputController.ExtendMaxDistanceLength(extendLength);
         }
         else if (guideObjct != null && guideObjct.activeInHierarchy == true)

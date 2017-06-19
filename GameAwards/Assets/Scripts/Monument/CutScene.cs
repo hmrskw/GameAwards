@@ -41,6 +41,8 @@ public class CutScene : Monument
 
     [SerializeField]
     CameraAndMask[] cutCamera;
+    [SerializeField]
+    Monument[] guids;
 
     void StartCutScene()
     {
@@ -68,7 +70,23 @@ public class CutScene : Monument
 
     IEnumerator Task_op()
     {
-        yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera,1.0f));
+        yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera,1.0f,
+            () => {
+                playerCharacter.SetActive(!playerCharacter.activeInHierarchy);
+                cutSceneCharacters.SetActive(!cutSceneCharacters.activeInHierarchy);
+                if (cutSceneCharacters.activeInHierarchy == true)
+                {
+                    cutSceneCharacters.transform.position = cutSceneCharactersInitPosition.position;
+                    cutSceneCharacters.transform.rotation = cutSceneCharactersInitPosition.rotation;
+                }
+
+                StringView.Instance.cutP1 = p1.transform;
+                StringView.Instance.cutP2 = p2.transform;
+                StringView.Instance.isPlayCutScene = !StringView.Instance.isPlayCutScene;
+                CutSceneCamera.camera.transform.LookAt(targetTransform);
+            }
+        ));
+
         p1.transform.localPosition = new Vector3(-4f, 0f, 0f);
         p2.transform.localPosition = new Vector3(4f, 0f, 0f);
         StartCoroutine(MoveCharacter());
@@ -78,24 +96,86 @@ public class CutScene : Monument
         //他の花を映す
         if (cutCamera.Length > 0)
         {
-            yield return StartCoroutine(FadeInFadeOut(CutSceneCamera, cutCamera[0], 1.0f));
+            yield return StartCoroutine(FadeInFadeOut(CutSceneCamera, cutCamera[0], 1.0f,null));
 
             for (int i = 1; i < cutCamera.Length; i++)
             {
+                Debug.Log("cut" + i);
+                guids[i - 1].Guid();
                 yield return new WaitForSeconds(1.0f);
-                yield return StartCoroutine(FadeInFadeOut(cutCamera[i - 1], cutCamera[i], 1.0f));
+                yield return StartCoroutine(FadeInFadeOut(cutCamera[i - 1], cutCamera[i], 1.0f,null));
             }
+            guids[cutCamera.Length - 1].Guid();
             yield return new WaitForSeconds(1.0f);
-            yield return StartCoroutine(FadeInFadeOut(cutCamera[cutCamera.Length - 1], MainCamera, 1.0f));
+            yield return StartCoroutine(FadeInFadeOut(cutCamera[cutCamera.Length - 1], MainCamera, 1.0f, () => {
+                playerCharacter.SetActive(!playerCharacter.activeInHierarchy);
+                cutSceneCharacters.SetActive(!cutSceneCharacters.activeInHierarchy);
+                if (cutSceneCharacters.activeInHierarchy == true)
+                {
+                    cutSceneCharacters.transform.position = cutSceneCharactersInitPosition.position;
+                    cutSceneCharacters.transform.rotation = cutSceneCharactersInitPosition.rotation;
+                }
+
+                StringView.Instance.cutP1 = p1.transform;
+                StringView.Instance.cutP2 = p2.transform;
+                StringView.Instance.isPlayCutScene = !StringView.Instance.isPlayCutScene;
+                CutSceneCamera.camera.transform.LookAt(targetTransform);
+            }));
         }
         else
         {
-            yield return StartCoroutine(FadeInFadeOut(CutSceneCamera, MainCamera, 1.0f));
+            yield return StartCoroutine(FadeInFadeOut(CutSceneCamera, MainCamera, 1.0f,
+                () => {
+                    playerCharacter.SetActive(!playerCharacter.activeInHierarchy);
+                    cutSceneCharacters.SetActive(!cutSceneCharacters.activeInHierarchy);
+                    if (cutSceneCharacters.activeInHierarchy == true)
+                    {
+                        cutSceneCharacters.transform.position = cutSceneCharactersInitPosition.position;
+                        cutSceneCharacters.transform.rotation = cutSceneCharactersInitPosition.rotation;
+                    }
+
+                    StringView.Instance.cutP1 = p1.transform;
+                    StringView.Instance.cutP2 = p2.transform;
+                    StringView.Instance.isPlayCutScene = !StringView.Instance.isPlayCutScene;
+                    CutSceneCamera.camera.transform.LookAt(targetTransform);
+                }
+            ));
         }
     }
 
-    IEnumerator FadeInFadeOut(CameraAndMask fadeIn, CameraAndMask fadeOut,float time)
+    IEnumerator FadeOut(CameraAndMask fadeOut, float time)
     {
+        float startTime = Time.timeSinceLevelLoad;
+        float diff = Time.timeSinceLevelLoad - startTime;
+        Color maskAlpha = new Color(0, 0, 0, 0);
+
+        while (diff < (time))
+        {
+            diff = Time.timeSinceLevelLoad - startTime;
+            maskAlpha.a = diff / (time);
+            fadeOut.mask.color = maskAlpha;
+            yield return null;
+        }
+    }
+
+    IEnumerator FadeIn(CameraAndMask fadeIn, float time)
+    {
+        float startTime = Time.timeSinceLevelLoad;
+        float diff = Time.timeSinceLevelLoad - startTime;
+        Color maskAlpha = new Color(0, 0, 0, 1);
+
+        while (diff < time)
+        {
+            diff = Time.timeSinceLevelLoad - startTime;
+            maskAlpha.a = 1 - (diff / (time));
+            fadeIn.mask.color = maskAlpha;
+            yield return null;
+        }
+    }
+
+    IEnumerator FadeInFadeOut(CameraAndMask fadeOut, CameraAndMask fadeIn,float time,Action func)
+    {
+        /*
         float startTime = Time.timeSinceLevelLoad;
         float diff = Time.timeSinceLevelLoad - startTime;
         Color maskAlpha = new Color(0,0,0,0);
@@ -107,23 +187,31 @@ public class CutScene : Monument
             fadeIn.mask.color = maskAlpha;
             yield return null;
         }
-        fadeIn.camera.SetActive(false);
+        */
+        yield return StartCoroutine(FadeOut(fadeOut,time/2f));
+        fadeOut.camera.SetActive(false);
+        if (func != null)func();
+        fadeIn.camera.SetActive(true);
 
-        playerCharacter.SetActive(!playerCharacter.activeInHierarchy);
+        //fadeOut.camera.SetActive(false);
 
-        cutSceneCharacters.SetActive(!cutSceneCharacters.activeInHierarchy);
-        if(cutSceneCharacters.activeInHierarchy == true)
-        {
-            cutSceneCharacters.transform.position = cutSceneCharactersInitPosition.position;
-            cutSceneCharacters.transform.rotation = cutSceneCharactersInitPosition.rotation;
-        }
+        //playerCharacter.SetActive(!playerCharacter.activeInHierarchy);
+        //cutSceneCharacters.SetActive(!cutSceneCharacters.activeInHierarchy);
+        //if(cutSceneCharacters.activeInHierarchy == true)
+        //{
+        //    cutSceneCharacters.transform.position = cutSceneCharactersInitPosition.position;
+        //    cutSceneCharacters.transform.rotation = cutSceneCharactersInitPosition.rotation;
+        //}
 
-        StringView.Instance.cutP1 = p1.transform;
-        StringView.Instance.cutP2 = p2.transform;
-        StringView.Instance.isPlayCutScene = !StringView.Instance.isPlayCutScene;
-        fadeOut.camera.SetActive(true);
-        CutSceneCamera.camera.transform.LookAt(targetTransform);
+        //StringView.Instance.cutP1 = p1.transform;
+        //StringView.Instance.cutP2 = p2.transform;
+        //StringView.Instance.isPlayCutScene = !StringView.Instance.isPlayCutScene;
+        //fadeOut.camera.SetActive(true);
+        //CutSceneCamera.camera.transform.LookAt(targetTransform);
 
+        yield return StartCoroutine(FadeIn(fadeIn, time / 2f));
+
+        /*
         startTime = Time.timeSinceLevelLoad;
         diff = Time.timeSinceLevelLoad - startTime;
         while (diff < time/2f)
@@ -133,6 +221,7 @@ public class CutScene : Monument
             fadeOut.mask.color = maskAlpha;
             yield return null;
         }
+        */
     }
 
     IEnumerator MoveCamera()
@@ -157,7 +246,7 @@ public class CutScene : Monument
 
     IEnumerator FlowerAnim()
     {
-        SoundManager.Instance.PlaySE("se check point");
+        SoundManager.Instance.PlaySE("se object");
         yield return StartCoroutine(Boot());
 
         while (openAnimation.GetCurrentAnimatorStateInfo(0).normalizedTime - animationStart < 1 || particle.isPlaying)
@@ -173,7 +262,7 @@ public class CutScene : Monument
             isOn = true;
             yield return new WaitForSeconds(0.5f);
             openAnimation.SetTrigger("Open");
-            if (guideObjct != null && nextMonument != null) nextMonument.Guid();
+            //if (guideObjct != null && nextMonument != null) nextMonument.Guid();
             InputController.ExtendMaxDistanceLength(extendLength);
         }
         else if (guideObjct != null && guideObjct.activeInHierarchy == true)
