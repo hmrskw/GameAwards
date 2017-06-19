@@ -1308,7 +1308,7 @@ ParticleSystem:
         m_RotationOrder: 4
     y:
       minMaxState: 0
-      scalar: 2.5
+      scalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2490,7 +2490,7 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
     widthOverTrail:
       minMaxState: 0
-      scalar: 1.5
+      scalar: 4
       maxCurve:
         serializedVersion: 2
         m_Curve:

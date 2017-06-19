@@ -217,15 +217,17 @@ public class StringView : MonoBehaviour {
 						var grassComponent = hit.collider.GetComponent<GrassesController>();
                         if (grassComponent != null)
                         {
-							int _textureIndex = _grassManager.GetRandomTextureIndex(_texIndex + 1);
 							int _dpIndex = _grassManager.GetDummyPoint(_xIndex, _zIndex).TexIndex;
 
-							if (_dpIndex == 0)
+							int _textureIndex = _texIndex;
+							if(_texIndex != 0)
 							{
-								if (_dpIndex != _texIndex)
-								{
-									_grassManager.ChangeTexIndex(_xIndex, _zIndex, _textureIndex);
-								}
+								_textureIndex = _grassManager.GetRandomTextureIndex(_texIndex + 1);
+							}
+
+							if (_dpIndex != _texIndex)
+							{
+								_grassManager.ChangeTexIndex(_xIndex, _zIndex, _textureIndex);
 							}
 
 							grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_textureIndex));
@@ -240,14 +242,16 @@ public class StringView : MonoBehaviour {
 						{
 							int _dpTexIndex = _grassManager.GetDummyPoint(_xIndex, _zIndex).TexIndex;
 
-							if (_dpTexIndex == 0)
+							int _textureIndex = _texIndex;
+							if (_texIndex != 0)
 							{
-								if (_dpTexIndex != _texIndex)
-								{
-									int _textureIndex = _grassManager.GetRandomTextureIndex(_texIndex + 1);
-									_grassManager.ChangeTexIndex(_xIndex, _zIndex, _textureIndex);
-									grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_textureIndex));
-								}
+								_textureIndex = _grassManager.GetRandomTextureIndex(_texIndex + 1);
+							}
+
+							if (_dpTexIndex != _texIndex)
+							{
+								_grassManager.ChangeTexIndex(_xIndex, _zIndex, _textureIndex);
+								grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_textureIndex));
 							}
 						}
 					}
