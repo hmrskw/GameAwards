@@ -116,6 +116,7 @@ public class CutManager : Monument
             yield return null;
         }
         fadeIn.camera.SetActive(false);
+        guideObjct.SetActive(false);
 
         playerCharacter.SetActive(!playerCharacter.activeInHierarchy);
         cutSceneP1.SetActive(!cutSceneP1.activeInHierarchy);
@@ -205,7 +206,6 @@ public class CutManager : Monument
                     {
                         pulse.baseScale -= new Vector3(0.01f, 0.01f, 0.01f);
                     }
-                    Debug.Log(pulse.baseScale);
                     yield return null;
                 }
                 yield return StartCoroutine(WhiteIn(CutSceneCamera[cameraIndex], 3f));

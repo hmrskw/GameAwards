@@ -72,7 +72,7 @@ public class Cut5 : Monument {
 
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera, 1.0f));
-        isOn = false;
+        //isOn = false;
         //yield return StartCoroutine(MoveCamera());
         yield return StartCoroutine(FlowerAnim());
         wall.SetActive(false);
@@ -98,6 +98,7 @@ public class Cut5 : Monument {
         StringView.Instance.cutP2 = p2.transform;
         StringView.Instance.isPlayCutScene = !StringView.Instance.isPlayCutScene;
 
+        guideObjct.SetActive(false);
         fadeOut.camera.SetActive(true);
         CutSceneCamera.camera.transform.LookAt(cameraTargetTransform);
 
@@ -177,7 +178,7 @@ public class Cut5 : Monument {
                 {
                     SoundManager.Instance.StopBGM("asioto");
                 }
-                isOn = true;
+                //isOn = true;
                 StartCutScene();
             }
         }

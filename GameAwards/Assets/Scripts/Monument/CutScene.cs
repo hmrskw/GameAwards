@@ -72,6 +72,7 @@ public class CutScene : Monument
     {
         yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera,1.0f,
             () => {
+                guideObjct.SetActive(false);
                 playerCharacter.SetActive(!playerCharacter.activeInHierarchy);
                 cutSceneCharacters.SetActive(!cutSceneCharacters.activeInHierarchy);
                 if (cutSceneCharacters.activeInHierarchy == true)
