@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Cut5 : Monument {
-    [Space(15)]
     [SerializeField]
     CameraAndMask MainCamera;
 
@@ -32,6 +31,14 @@ public class Cut5 : Monument {
     [SerializeField]
     int enemyTargetValue;
 
+    [Space(15)]
+    [SerializeField]
+    CameraAndMask GoalSceneCamera;
+    [SerializeField]
+    ParticleSystem wind;
+
+    bool isEvent = false;
+
     void StartCutScene()
     {
         if (StringView.Instance.isPlayCutScene == false)
@@ -59,27 +66,41 @@ public class Cut5 : Monument {
     IEnumerator Task()
     {
         int initialDestroyEnemyCount = StringView.Instance.DestroyEnemyCount;
-        yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera, 1.0f));
+        yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera, 1.0f, ChangePlayer));
         wall.SetActive(true);
         yield return StartCoroutine(MoveCamera());
 
         yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(FadeInFadeOut(CutSceneCamera, MainCamera, 1.0f));
-        while(StringView.Instance.DestroyEnemyCount -initialDestroyEnemyCount < enemyTargetValue)
+        yield return StartCoroutine(FadeInFadeOut(CutSceneCamera, MainCamera, 1.0f, ChangePlayer));
+
+        while (StringView.Instance.DestroyEnemyCount -initialDestroyEnemyCount < enemyTargetValue)
         {
             yield return null;
         }
 
         yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera, 1.0f));
+        yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera, 1.0f, ChangePlayer));
         //isOn = false;
         //yield return StartCoroutine(MoveCamera());
         yield return StartCoroutine(FlowerAnim());
         wall.SetActive(false);
-        yield return StartCoroutine(FadeInFadeOut(CutSceneCamera, MainCamera, 1.0f));
+        yield return StartCoroutine(FadeInFadeOut(CutSceneCamera, GoalSceneCamera, 1.0f,null));
+        wind.Stop();
+        yield return new WaitForSeconds(5f);
+        yield return StartCoroutine(FadeInFadeOut(GoalSceneCamera, MainCamera, 1.0f, ChangePlayer));
     }
 
-    IEnumerator FadeInFadeOut(CameraAndMask fadeIn, CameraAndMask fadeOut, float time)
+    void ChangePlayer()
+    {
+        StringView.Instance.cutP1 = p1.transform;
+        StringView.Instance.cutP2 = p2.transform;
+        StringView.Instance.isPlayCutScene = !StringView.Instance.isPlayCutScene;
+
+        guideObjct.SetActive(false);
+        CutSceneCamera.camera.transform.LookAt(cameraTargetTransform);
+    }
+
+    /*IEnumerator FadeInFadeOut(CameraAndMask fadeIn, CameraAndMask fadeOut, float time)
     {
         float startTime = Time.timeSinceLevelLoad;
         float diff = Time.timeSinceLevelLoad - startTime;
@@ -111,7 +132,7 @@ public class Cut5 : Monument {
             fadeOut.mask.color = maskAlpha;
             yield return null;
         }
-    }
+    }*/
 
     IEnumerator MoveCamera()
     {
@@ -149,6 +170,7 @@ public class Cut5 : Monument {
         if (isOn == false)
         {
             isOn = true;
+            isEvent = false;
             yield return new WaitForSeconds(0.5f);
             openAnimation.SetTrigger("Open");
             //if (guideObjct != null && nextMonument != null) nextMonument.Guid();
@@ -170,7 +192,7 @@ public class Cut5 : Monument {
 
     void OnTriggerEnter(Collider col)
     {
-        if (isOn == false && StringView.Instance.isPlayCutScene == false)
+        if (isOn == false && isEvent == false && StringView.Instance.isPlayCutScene == false)
         {
             if (col.gameObject.tag == "Player")
             {
@@ -179,6 +201,7 @@ public class Cut5 : Monument {
                     SoundManager.Instance.StopBGM("asioto");
                 }
                 //isOn = true;
+                isEvent = true;
                 StartCutScene();
             }
         }

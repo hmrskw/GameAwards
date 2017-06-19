@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -83,4 +84,46 @@ public class Monument : MonoBehaviour {
             guideObjct.SetActive(true);
         }
     }
+
+    protected IEnumerator FadeOut(CameraAndMask fadeOut, float time)
+    {
+        float startTime = Time.timeSinceLevelLoad;
+        float diff = Time.timeSinceLevelLoad - startTime;
+        Color maskAlpha = new Color(0, 0, 0, 0);
+
+        while (diff < (time))
+        {
+            diff = Time.timeSinceLevelLoad - startTime;
+            maskAlpha.a = diff / (time);
+            fadeOut.mask.color = maskAlpha;
+            yield return null;
+        }
+    }
+
+    protected IEnumerator FadeIn(CameraAndMask fadeIn, float time)
+    {
+        float startTime = Time.timeSinceLevelLoad;
+        float diff = Time.timeSinceLevelLoad - startTime;
+        Color maskAlpha = new Color(0, 0, 0, 1);
+
+        while (diff < time)
+        {
+            diff = Time.timeSinceLevelLoad - startTime;
+            maskAlpha.a = 1 - (diff / (time));
+            fadeIn.mask.color = maskAlpha;
+            yield return null;
+        }
+    }
+
+    protected IEnumerator FadeInFadeOut(CameraAndMask fadeOut, CameraAndMask fadeIn, float time, Action func)
+    {
+        yield return StartCoroutine(FadeOut(fadeOut, time / 2f));
+
+        fadeOut.camera.SetActive(false);
+        if (func != null) func();
+        fadeIn.camera.SetActive(true);
+
+        yield return StartCoroutine(FadeIn(fadeIn, time / 2f));
+    }
+
 }

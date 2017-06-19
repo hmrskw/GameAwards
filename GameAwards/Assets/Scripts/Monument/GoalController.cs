@@ -19,8 +19,8 @@ public class GoalController : MonoBehaviour
     [SerializeField]
     GameObject windObj;
 
-    [SerializeField]
-    ParticleSystem windParticle;
+    //[SerializeField]
+    //ParticleSystem windParticle;
 
     [SerializeField]
     GameObject pulseObj;
@@ -51,9 +51,9 @@ public class GoalController : MonoBehaviour
         CutSceneCamera.camera.SetActive(true);
         yield return StartCoroutine(FadeIn(CutSceneCamera, 1));
 
-        windParticle.Stop();
+        //windParticle.Stop();
         pulseObj.gameObject.SetActive(true);
-        yield return new WaitForSeconds(5f);
+        //yield return new WaitForSeconds(5f);
         windObj.SetActive(false);
 
         yield return StartCoroutine(FadeOut(CutSceneCamera, 1));

@@ -72,6 +72,13 @@ public class CutManager : Monument
     [SerializeField]
     PulseController pulse;
 
+    [Space(15)]
+    [SerializeField]
+    CameraAndMask GoalSceneCamera;
+    [SerializeField]
+    ParticleSystem wind;
+
+
     int cameraIndex = 0;
 
     void StartCutScene()
@@ -87,7 +94,7 @@ public class CutManager : Monument
         while (StringView.Instance.OnHitLine(monument.transform.position) == false)
         {
             yield return null;
-        }        
+        }
         StringView.Instance.GrassTextureUpdate(1);
         SoundManager.Instance.PlaySE("se object");
         //SoundManager.Instance.PlaySE("se object");
@@ -96,12 +103,54 @@ public class CutManager : Monument
 
     IEnumerator Task()
     {
-        yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera[cameraIndex], 1.0f));
+        yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera[cameraIndex], 1.0f,()=> {
+            guideObjct.SetActive(false);
+
+            playerCharacter.SetActive(!playerCharacter.activeInHierarchy);
+            cutSceneP1.SetActive(!cutSceneP1.activeInHierarchy);
+            cutSceneP2.SetActive(!cutSceneP2.activeInHierarchy);
+
+            StringView.Instance.cutP1 = P1Pivot.transform;
+            StringView.Instance.cutP2 = P2Pivot.transform;
+
+            for (int i = 0; i < targetObjcts.Length; i++)
+            {
+                targetObjcts[i].SetActive(true);
+            }
+            CutSceneCamera[cameraIndex].camera.transform.LookAt(targetTransform);
+            StringView.Instance.isPlayCutScene = !StringView.Instance.isPlayCutScene;
+            SoundManager.Instance.StopBGM("asioto");
+        }));
         yield return StartCoroutine(Anim());
-        if(cut != CUT.ED)
-            yield return StartCoroutine(FadeInFadeOut(CutSceneCamera[cameraIndex], MainCamera, 1.0f));
+        if (cut != CUT.ED)
+        {
+            yield return StartCoroutine(FadeInFadeOut(CutSceneCamera[cameraIndex], GoalSceneCamera, 1.0f,null));
+
+            wind.Stop();
+            yield return new WaitForSeconds(5f);
+
+            yield return StartCoroutine(FadeInFadeOut(GoalSceneCamera, MainCamera, 1.0f, () => {
+                guideObjct.SetActive(false);
+
+                playerCharacter.SetActive(!playerCharacter.activeInHierarchy);
+                cutSceneP1.SetActive(!cutSceneP1.activeInHierarchy);
+                cutSceneP2.SetActive(!cutSceneP2.activeInHierarchy);
+
+                StringView.Instance.cutP1 = P1Pivot.transform;
+                StringView.Instance.cutP2 = P2Pivot.transform;
+
+                for (int i = 0; i < targetObjcts.Length; i++)
+                {
+                    targetObjcts[i].SetActive(true);
+                }
+                CutSceneCamera[cameraIndex].camera.transform.LookAt(targetTransform);
+                StringView.Instance.isPlayCutScene = !StringView.Instance.isPlayCutScene;
+                SoundManager.Instance.StopBGM("asioto");
+            }));
+        }
     }
 
+    /*
     IEnumerator FadeInFadeOut(CameraAndMask fadeIn, CameraAndMask fadeOut, float time)
     {
         float startTime = Time.timeSinceLevelLoad;
@@ -144,6 +193,7 @@ public class CutManager : Monument
             yield return null;
         }
     }
+    */
 
     protected override IEnumerator Boot()
     {
