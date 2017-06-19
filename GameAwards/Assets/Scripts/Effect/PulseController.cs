@@ -25,11 +25,12 @@ public class PulseController : MonoBehaviour
 	[SerializeField]
 	MeshRenderer _renderer;
 
-	private Vector3 _baseScale;
+    [HideInInspector]
+	public Vector3 baseScale;
 
 	void Start ()
 	{
-		_baseScale = transform.localScale;
+		baseScale = transform.localScale;
 		StartCoroutine(Pulse());
 	}
 
@@ -47,7 +48,7 @@ public class PulseController : MonoBehaviour
 				_elapsedTimeRatio = _elapsedTime / _animationTime;
 				float _curveValue = _curve.Evaluate(_elapsedTimeRatio);
 
-				transform.localScale = _baseScale + (_scalingDiff * _curveValue);
+				transform.localScale = baseScale + (_scalingDiff * _curveValue);
 
 				_mat.SetFloat("_InputAlpha", _curveValue);
 				_renderer.SetPropertyBlock(_mat);
