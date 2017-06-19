@@ -14,7 +14,7 @@ public class Monument : MonoBehaviour {
     }
 
     [SerializeField]
-    GameObject monument;
+    protected GameObject monument;
 
     [SerializeField]
     public ParticleSystem particle;

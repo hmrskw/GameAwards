@@ -69,6 +69,8 @@ public class CutManager : Monument
     PaticlesTimeing[] pt;
     [SerializeField]
     Camera cutCamera;
+    [SerializeField]
+    PulseController pulse;
 
     int cameraIndex = 0;
 
@@ -82,7 +84,7 @@ public class CutManager : Monument
 
     override protected IEnumerator Wait()
     {
-        while (StringView.Instance.OnHitLine(transform.position) == false)
+        while (StringView.Instance.OnHitLine(monument.transform.position) == false)
         {
             yield return null;
         }        
@@ -199,6 +201,11 @@ public class CutManager : Monument
                     cutAnim.GetCurrentAnimatorStateInfo(0).shortNameHash == beforeAnimHash ||
                     cutAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < (830 / totalFrame))//発生させたいフレーム/アニメーションの総フレーム数
                 {
+                    if (pulse.baseScale.x > 0)
+                    {
+                        pulse.baseScale -= new Vector3(0.01f, 0.01f, 0.01f);
+                    }
+                    Debug.Log(pulse.baseScale);
                     yield return null;
                 }
                 yield return StartCoroutine(WhiteIn(CutSceneCamera[cameraIndex], 3f));
