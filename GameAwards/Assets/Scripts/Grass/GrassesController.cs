@@ -3,6 +3,13 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// ******************************************************
+/// 制作者：丸本慶大
+/// ******************************************************
+/// 草オブジェクトをいくつかまとめたブロックで管理するため
+/// そのブロック内の草をまとめてコントロールするクラス。
+/// </summary>
 public class GrassesController : MonoBehaviour {
 	[SerializeField]
 	List<Grass> _grasses;

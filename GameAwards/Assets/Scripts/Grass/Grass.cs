@@ -3,6 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// ******************************************************
+/// 制作者：丸本慶大
+/// ******************************************************
+/// 草オブジェクト一つ一つを管理するクラス。
+/// </summary>
 public class Grass : MonoBehaviour
 {
 	[SerializeField]
@@ -17,6 +23,15 @@ public class Grass : MonoBehaviour
 	private bool _isAnimation = false;
 	private IEnumerator _coroutine;
 
+	/// <summary>
+	/// 草オブジェクトにデータを格納します。
+	/// </summary>
+	/// <param name="_randomMin"></param>
+	/// <param name="_randomMax"></param>
+	/// <param name="_growthBaseTime"></param>
+	/// <param name="_witherBaseTime"></param>
+	/// <param name="_curve"></param>
+	/// <param name="_changeCurve"></param>
 	public void Setup(Vector3 _randomMin, Vector3 _randomMax, float _growthBaseTime, float _witherBaseTime, AnimationCurve _curve, AnimationCurve _changeCurve)
 	{
 		_animationCurve = _curve;
@@ -64,6 +79,10 @@ public class Grass : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// 草が枯らされるときのアニメーション。
+	/// </summary>
+	/// <returns></returns>
 	public IEnumerator Wither()
 	{
         if (_isAnimation) yield break;
@@ -91,6 +110,9 @@ public class Grass : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// 強制的にScaleを0にして、状態も生えてないものに変えます。
+	/// </summary>
 	public void ForceScaleZero()
 	{
 		if (_coroutine != null)
@@ -103,6 +125,11 @@ public class Grass : MonoBehaviour
 		transform.localScale = Vector3.zero;
 	}
 
+	/// <summary>
+	/// テクスチャがさし変わったときのアニメーション。
+	/// </summary>
+	/// <param name="_act"></param>
+	/// <returns></returns>
 	public IEnumerator GrowthChangedTexture(Action _act)
 	{
 		_isAnimation = true;

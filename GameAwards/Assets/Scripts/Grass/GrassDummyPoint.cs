@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// ******************************************************
+/// 制作者：丸本慶大
+/// ******************************************************
+/// ダミーポイント一つごとを管理するクラス。
+/// 基本的にデータを持つ。
+/// </summary>
 public class GrassDummyPoint
 {
 	public Vector3 Position { get; private set; }

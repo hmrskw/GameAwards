@@ -10,6 +10,13 @@ enum MoveDirection
 	Back    = -1
 }
 
+/// <summary>
+/// ******************************************************
+/// 制作者：丸本慶大
+/// ******************************************************
+/// チャンクロード方式を管理するクラス。
+/// 一定範囲のみ草を読み込んで生やす。
+/// </summary>
 public class GrassManager : MonoBehaviour {
 	[SerializeField]
 	ObjectPooler _pooler;
@@ -88,17 +95,33 @@ public class GrassManager : MonoBehaviour {
 		_maptipsDummyPoint[_zIndex, _xIndex].SetTexIndex(_texIndex);
 	}
 
+	/// <summary>
+	/// インデックスからダミーポイントを取得し返却する。
+	/// </summary>
+	/// <param name="_xIndex"></param>
+	/// <param name="_zIndex"></param>
+	/// <returns></returns>
 	public GrassDummyPoint GetDummyPoint(int _xIndex, int _zIndex)
 	{
 		return _maptipsDummyPoint[_zIndex, _xIndex];
 	}
 
+	/// <summary>
+	/// 与えられたインデックスに応じたテクスチャをセットしたMaterialPropetyBlockを返す。
+	/// </summary>
+	/// <param name="_texIndex"></param>
+	/// <returns></returns>
 	public MaterialPropertyBlock GetMatPropBlock(int _texIndex)
 	{
 		_matPropBlock.SetTexture("_MainTex", _textures[_texIndex]);
 		return _matPropBlock;
 	}
 
+	/// <summary>
+	/// 1から引数で与えられた数値までのランダム値を返却。
+	/// </summary>
+	/// <param name="_maxTexCount"></param>
+	/// <returns></returns>
 	public int GetRandomTextureIndex(int _maxTexCount)
 	{
 		return Random.Range(1, _maxTexCount);

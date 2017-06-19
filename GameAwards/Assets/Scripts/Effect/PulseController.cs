@@ -8,7 +8,7 @@ using UnityEngine;
 /// 2017/06/18
 /// 
 /// 脈シェーダをアタッチしたオブジェクトを
-/// 一定周期で脈動させる。
+/// 一定周期で脈動させるためのコード。
 /// ********************************************
 /// </summary>
 public class PulseController : MonoBehaviour
