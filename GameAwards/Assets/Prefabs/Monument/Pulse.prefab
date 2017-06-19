@@ -37,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1125342994118238}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1874.66, y: 12.776723, z: 793.39185}
+  m_LocalPosition: {x: 1803.2, y: 8.62, z: 793.39185}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
@@ -103,14 +103,20 @@ MonoBehaviour:
       outSlope: 0
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.10014954
-      value: 1
+      time: 0.50381505
+      value: 0.005335495
+      inSlope: 0.0039341673
+      outSlope: 0.0039341673
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.6514648
+      value: 0.9996643
       inSlope: 0
       outSlope: 0
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.2
-      value: 0
+      time: 0.79236907
+      value: 0.00012207031
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -125,6 +131,7 @@ MonoBehaviour:
     m_RotationOrder: 0
   _animationTime: 2
   _scalingDiff: {x: 2, y: 2, z: 2}
+  _renderer: {fileID: 23460973276422974}
 --- !u!135 &135180135910561166
 SphereCollider:
   m_ObjectHideFlags: 1
