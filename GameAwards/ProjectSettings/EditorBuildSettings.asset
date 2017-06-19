@@ -6,5 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Title.unity
+    guid: d6dcc48fae6acd04197123bcd99effa6
+  - enabled: 1
     path: Assets/Scenes/Misawa_Develop.unity
     guid: cc79e90f8b2da4e43a5612baf5db7643

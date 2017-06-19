@@ -1,8 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
+[System.Serializable]
 public class Monument : MonoBehaviour {
+
+    [System.Serializable]
+    public struct CameraAndMask
+    {
+        public GameObject camera;
+        public Image mask;
+    }
 
     [SerializeField]
     GameObject monument;
@@ -54,6 +63,9 @@ public class Monument : MonoBehaviour {
         if (isOn == false)
         {
             isOn = true;
+            StringView.Instance.OpenFlowerCount = 1;
+            particle.Play();
+            yield return new WaitForSeconds(0.5f);
             openAnimation.SetTrigger("Open");
             if(guideObjct != null && nextMonument != null) nextMonument.Guid();
             InputController.ExtendMaxDistanceLength(extendLength);
@@ -62,14 +74,6 @@ public class Monument : MonoBehaviour {
         {
             guideObjct.SetActive(false);
         }
-
-        while (
-            openAnimation.GetCurrentAnimatorStateInfo(0).shortNameHash == Animator.StringToHash("New State") ||
-            openAnimation.GetCurrentAnimatorStateInfo(0).normalizedTime < (40f / 45f))
-        {
-            yield return null;
-        }
-        particle.Play();
     }
 
     public void Guid()

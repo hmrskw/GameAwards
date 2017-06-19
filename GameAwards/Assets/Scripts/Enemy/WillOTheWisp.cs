@@ -59,7 +59,8 @@ public class WillOTheWisp : MonoBehaviour {
 
     IEnumerator Del()
     {
-		_deathSmoke.Play();
+        StringView.Instance.DestroyEnemyCount = 1;
+        _deathSmoke.Play();
         SoundManager.Instance.PlaySE("shoumetu");
         while(_deathSmoke.isPlaying)
         {

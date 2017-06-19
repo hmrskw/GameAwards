@@ -24,12 +24,6 @@ public class InputController : MonoBehaviour {
     [SerializeField]
     GameObject CameraPivot;
 
-    [SerializeField,Range(1,10)]
-    float speed;
-
-    [SerializeField, Space(15)]
-    float jumpPower;
-
     static float maxDistanceLength = 10;
 
     PlayerComponents PlayerCharacter1Components = new PlayerComponents();
@@ -149,7 +143,9 @@ public class InputController : MonoBehaviour {
         PlayerCharacter1Components.playerModel.SetCharacterMoveDirection(character1MoveDirection);
         PlayerCharacter2Components.playerModel.SetCharacterMoveDirection(character2MoveDirection);
 
-        if (character1MoveDirection != Vector3.zero || character2MoveDirection != Vector3.zero)
+        if (StringView.Instance.isPlayCutScene == false &&
+            (PlayerCharacter1Components.playerModel.CanJump == true && PlayerCharacter2Components.playerModel.CanJump == true) &&
+            (character1MoveDirection != Vector3.zero || character2MoveDirection != Vector3.zero))
         {
             if (SoundManager.Instance.IsPlayBGM("asioto") == false)
             {
@@ -169,13 +165,13 @@ public class InputController : MonoBehaviour {
             PlayerCharacter1.transform.position.y - PlayerCharacter2.transform.position.y < maxDistanceLength)
         {
             PlayerCharacter1Components.playerModel.CanJump = false;
-            //PlayerCharacter1Components.rigidbody.AddForce(new Vector3(0, jumpPower, 0));
+            SoundManager.Instance.PlaySE("jump");
         }
         if (Input.GetButton("RightJump") && PlayerCharacter2Components.playerModel.CanJump &&
             PlayerCharacter2.transform.position.y - PlayerCharacter1.transform.position.y < maxDistanceLength)
         {
             PlayerCharacter2Components.playerModel.CanJump = false;
-            //PlayerCharacter2Components.rigidbody.AddForce(new Vector3(0, jumpPower, 0));
+            SoundManager.Instance.PlaySE("jump");
         }
     }
 

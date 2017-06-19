@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class CutManager : Monument
 {
     public enum CUT
     {
-        Cut2, Cut3, Cut4
+        Cut2, Cut3, ED
     }
     [SerializeField]
     public CUT cut;
@@ -17,7 +18,7 @@ public class CutManager : Monument
     [System.Serializable]
     struct PaticlesTimeing
     {
-        public float totalFrame;
+        //public float totalFrame;
         public float playParticleFrame;
         public ParticleSystem[] particle;
     }
@@ -26,26 +27,16 @@ public class CutManager : Monument
     public struct ZoomData
     {
         public int startFrame;
-        public float frameLength;
+        //public float frameLength;
         public float targetFoV;
     }
 
-    [System.Serializable]
-    public struct CameraAndMask
-    {
-        public GameObject camera;
-        public Image mask;
-    }
-
     [Space(15)]
+    [Header("カメラの切り替え")]
     [SerializeField]
     CameraAndMask MainCamera;
-
     [SerializeField]
     CameraAndMask[] CutSceneCamera;
-
-    [SerializeField]
-    Transform targetTransform;
     [SerializeField]
     GameObject playerCharacter;
     [SerializeField]
@@ -57,6 +48,13 @@ public class CutManager : Monument
     [SerializeField]
     Transform P2Pivot;
 
+    [SerializeField]
+    GameObject[] targetObjcts;
+    [SerializeField]
+    Transform targetTransform;
+
+    [Space(15)]
+    [Header("フレーム数に合わせてズームとパーティクルの実行を行う")]
     [SerializeField]
     Animator cutAnim;
     [SerializeField]
@@ -87,10 +85,10 @@ public class CutManager : Monument
         while (StringView.Instance.OnHitLine(transform.position) == false)
         {
             yield return null;
-        }
-
+        }        
         StringView.Instance.GrassTextureUpdate(1);
-        SoundManager.Instance.PlaySE("se object");
+        SoundManager.Instance.PlaySE("se check point");
+        //SoundManager.Instance.PlaySE("se object");
         if (StringView.Instance.isPlayCutScene == false) StartCutScene();
     }
 
@@ -98,7 +96,8 @@ public class CutManager : Monument
     {
         yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera[cameraIndex], 1.0f));
         yield return StartCoroutine(Anim());
-        yield return StartCoroutine(FadeInFadeOut(CutSceneCamera[cameraIndex], MainCamera, 1.0f));
+        if(cut != CUT.ED)
+            yield return StartCoroutine(FadeInFadeOut(CutSceneCamera[cameraIndex], MainCamera, 1.0f));
     }
 
     IEnumerator FadeInFadeOut(CameraAndMask fadeIn, CameraAndMask fadeOut, float time)
@@ -123,7 +122,13 @@ public class CutManager : Monument
         StringView.Instance.cutP1 = P1Pivot.transform;
         StringView.Instance.cutP2 = P2Pivot.transform;
 
+        for (int i = 0; i < targetObjcts.Length; i++)
+        {
+            targetObjcts[i].SetActive(true);
+        }
+        CutSceneCamera[cameraIndex].camera.transform.LookAt(targetTransform);
         StringView.Instance.isPlayCutScene = !StringView.Instance.isPlayCutScene;
+        SoundManager.Instance.StopBGM("asioto");
         fadeOut.camera.SetActive(true);
 
         startTime = Time.timeSinceLevelLoad;
@@ -155,7 +160,6 @@ public class CutManager : Monument
         bool cutChange = true;
         if (cutChange)
         {
-
             for (int i = 0; i < CutSceneCamera.Length - 1; i++)
             {
                 while (
@@ -167,7 +171,7 @@ public class CutManager : Monument
                         CutSceneCamera[cameraIndex].camera.transform.LookAt(targetTransform);
                     }
                     for (int j = 0; j < pt.Length; j++) {
-                        if (cutAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < (pt[j].playParticleFrame / pt[j].totalFrame))
+                        if (cutAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < (pt[j].playParticleFrame / totalFrame))
                         {
                             for (int k = 0; k < pt[j].particle.Length; k++)
                             {
@@ -189,6 +193,18 @@ public class CutManager : Monument
                 }
             }
 
+            if(cut == CUT.ED)
+            {
+                while (
+                    cutAnim.GetCurrentAnimatorStateInfo(0).shortNameHash == beforeAnimHash ||
+                    cutAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < (830 / totalFrame))//発生させたいフレーム/アニメーションの総フレーム数
+                {
+                    yield return null;
+                }
+                yield return StartCoroutine(WhiteIn(CutSceneCamera[cameraIndex], 3f));
+                yield return new WaitForSeconds(1f);
+                yield return StartCoroutine(WhiteOut(CutSceneCamera[cameraIndex], 1f));
+            }
             while (
                 cutAnim.GetCurrentAnimatorStateInfo(0).shortNameHash == beforeAnimHash ||
                 cutAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < (playParticleFrame / totalFrame))//発生させたいフレーム/アニメーションの総フレーム数
@@ -197,7 +213,7 @@ public class CutManager : Monument
 
                 for (int j = 0; j < pt.Length; j++)
                 {
-                    if (cutAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < (pt[j].playParticleFrame / pt[j].totalFrame))
+                    if (cutAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < (pt[j].playParticleFrame / totalFrame))
                     {
                         for (int k = 0; k < pt[j].particle.Length; k++)
                         {
@@ -218,7 +234,7 @@ public class CutManager : Monument
                 yield return null;
             }
         }
-        particle.Play();
+        if(particle != null)particle.Play();
     }
 
     IEnumerator Zoom(int index)
@@ -228,10 +244,10 @@ public class CutManager : Monument
         float diff = (Time.timeSinceLevelLoad - startTime) * 30f;
         float fov;
 
-        while (diff < zoomData[index].frameLength)
+        while (diff < totalFrame)
         {
             diff = (Time.timeSinceLevelLoad - startTime) * 30f;
-            fov = zoomCurve.Evaluate(diff / zoomData[index].frameLength);
+            fov = zoomCurve.Evaluate(diff / totalFrame);
             cutCamera.fieldOfView = Mathf.Lerp(startFov, zoomData[index].targetFoV, fov);
 
             yield return null;
@@ -239,13 +255,57 @@ public class CutManager : Monument
 
     }
 
+    IEnumerator WhiteIn(CameraAndMask fadeIn, float time)
+    {
+        float startTime = Time.timeSinceLevelLoad;
+        float diff = Time.timeSinceLevelLoad - startTime;
+        Color maskAlpha = new Color(1, 1, 1, 0);
+
+        while (diff < (time / 2f))
+        {
+            diff = Time.timeSinceLevelLoad - startTime;
+            maskAlpha.a = diff / (time / 2);
+            fadeIn.mask.color = maskAlpha;
+            yield return null;
+        }
+        //fadeIn.camera.SetActive(false);
+    }
+
+    IEnumerator WhiteOut(CameraAndMask fadeOut, float time)
+    {
+        float startTime = Time.timeSinceLevelLoad;
+        float diff = Time.timeSinceLevelLoad - startTime;
+        Color maskAlpha = new Color(1, 1, 1, 1);
+
+        startTime = Time.timeSinceLevelLoad;
+        diff = Time.timeSinceLevelLoad - startTime;
+        while (diff < time / 2)
+        {
+            diff = Time.timeSinceLevelLoad - startTime;
+            maskAlpha.a = 1 - (diff / (time / 2));
+            fadeOut.mask.color = maskAlpha;
+            yield return null;
+        }
+        //fadeIn.camera.SetActive(false);
+    }
+
     IEnumerator Anim()
     {
         yield return StartCoroutine(Boot());
-
-        while (openAnimation.GetCurrentAnimatorStateInfo(0).normalizedTime - animationStart < 1 || particle.isPlaying)
+        if (cut == CUT.ED) {
+            while (openAnimation.GetCurrentAnimatorStateInfo(0).normalizedTime - animationStart < 1)
+            {
+                yield return null;
+            }
+            yield return StartCoroutine(WhiteIn(CutSceneCamera[cameraIndex],2f));
+            SceneManager.LoadScene(0);
+        }
+        else
         {
-            yield return null;
+            while (openAnimation.GetCurrentAnimatorStateInfo(0).normalizedTime - animationStart < 1 || particle.isPlaying)
+            {
+                yield return null;
+            }
         }
     }
 }

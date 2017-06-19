@@ -8,12 +8,6 @@ using UnityEngine.Events;
 public class CutScene : Monument
 {
     
-    [System.Serializable]
-    public struct CameraAndMask
-    {
-        public GameObject camera;
-        public Image mask;
-    }
     [Space(15)]
     [SerializeField]
     CameraAndMask MainCamera;
@@ -52,7 +46,7 @@ public class CutScene : Monument
     {
         if (StringView.Instance.isPlayCutScene == false)
         {
-            StartCoroutine(Task());
+            StartCoroutine(Task_op());
         }
     }
 
@@ -62,13 +56,17 @@ public class CutScene : Monument
         {
             yield return null;
         }
+        if (SoundManager.Instance.IsPlayBGM("asioto") == true)
+        {
+            SoundManager.Instance.StopBGM("asioto");
+        }
 
         StringView.Instance.GrassTextureUpdate(1);
         //SoundManager.Instance.PlaySE("se object");
         if (StringView.Instance.isPlayCutScene == false) StartCutScene();
     }
 
-    IEnumerator Task()
+    IEnumerator Task_op()
     {
         yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera,1.0f));
         p1.transform.localPosition = new Vector3(-4f, 0f, 0f);
@@ -76,6 +74,8 @@ public class CutScene : Monument
         StartCoroutine(MoveCharacter());
         yield return StartCoroutine(MoveCamera());
         yield return StartCoroutine(FlowerAnim());
+
+        //他の花を映す
         if (cutCamera.Length > 0)
         {
             yield return StartCoroutine(FadeInFadeOut(CutSceneCamera, cutCamera[0], 1.0f));
@@ -164,6 +164,30 @@ public class CutScene : Monument
         {
             yield return null;
         }
+    }
+
+    override protected IEnumerator Boot()
+    {
+        if (isOn == false)
+        {
+            isOn = true;
+            yield return new WaitForSeconds(0.5f);
+            openAnimation.SetTrigger("Open");
+            if (guideObjct != null && nextMonument != null) nextMonument.Guid();
+            InputController.ExtendMaxDistanceLength(extendLength);
+        }
+        else if (guideObjct != null && guideObjct.activeInHierarchy == true)
+        {
+            guideObjct.SetActive(false);
+        }
+
+        while (
+            openAnimation.GetCurrentAnimatorStateInfo(0).shortNameHash == Animator.StringToHash("New State") ||
+            openAnimation.GetCurrentAnimatorStateInfo(0).normalizedTime < (30f / 45f))
+        {
+            yield return null;
+        }
+        particle.Play();
     }
 
     IEnumerator MoveCharacter()

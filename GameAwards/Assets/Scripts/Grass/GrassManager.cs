@@ -99,6 +99,11 @@ public class GrassManager : MonoBehaviour {
 		return _matPropBlock;
 	}
 
+	public int GetRandomTextureIndex(int _maxTexCount)
+	{
+		return Random.Range(1, _maxTexCount);
+	}
+
 	private void Start ()
 	{
 		_tipSize = _grassData.TipSize;
