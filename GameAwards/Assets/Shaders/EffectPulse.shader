@@ -36,12 +36,19 @@ Shader "Effect/Pulsation"
 			{
 				float4 vertex : SV_POSITION; 
 				half2  uv     : TEXCOORD0;
+				half2  uv2    : TEXCOORD1;
+			};
+
+			struct Input 
+			{
+				float2 uv_MaskTexLabel;
 			};
 
 			sampler2D _PulseTex;
 			sampler2D _MaskTexLabel;
 			sampler2D _MaskTexVessel;
 			float4    _PulseTex_ST;
+			float4    _MaskTexLabel_ST;
 			float     _CutoffBorder;
 			float     _ScrollSpeed;
 
@@ -50,24 +57,18 @@ Shader "Effect/Pulsation"
 				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uv = TRANSFORM_TEX(v.uv, _PulseTex);
-
+				o.uv2 = TRANSFORM_TEX(v.uv, _MaskTexLabel);
 				return o;
 			}
 
 			fixed4 frag (v2f i) : SV_Target
 			{
+				Input IN;
 				fixed4 col  = tex2D(_PulseTex     , i.uv);
-				fixed4 col2 = tex2D(_MaskTexLabel , i.uv + _Time.x * _ScrollSpeed);
+				fixed4 col2 = tex2D(_MaskTexLabel , i.uv2 + float2(0, _Time.y * _ScrollSpeed));
 				fixed4 col3 = tex2D(_MaskTexVessel, i.uv);
 				
 				fixed alpha;
-
-				//if(col2.r > 0.1 && col3.r > _CutoffBorder) {
-				//	alpha = col2.r * col3.r;
-				//}
-				//else {
-				//	alpha = 0;
-				//}
 				
 				alpha = col2.r * col3.r;
 
