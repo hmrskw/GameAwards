@@ -20,8 +20,10 @@ public class StringView : MonoBehaviour {
     [SerializeField, Tooltip("終点")]
     Transform tail;
 
+    [HideInInspector]
     public Transform cutP1;
 
+    [HideInInspector]
     public Transform cutP2;
 
     Vector3 point;
@@ -70,6 +72,14 @@ public class StringView : MonoBehaviour {
         set { isSpin = value; }
         get { return isSpin; }
     }
+
+    bool isDraw = false;
+    public bool IsDraw
+    {
+        set { isDraw = value; }
+        get { return isDraw; }
+    }
+
     int _texIndex = 0;
 
     List<Vector3> posList = new List<Vector3>();

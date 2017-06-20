@@ -14,8 +14,6 @@ public class HumanTree : MonoBehaviour
     [SerializeField]
     float fadeTime;
 
-    bool isDraw = false;
-
     IEnumerator func = null;
     
     IEnumerator Draw()
@@ -61,9 +59,10 @@ public class HumanTree : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        if (isDraw == false && col.gameObject.tag == "Player")
+        Debug.Log("en" + col.gameObject.tag);
+        if (StringView.Instance.IsDraw == false && col.gameObject.tag == "Midpoint")
         {
-            isDraw = true;
+            StringView.Instance.IsDraw = true;
             func = Draw();
             StartCoroutine(func);
         }
@@ -71,11 +70,12 @@ public class HumanTree : MonoBehaviour
 
     void OnTriggerExit(Collider col)
     {
-        if (isDraw == true && col.gameObject.tag == "Player")
+        if (StringView.Instance.IsDraw == true && col.gameObject.tag == "Midpoint")
         {
-            isDraw = false;
+            StringView.Instance.IsDraw = false;
             StopCoroutine(func);
             func = null;
+            func = Draw();
             StartCoroutine(HideText(fadeTime));
         }
     }
