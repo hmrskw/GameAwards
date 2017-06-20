@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -280,7 +281,7 @@ public class StringView : MonoBehaviour {
         while (length < 1f)
         {
             length += 0.01f;
-            if (StringView.Instance.isPlayCutScene == false)
+            if (Instance.isPlayCutScene == false)
             {
                 Vector3 curve =
                     B_SplineCurve(
@@ -289,7 +290,7 @@ public class StringView : MonoBehaviour {
                         point + new Vector3(0, 3, 0),
                         length
                     );
-                if (Vector2.Distance(new Vector2(curve.x, curve.z), new Vector2(position.x, position.z)) < 2) return true;
+                if (Vector3.Distance(new Vector3(curve.x, curve.y, curve.z), new Vector3(position.x, position.y, position.z)) < 5) return true;
             }
             else
             {
@@ -300,7 +301,7 @@ public class StringView : MonoBehaviour {
                         point + new Vector3(0, 3, 0),
                         length
                     );
-                if (Vector3.Distance(new Vector3(curve.x, curve.z), new Vector3(position.x, position.z)) < 2) return true;
+                if (Vector3.Distance(new Vector3(curve.x, curve.y, curve.z), new Vector3(position.x, position.y, position.z)) < 5) return true;
             }
         }
         return false;
