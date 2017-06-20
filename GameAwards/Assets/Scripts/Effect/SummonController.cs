@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// ******************************************************
+/// 制作者：丸本慶大
+/// ******************************************************
+/// エンディングのカットシーンでエネルギーが子供になるときの
+/// エフェクトの大きさをコントロールできるようにするもの。
+/// </summary>
 public class SummonController : MonoBehaviour {
 	[SerializeField, Tooltip("スケールのアニメーションカーブ")]
 	AnimationCurve _curve;

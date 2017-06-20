@@ -1,5 +1,12 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// ******************************************************
+/// 制作者：丸本慶大
+/// ******************************************************
+/// 草オブジェクトに対してGetComponentなどをしないように
+/// よく使うコンポーネントや値をあらかじめ保持しておくクラス。
+/// </summary>
 public class GrassObject {
 	public GameObject Object { get; private set; }
 	public GrassesController Controller { get; private set; }

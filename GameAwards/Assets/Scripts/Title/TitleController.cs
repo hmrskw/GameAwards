@@ -4,6 +4,9 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 /// <summary>
+/// ******************************************************
+/// 制作者：丸本慶大
+/// ******************************************************
 /// タイトルシーン管理クラス。
 /// BuildSettingsのインデックス１がMainのシーンになるようにお願いします。
 /// </summary>
@@ -39,6 +42,11 @@ public class TitleController : MonoBehaviour {
 	private AsyncOperation _loadOpe;
 	private bool _operationCompleted = false;
 
+	/// <summary>
+	/// 非同期でシーンを読み込みます。
+	/// 今回はプログレスバーの処理もあります。
+	/// </summary>
+	/// <returns></returns>
 	public IEnumerator LoadSceneAsync()
 	{
 		_loadOpe = SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive);

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,8 +20,10 @@ public class StringView : MonoBehaviour {
     [SerializeField, Tooltip("終点")]
     Transform tail;
 
+    [HideInInspector]
     public Transform cutP1;
 
+    [HideInInspector]
     public Transform cutP2;
 
     Vector3 point;
@@ -69,6 +72,14 @@ public class StringView : MonoBehaviour {
         set { isSpin = value; }
         get { return isSpin; }
     }
+
+    bool isDraw = false;
+    public bool IsDraw
+    {
+        set { isDraw = value; }
+        get { return isDraw; }
+    }
+
     int _texIndex = 0;
 
     List<Vector3> posList = new List<Vector3>();
@@ -217,15 +228,17 @@ public class StringView : MonoBehaviour {
 						var grassComponent = hit.collider.GetComponent<GrassesController>();
                         if (grassComponent != null)
                         {
-							int _textureIndex = _grassManager.GetRandomTextureIndex(_texIndex + 1);
 							int _dpIndex = _grassManager.GetDummyPoint(_xIndex, _zIndex).TexIndex;
 
-							if (_dpIndex == 0)
+							int _textureIndex = _texIndex;
+							if(_texIndex != 0)
 							{
-								if (_dpIndex != _texIndex)
-								{
-									_grassManager.ChangeTexIndex(_xIndex, _zIndex, _textureIndex);
-								}
+								_textureIndex = _grassManager.GetRandomTextureIndex(_texIndex + 1);
+							}
+
+							if (_dpIndex != _texIndex)
+							{
+								_grassManager.ChangeTexIndex(_xIndex, _zIndex, _textureIndex);
 							}
 
 							grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_textureIndex));
@@ -240,14 +253,16 @@ public class StringView : MonoBehaviour {
 						{
 							int _dpTexIndex = _grassManager.GetDummyPoint(_xIndex, _zIndex).TexIndex;
 
-							if (_dpTexIndex == 0)
+							int _textureIndex = _texIndex;
+							if (_texIndex != 0)
 							{
-								if (_dpTexIndex != _texIndex)
-								{
-									int _textureIndex = _grassManager.GetRandomTextureIndex(_texIndex + 1);
-									_grassManager.ChangeTexIndex(_xIndex, _zIndex, _textureIndex);
-									grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_textureIndex));
-								}
+								_textureIndex = _grassManager.GetRandomTextureIndex(_texIndex + 1);
+							}
+
+							if (_dpTexIndex != _texIndex)
+							{
+								_grassManager.ChangeTexIndex(_xIndex, _zIndex, _textureIndex);
+								grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_textureIndex));
 							}
 						}
 					}
@@ -276,7 +291,7 @@ public class StringView : MonoBehaviour {
         while (length < 1f)
         {
             length += 0.01f;
-            if (StringView.Instance.isPlayCutScene == false)
+            if (Instance.isPlayCutScene == false)
             {
                 Vector3 curve =
                     B_SplineCurve(
@@ -285,7 +300,7 @@ public class StringView : MonoBehaviour {
                         point + new Vector3(0, 3, 0),
                         length
                     );
-                if (Vector2.Distance(new Vector2(curve.x, curve.z), new Vector2(position.x, position.z)) < 2) return true;
+                if (Vector3.Distance(new Vector3(curve.x, curve.y, curve.z), new Vector3(position.x, position.y, position.z)) < 5) return true;
             }
             else
             {
@@ -296,7 +311,7 @@ public class StringView : MonoBehaviour {
                         point + new Vector3(0, 3, 0),
                         length
                     );
-                if (Vector3.Distance(new Vector3(curve.x, curve.z), new Vector3(position.x, position.z)) < 2) return true;
+                if (Vector3.Distance(new Vector3(curve.x, curve.y, curve.z), new Vector3(position.x, position.y, position.z)) < 5) return true;
             }
         }
         return false;

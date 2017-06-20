@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// ******************************************************
+/// 制作者：丸本慶大
+/// ******************************************************
+/// タイトル時に出す世界観設定などのポップアップをコントロールするクラス。
+/// </summary>
 public class TitlePopupController : MonoBehaviour {
 	[SerializeField, Tooltip("背景")]
 	Image _background;
