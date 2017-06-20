@@ -53,6 +53,14 @@ public class CutScene : Monument
     Monument[] guids;
     */
 
+    void Start()
+    {
+        openAnimation = GetComponent<Animator>();
+        isOn = false;
+
+        StartCoroutine(Wait());
+    }
+
     void StartCutScene()
     {
         if (StringView.Instance.isPlayCutScene == false)
@@ -106,13 +114,16 @@ public class CutScene : Monument
         //他の花を映す
         if (CheckPoints.Length > 0)
         {
-            yield return StartCoroutine(FadeInFadeOut(CutSceneCamera, CheckPoints[0].cutCamera, 1.0f,null));
+            yield return StartCoroutine(FadeInFadeOut(CutSceneCamera, CheckPoints[0].cutCamera, 1.0f,()=> {
+                if (CheckPoints[0].guids != null) CheckPoints[0].guids.Guid();
+            }));
 
             for (int i = 1; i < CheckPoints.Length; i++)
             {
-                if(CheckPoints[i].guids != null) CheckPoints[i].guids.Guid();
                 yield return new WaitForSeconds(1.0f);
-                yield return StartCoroutine(FadeInFadeOut(CheckPoints[i-1].cutCamera, CheckPoints[i].cutCamera, 1.0f,null));
+                yield return StartCoroutine(FadeInFadeOut(CheckPoints[i - 1].cutCamera, CheckPoints[i].cutCamera, 1.0f,()=> {
+                    if (CheckPoints[i].guids != null) CheckPoints[i].guids.Guid();
+                }));
             }
 
             if (CheckPoints[CheckPoints.Length - 1].guids != null) CheckPoints[CheckPoints.Length - 1].guids.Guid();
