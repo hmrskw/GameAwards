@@ -96,22 +96,12 @@ public class GrassManager : MonoBehaviour {
 		return _maptipsDummyPoint[_zIndex, _xIndex];
 	}
 
-	/// <summary>
-	/// 与えられたインデックスに応じたテクスチャをセットしたMaterialPropetyBlockを返す。
-	/// </summary>
-	/// <param name="_texIndex"></param>
-	/// <returns></returns>
 	public MaterialPropertyBlock GetMatPropBlock(int _texIndex)
 	{
 		_matPropBlock.SetTexture("_MainTex", _textures[_texIndex]);
 		return _matPropBlock;
 	}
 
-	/// <summary>
-	/// 1から引数で与えられた数値までのランダム値を返却。
-	/// </summary>
-	/// <param name="_maxTexCount"></param>
-	/// <returns></returns>
 	public int GetRandomTextureIndex(int _maxTexCount)
 	{
 		return Random.Range(1, _maxTexCount);

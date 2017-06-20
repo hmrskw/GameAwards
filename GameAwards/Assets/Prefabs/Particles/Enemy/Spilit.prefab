@@ -111,7 +111,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1696253836064358}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1885, y: 10, z: 795}
+  m_LocalPosition: {x: 1937.4397, y: 1.2, z: 786.04346}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4255465363385000}
@@ -280,7 +280,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
-  randomSeed: 538752887
+  randomSeed: -1574142548
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -355,7 +355,7 @@ ParticleSystem:
       minMaxState: 1
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.24264705, g: 1, b: 1, a: 1}
+        key0: {r: 0.24264705, g: 0.24787013, b: 1, a: 1}
         key1: {r: 0.39705884, g: 0.72555786, b: 1, a: 1}
         key2: {r: 1, g: 1, b: 1, a: 0}
         key3: {r: 1, g: 1, b: 1, a: 0}
@@ -1007,8 +1007,8 @@ ParticleSystem:
       minMaxState: 1
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.6764706, g: 0.906288, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 0}
+        key0: {r: 0, g: 0.42464495, b: 0.7794118, a: 1}
+        key1: {r: 0.3602941, g: 0.8941176, b: 1, a: 0}
         key2: {r: 0, g: 1, b: 0.007843138, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1069,7 +1069,7 @@ ParticleSystem:
     enabled: 1
     frameOverTime:
       minMaxState: 0
-      scalar: 0.78125
+      scalar: 0.125
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1133,8 +1133,8 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    tilesX: 8
-    tilesY: 8
+    tilesX: 4
+    tilesY: 4
     animationType: 0
     rowIndex: 0
     cycles: 1
@@ -3104,7 +3104,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
-  randomSeed: 1407530446
+  randomSeed: 1479561844
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3179,7 +3179,7 @@ ParticleSystem:
       minMaxState: 1
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.30882353, g: 0.3421907, b: 1, a: 1}
+        key0: {r: 0.30882353, g: 1, b: 0.8855985, a: 1}
         key1: {r: 0.32953072, g: 0.824234, b: 0.8455882, a: 1}
         key2: {r: 1, g: 1, b: 1, a: 0}
         key3: {r: 1, g: 1, b: 1, a: 0}
@@ -3899,7 +3899,7 @@ ParticleSystem:
     enabled: 1
     frameOverTime:
       minMaxState: 0
-      scalar: 0.25
+      scalar: 0.0625
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -3963,8 +3963,8 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    tilesX: 8
-    tilesY: 8
+    tilesX: 4
+    tilesY: 4
     animationType: 0
     rowIndex: 0
     cycles: 1
@@ -5934,7 +5934,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
-  randomSeed: -1805107754
+  randomSeed: -1479160173
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -6009,8 +6009,8 @@ ParticleSystem:
       minMaxState: 1
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0, g: 0.7103448, b: 1, a: 1}
-        key1: {r: 0.44117647, g: 1, b: 1, a: 1}
+        key0: {r: 0, g: 0.09117644, b: 0.42647058, a: 1}
+        key1: {r: 0.44117647, g: 0.745639, b: 1, a: 1}
         key2: {r: 1, g: 1, b: 1, a: 0}
         key3: {r: 1, g: 1, b: 1, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -6661,8 +6661,8 @@ ParticleSystem:
       minMaxState: 1
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.9632353, g: 0.9632353, b: 0.9632353, a: 1}
-        key1: {r: 0.27735728, g: 0.99264705, b: 0.96304893, a: 0}
+        key0: {r: 0.29698125, g: 0.08499137, b: 0.9632353, a: 1}
+        key1: {r: 0.45001376, g: 0.27735728, b: 0.99264705, a: 0}
         key2: {r: 0, g: 1, b: 0.007843138, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -6723,7 +6723,7 @@ ParticleSystem:
     enabled: 1
     frameOverTime:
       minMaxState: 0
-      scalar: 0.78125
+      scalar: 0.125
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -6787,8 +6787,8 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    tilesX: 8
-    tilesY: 8
+    tilesX: 4
+    tilesY: 4
     animationType: 0
     rowIndex: 0
     cycles: 1
