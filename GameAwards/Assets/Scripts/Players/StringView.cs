@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,7 +20,12 @@ public class StringView : MonoBehaviour {
     [SerializeField, Tooltip("終点")]
     Transform tail;
 
-    int co = 0;
+    [HideInInspector]
+    public Transform cutP1;
+
+    [HideInInspector]
+    public Transform cutP2;
+
     Vector3 point;
 
     float coefficient;
@@ -33,13 +39,52 @@ public class StringView : MonoBehaviour {
     [SerializeField]
     Material[] mats;
 
+    public bool isPlayCutScene;
+
+    int destroyEnemyCount = 0;
+    public int DestroyEnemyCount
+    {
+        set { destroyEnemyCount += value; }
+        get { return destroyEnemyCount; }
+    }
+
+    int openFlowerCount = 0;
+    public int OpenFlowerCount
+    {
+        set { openFlowerCount += value;}
+        get { return openFlowerCount; }
+    }
+
+    int grownGrassCount = 0;
+    public int GrownGrassCount
+    {
+        set { grownGrassCount += value; }
+        get { return grownGrassCount; }
+    }
+
     Ray ray = new Ray();
 
     RaycastHit hit;
 
-    public bool isSpin = false;
+    bool isSpin = false;
+    public bool IsSpin
+    {
+        set { isSpin = value; }
+        get { return isSpin; }
+    }
 
-	int _texIndex = 0;
+    bool isDraw = false;
+    public bool IsDraw
+    {
+        set { isDraw = value; }
+        get { return isDraw; }
+    }
+
+    int _texIndex = 0;
+
+    List<Vector3> posList = new List<Vector3>();
+
+    float length = 0f;
 
     void Awake()
     {
@@ -90,16 +135,7 @@ public class StringView : MonoBehaviour {
 
     void Update()
     {
-		if (Input.GetKeyDown(KeyCode.C))
-		{
-			_texIndex = 1;
-		}
-		if (Input.GetKeyDown(KeyCode.R))
-		{
-			_texIndex = 0;
-		}
-
-		if (isSpin)
+        if (isSpin)
         {
             lineRenderer.material = mats[1];
         }
@@ -108,23 +144,25 @@ public class StringView : MonoBehaviour {
             lineRenderer.material = mats[0];
         }
 
-        var posList = new List<Vector3>();
+        posList.Clear();
 
-        posList.Add(head.position + new Vector3(0, 3, 0));
-        float length = 0f;
+        length = 0f;
 
-        co++;
-
-        point = Vector3.Lerp(point, Vector3.Lerp(head.position, tail.position, 0.5f), 0.1f * Vector3.Distance(head.position, tail.position) / (InputController.GetMaxDistanceLength()));
-
-        if (co % 60 == 0)
+        if (isPlayCutScene == true)
         {
-            co = 0;
+            posList.Add(cutP1.position + new Vector3(0, 3, 0));
+            point = Vector3.Lerp(point, Vector3.Lerp(cutP1.position, cutP2.position, 0.5f), 0.1f * Vector3.Distance(cutP1.position, cutP2.position) / (InputController.GetMaxDistanceLength()));
+        }
+        else
+        {
+            posList.Add(head.position + new Vector3(0, 3, 0));
+            point = Vector3.Lerp(point, Vector3.Lerp(head.position, tail.position, 0.5f), 0.1f * Vector3.Distance(head.position, tail.position) / (InputController.GetMaxDistanceLength()));
         }
 
         while (length < 1f)
         {
             length += 0.05f;
+            if (StringView.Instance.isPlayCutScene == false)
             {
                 posList.Add(
                     B_SplineCurve(
@@ -135,11 +173,25 @@ public class StringView : MonoBehaviour {
                     )
                 );
             }
+            else
+            {
+                posList.Add(
+                    B_SplineCurve(
+                        cutP1.position + new Vector3(0, 3, 0),
+                        cutP2.position + new Vector3(0, 3, 0),
+                        point + new Vector3(0, 3, 0),
+                        length
+                    )
+                );
+            }
         }
         
         lineRenderer.positionCount = posList.Count;
         lineRenderer.SetPositions(posList.ToArray());
-        OnPassLine();
+        if (StringView.Instance.isPlayCutScene == false)
+        {
+            OnPassLine();
+        }
     }
     
     void OnPassLine()
@@ -161,11 +213,6 @@ public class StringView : MonoBehaviour {
                 ray.origin = curve;
                 ray.direction = -transform.up;
 
-                /*if (Physics.Raycast(ray, out hit, 10.0f,LayerMask.GetMask("Monument")))
-                {
-                    hit.collider.GetComponent<Monument>().Boot();
-                }*/
-
                 if (Physics.Raycast(ray, out hit, 10.0f, LayerMask.GetMask("Grass")))
                 {
 					int _xIndex = 0;
@@ -174,18 +221,29 @@ public class StringView : MonoBehaviour {
 
 					if (hit.transform.tag == "WitheredGrass")
 					{
-						_grassManager.ChangeHasGrown(_xIndex, _zIndex, true);
+                        grownGrassCount++;
+
+                        _grassManager.ChangeHasGrown(_xIndex, _zIndex, true);
 
 						var grassComponent = hit.collider.GetComponent<GrassesController>();
                         if (grassComponent != null)
                         {
-							if (_texIndex != _grassManager.GetDummyPoint(_xIndex, _zIndex).TexIndex)
+							int _dpIndex = _grassManager.GetDummyPoint(_xIndex, _zIndex).TexIndex;
+
+							int _textureIndex = _texIndex;
+							if(_texIndex != 0)
 							{
-								_grassManager.ChangeTexIndex(_xIndex, _zIndex, _texIndex);
+								_textureIndex = _grassManager.GetRandomTextureIndex(_texIndex + 1);
 							}
 
-							grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_texIndex));
+							if (_dpIndex != _texIndex)
+							{
+								_grassManager.ChangeTexIndex(_xIndex, _zIndex, _textureIndex);
+							}
+
+							grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_textureIndex));
 							grassComponent.Growth();
+							grassComponent.PlayParticle();
 						}
 					}
 					else if(hit.transform.tag == "GrownGrass")
@@ -193,13 +251,18 @@ public class StringView : MonoBehaviour {
 						var grassComponent = hit.collider.GetComponent<GrassesController>();
 						if (grassComponent != null)
 						{
-							if(_texIndex != _grassManager.GetDummyPoint(_xIndex, _zIndex).TexIndex)
+							int _dpTexIndex = _grassManager.GetDummyPoint(_xIndex, _zIndex).TexIndex;
+
+							int _textureIndex = _texIndex;
+							if (_texIndex != 0)
 							{
-								_grassManager.ChangeTexIndex(_xIndex, _zIndex, _texIndex);
-								//grassComponent.GrowthChangedTexture(() => {
-									//grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_texIndex));
-								//});
-								grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_texIndex));
+								_textureIndex = _grassManager.GetRandomTextureIndex(_texIndex + 1);
+							}
+
+							if (_dpTexIndex != _texIndex)
+							{
+								_grassManager.ChangeTexIndex(_xIndex, _zIndex, _textureIndex);
+								grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_textureIndex));
 							}
 						}
 					}
@@ -227,7 +290,8 @@ public class StringView : MonoBehaviour {
 
         while (length < 1f)
         {
-            length += 0.1f;
+            length += 0.01f;
+            if (Instance.isPlayCutScene == false)
             {
                 Vector3 curve =
                     B_SplineCurve(
@@ -236,7 +300,18 @@ public class StringView : MonoBehaviour {
                         point + new Vector3(0, 3, 0),
                         length
                     );
-                if (Vector3.Distance(curve, position) < 2) return true;
+                if (Vector3.Distance(new Vector3(curve.x, curve.y, curve.z), new Vector3(position.x, position.y, position.z)) < 5) return true;
+            }
+            else
+            {
+                Vector3 curve =
+                    B_SplineCurve(
+                        cutP1.position + new Vector3(0, 3, 0),
+                        cutP2.position + new Vector3(0, 3, 0),
+                        point + new Vector3(0, 3, 0),
+                        length
+                    );
+                if (Vector3.Distance(new Vector3(curve.x, curve.y, curve.z), new Vector3(position.x, position.y, position.z)) < 5) return true;
             }
         }
         return false;

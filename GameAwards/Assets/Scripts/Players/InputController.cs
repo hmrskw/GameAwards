@@ -24,12 +24,6 @@ public class InputController : MonoBehaviour {
     [SerializeField]
     GameObject CameraPivot;
 
-    [SerializeField,Range(1,10)]
-    float speed;
-
-    [SerializeField, Space(15)]
-    float jumpPower;
-
     static float maxDistanceLength = 10;
 
     PlayerComponents PlayerCharacter1Components = new PlayerComponents();
@@ -58,7 +52,7 @@ public class InputController : MonoBehaviour {
         var character2Vertical = Input.GetAxis("RightVertical");
 
         pulledCharacter = PulledCharacter.NONE;
-        StringView.Instance.isSpin = false;
+        StringView.Instance.IsSpin = false;
 
         // カメラの方向から、X-Z平面の単位ベクトルを取得
         Vector3 cameraForward = Vector3.Scale(CameraPivot.transform.forward, new Vector3(1, 0, 1)).normalized;
@@ -84,7 +78,7 @@ public class InputController : MonoBehaviour {
 
             if (inputDot < -0.5f)
             {
-                StringView.Instance.isSpin = true;
+                StringView.Instance.IsSpin = true;
 
                 var heading = PlayerCharacter2.transform.position - PlayerCharacter1.transform.position;
                 var dis = heading.magnitude;
@@ -144,22 +138,40 @@ public class InputController : MonoBehaviour {
 
         PlayerCharacter1Components.playerModel.IsPulled = (pulledCharacter == PulledCharacter.CHARACTER1);
         PlayerCharacter2Components.playerModel.IsPulled = (pulledCharacter == PulledCharacter.CHARACTER2);
+
         //各キャラを移動
         PlayerCharacter1Components.playerModel.SetCharacterMoveDirection(character1MoveDirection);
         PlayerCharacter2Components.playerModel.SetCharacterMoveDirection(character2MoveDirection);
+
+        if (StringView.Instance.isPlayCutScene == false &&
+            (PlayerCharacter1Components.playerModel.CanJump == true && PlayerCharacter2Components.playerModel.CanJump == true) &&
+            (character1MoveDirection != Vector3.zero || character2MoveDirection != Vector3.zero))
+        {
+            if (SoundManager.Instance.IsPlayBGM("asioto") == false)
+            {
+                SoundManager.Instance.PlayBGM("asioto");
+            }
+        }
+        else
+        {
+            if (SoundManager.Instance.IsPlayBGM("asioto") == true)
+            {
+                SoundManager.Instance.StopBGM("asioto");
+            }
+        }
 
         //ジャンプ
         if (Input.GetButton("LeftJump") && PlayerCharacter1Components.playerModel.CanJump &&
             PlayerCharacter1.transform.position.y - PlayerCharacter2.transform.position.y < maxDistanceLength)
         {
             PlayerCharacter1Components.playerModel.CanJump = false;
-            //PlayerCharacter1Components.rigidbody.AddForce(new Vector3(0, jumpPower, 0));
+            SoundManager.Instance.PlaySE("jump");
         }
         if (Input.GetButton("RightJump") && PlayerCharacter2Components.playerModel.CanJump &&
             PlayerCharacter2.transform.position.y - PlayerCharacter1.transform.position.y < maxDistanceLength)
         {
             PlayerCharacter2Components.playerModel.CanJump = false;
-            //PlayerCharacter2Components.rigidbody.AddForce(new Vector3(0, jumpPower, 0));
+            SoundManager.Instance.PlaySE("jump");
         }
     }
 

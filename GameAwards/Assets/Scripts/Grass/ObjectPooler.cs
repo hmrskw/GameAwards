@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// ******************************************************
+/// 制作者：丸本慶大
+/// ******************************************************
+/// Instantiateの負荷をかけないために、
+/// オブジェクトをプールするクラス。
+/// </summary>
 public class ObjectPooler : MonoBehaviour {
 	[SerializeField]
 	private GameObject _pooledTargetObject;

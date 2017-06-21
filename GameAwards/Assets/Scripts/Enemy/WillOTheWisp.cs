@@ -20,26 +20,48 @@ public class WillOTheWisp : MonoBehaviour {
 	[SerializeField]
 	ParticleSystem _deathSmoke;
 
+    [SerializeField]
+    ParticleSystem smoke;
+
+    [SerializeField]
+    AudioClip[] clips;
+
+    int nowPlaingID = 0;
+
     AudioSource source;
 
     // Use this for initialization
     void Start () {
-        targetPosition = targets.GetComponentsInChildren<Transform>();
+        if (targets != null)
+        {
+            targetPosition = targets.GetComponentsInChildren<Transform>();
+        }
+
         source = obj.GetComponent<AudioSource>(); 
         StartCoroutine(Amplitude());
-        StartCoroutine(Move());
+        if (targets != null)
+        {
+            StartCoroutine(Move());
+        }
+        else {
+            StartCoroutine(Wait());
+        }
     }
 
-    /*public void Absorbed()
+    IEnumerator Wait()
     {
-        InputController.ExtendMaxDistanceLength(5);
-        StopAllCoroutines();
+        while (StringView.Instance.OnHitLine(obj.transform.position) == false)
+        {
+            yield return null;
+        }
         StartCoroutine(Del());
-    }*/
+    }
 
     IEnumerator Del()
     {
-		_deathSmoke.Play();
+        StringView.Instance.DestroyEnemyCount = 1;
+        _deathSmoke.Play();
+        SoundManager.Instance.PlaySE("shoumetu");
         while(_deathSmoke.isPlaying)
         {
             source.volume -= 0.07f;
@@ -57,6 +79,12 @@ public class WillOTheWisp : MonoBehaviour {
             obj.transform.position += new Vector3(Mathf.Cos(time) * 0.05f, Mathf.Sin(time)*0.1f, 0);
             time += 0.1f;
             if (Mathf.Sin(time) == 0) time = 0;
+            if (source.isPlaying == false && clips.Length > 0)
+            {
+                nowPlaingID = Random.Range(0, clips.Length);
+                source.clip = clips[nowPlaingID];
+                source.Play();
+            }
             yield return null;
         }
     }
@@ -94,6 +122,7 @@ public class WillOTheWisp : MonoBehaviour {
                     {
                         grassComponent.Wither();
                     }
+                    if(smoke != null)smoke.Play();
                 }
             }
             yield return null;

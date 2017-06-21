@@ -19,8 +19,8 @@ public class CameraController : MonoBehaviour {
     [SerializeField,Tooltip("カメラが左右に回転する速さ")]
     float panSpeed;
 
-    [SerializeField, Tooltip("カメラが上下に回転する速さ")]
-    float tiltSpeed;
+    //[SerializeField, Tooltip("カメラが上下に回転する速さ")]
+    //float tiltSpeed;
 
     RaycastHit hit;
 
@@ -32,6 +32,12 @@ public class CameraController : MonoBehaviour {
     AnimationCurve curve;
 
     void Start()
+    {
+        endPosition = transform.position;
+        StartCoroutine(MoveCamera());
+    }
+
+    void OnEnable()
     {
         endPosition = transform.position;
         StartCoroutine(MoveCamera());
@@ -54,12 +60,12 @@ public class CameraController : MonoBehaviour {
             CameraObjct.transform.localPosition += new Vector3(0, dis * 0.5f, -dis * 1.5f);
         }
 
-        Check();
+        //Check();
 
         transform.Rotate(0, Input.GetAxis("RotateCameraLeft") * panSpeed, 0, Space.Self);
     }
 
-    void Check()
+    /*void Check()
     {
         if (Physics.Raycast(transform.position + new Vector3(0, 2f, 0), transform.TransformDirection(Vector3.forward), out hit, 10f, LayerMask.GetMask("Ground")))
         {
@@ -85,7 +91,7 @@ public class CameraController : MonoBehaviour {
         {
             CameraTiltPivot.transform.Rotate(-tiltSpeed, 0, 0, Space.Self);
         }
-    }
+    }*/
 
     IEnumerator MoveCamera()
     {

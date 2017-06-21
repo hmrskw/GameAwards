@@ -9,33 +9,17 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1993432631166058}
+  m_RootGameObject: {fileID: 1761433755868112}
   m_IsPrefabParent: 1
---- !u!1 &1869167195950676
+--- !u!1 &1761433755868112
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4449143669353340}
-  - component: {fileID: 114312166656100114}
-  m_Layer: 0
-  m_Name: ObjectPooler
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1993432631166058
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4643856628980266}
-  - component: {fileID: 114353013735148342}
+  - component: {fileID: 4820719394360314}
+  - component: {fileID: 114139831482417158}
   m_Layer: 0
   m_Name: GrassManager
   m_TagString: Untagged
@@ -43,60 +27,31 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4449143669353340
+--- !u!4 &4820719394360314
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1869167195950676}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 50000, y: 0, z: 50000}
+  m_GameObject: {fileID: 1761433755868112}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2207, y: 62.3, z: 801}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4643856628980266}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4643856628980266
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1993432631166058}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 4449143669353340}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114312166656100114
+--- !u!114 &114139831482417158
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1869167195950676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6117817cf115373469b6f4ef25b16492, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _pooledTargetObject: {fileID: 1554670856587782, guid: 6fa8a4e5925e4f04cb154c15dd708789,
-    type: 2}
-  _parent: {fileID: 4449143669353340}
-  _grassData: {fileID: 11400000, guid: 4d433d5c3b05a914b989913462465aba, type: 2}
---- !u!114 &114353013735148342
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1993432631166058}
+  m_GameObject: {fileID: 1761433755868112}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9349a65c88989c9459a6ba5a5bc512b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pooler: {fileID: 114312166656100114}
+  _pooler: {fileID: 0}
   _player: {fileID: 0}
   _lm:
     serializedVersion: 2
@@ -105,3 +60,6 @@ MonoBehaviour:
   _textures:
   - {fileID: 2800000, guid: b59c92ccbd188b3489788caac8fe07f2, type: 3}
   - {fileID: 2800000, guid: 3513c072e9315c741b43e6ac513be10f, type: 3}
+  - {fileID: 2800000, guid: 24a50bd998c06a5479617f48e2da6e02, type: 3}
+  - {fileID: 2800000, guid: b4ffbdd56d330444197bbf39661bd51b, type: 3}
+  - {fileID: 2800000, guid: 7d7a9f0c6ca9e1c42bfa9904fbef463e, type: 3}

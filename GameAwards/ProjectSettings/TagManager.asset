@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - GrownGrass
   - WitheredGrass
+  - Midpoint
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - Monument
   - Grass
   - WillO
-  - 
+  - Building
   - 
   - 
   - 

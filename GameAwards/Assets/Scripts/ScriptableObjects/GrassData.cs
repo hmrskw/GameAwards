@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// ******************************************************
+/// 制作者：丸本慶大
+/// ******************************************************
+/// プランナーがデータを触りやすいように、一元管理するための
+/// ScriptableObjectを生成するための元クラス。
+/// </summary>
 public class GrassData : ScriptableObject
 {
 	[Header("★マップに関する設定値")]

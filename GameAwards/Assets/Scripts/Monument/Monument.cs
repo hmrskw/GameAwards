@@ -1,75 +1,129 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
+[System.Serializable]
 public class Monument : MonoBehaviour {
 
-    [SerializeField]
-    GameObject monument;
+    [System.Serializable]
+    public struct CameraAndMask
+    {
+        public GameObject camera;
+        public Image mask;
+    }
 
     [SerializeField]
-    ParticleSystem particle;
+    protected GameObject monument;
 
     [SerializeField]
-    GameObject guideObjct;
-    //ParticleSystem guideParticle;
+    public ParticleSystem particle;
 
     [SerializeField]
-    Monument nextMonument;
+    protected GameObject guideObjct;
 
     [SerializeField]
-    float extendLength;
+    protected Monument nextMonument;
 
-    Material mat;
+    [SerializeField]
+    protected float extendLength;
 
-    bool isOn;
+    protected Animator openAnimation;
 
-    Color objColor;
+    protected bool isOn;
+    public bool IsOn
+    {
+        private set { isOn = value; }
+        get { return isOn; }
+    }
+
+    protected float animationStart;
 
     void Start ()
     {
-        guideObjct.SetActive(false);
-        mat = monument.GetComponent<Renderer>().material;
-        objColor = mat.color;
-        mat.color = Color.grey;
+        if(guideObjct != null)guideObjct.SetActive(false);
+        openAnimation = GetComponent<Animator>();
         isOn = false;
 
         StartCoroutine(Wait());
 	}
 
-    IEnumerator Wait()
+    virtual protected IEnumerator Wait()
     {
         while (StringView.Instance.OnHitLine(transform.position) == false)
         {
             yield return null;
         }
-        StringView.Instance.GrassTextureUpdate(1);
+        StringView.Instance.GrassTextureUpdate(0);
         SoundManager.Instance.PlaySE("se object");
-        Boot();
+        StartCoroutine(Boot());
     }
-	
-    public void Boot() {
+
+    virtual protected IEnumerator Boot() {
         if (isOn == false)
         {
             isOn = true;
-            mat.color = objColor;
+            StringView.Instance.OpenFlowerCount = 1;
             particle.Play();
-            if(nextMonument != null) nextMonument.Guid();
+            yield return new WaitForSeconds(0.5f);
+            openAnimation.SetTrigger("Open");
+            if(guideObjct != null && nextMonument != null) nextMonument.Guid();
             InputController.ExtendMaxDistanceLength(extendLength);
         }
-        else if (guideObjct.activeInHierarchy == true/*guideParticle.isPlaying*/)
+        else if (guideObjct != null && guideObjct.activeInHierarchy == true)
         {
             guideObjct.SetActive(false);
-            //guideParticle.Stop();
         }
     }
 
     public void Guid()
     {
-        if(isOn == false && guideObjct.activeInHierarchy == false/*guideParticle.isPlaying == false*/)
+        if(isOn == false && guideObjct.activeInHierarchy == false)
         {
             guideObjct.SetActive(true);
-            //guideParticle.Play();
         }
     }
+
+    protected IEnumerator FadeOut(CameraAndMask fadeOut, float time)
+    {
+        float startTime = Time.timeSinceLevelLoad;
+        float diff = Time.timeSinceLevelLoad - startTime;
+        Color maskAlpha = new Color(0, 0, 0, 0);
+
+        while (diff < (time))
+        {
+            diff = Time.timeSinceLevelLoad - startTime;
+            maskAlpha.a = diff / (time);
+            fadeOut.mask.color = maskAlpha;
+            yield return null;
+        }
+    }
+
+    protected IEnumerator FadeIn(CameraAndMask fadeIn, float time)
+    {
+        float startTime = Time.timeSinceLevelLoad;
+        float diff = Time.timeSinceLevelLoad - startTime;
+        Color maskAlpha = new Color(0, 0, 0, 1);
+
+        while (diff < time)
+        {
+            diff = Time.timeSinceLevelLoad - startTime;
+            maskAlpha.a = 1 - (diff / (time));
+            fadeIn.mask.color = maskAlpha;
+            yield return null;
+        }
+    }
+
+    protected IEnumerator FadeInFadeOut(CameraAndMask fadeOut, CameraAndMask fadeIn, float time, Action func)
+    {
+        yield return StartCoroutine(FadeOut(fadeOut, time / 2f));
+
+        fadeOut.camera.SetActive(false);
+        if (func != null) func();
+        fadeIn.camera.SetActive(true);
+
+        yield return StartCoroutine(FadeIn(fadeIn, time / 2f));
+    }
+
 }

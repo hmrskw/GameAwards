@@ -1,16 +1,18 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// ******************************************************
+/// 制作者：丸本慶大
+/// ******************************************************
+/// 暴風壁渦巻かせるスクリプト。
+/// </summary>
 public class TornadoSpin : MonoBehaviour {
 	[SerializeField]
-	float _angleSpeed;
+	Vector3 _angleSpeed;
 
-	IEnumerator Start ()
+	private void FixedUpdate()
 	{
-		while (true)
-		{
-			transform.Rotate(new Vector3(0, _angleSpeed, 0));
-			yield return null;
-		}
+		transform.Rotate(new Vector3(_angleSpeed.x, _angleSpeed.y, _angleSpeed.z));
 	}
 }

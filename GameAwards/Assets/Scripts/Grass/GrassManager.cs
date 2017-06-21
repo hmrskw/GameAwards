@@ -10,6 +10,13 @@ enum MoveDirection
 	Back    = -1
 }
 
+/// <summary>
+/// ******************************************************
+/// 制作者：丸本慶大
+/// ******************************************************
+/// チャンクロード方式を管理するクラス。
+/// 一定範囲のみ草を読み込んで生やす。
+/// </summary>
 public class GrassManager : MonoBehaviour {
 	[SerializeField]
 	ObjectPooler _pooler;
@@ -19,14 +26,10 @@ public class GrassManager : MonoBehaviour {
     LayerMask _lm;
 	[SerializeField]
 	GrassData _grassData;
-
 	[SerializeField]
 	List<Texture> _textures;
 
 	private MaterialPropertyBlock _matPropBlock;
-
-	private int _halfWidth;
-	private int _halfDepth;
 
 	private Vector3 _playerLocation = new Vector3();
 	private Vector3 _oldLocation = new Vector3();
@@ -38,13 +41,7 @@ public class GrassManager : MonoBehaviour {
 	private int _endIndexX = 0;
 	private int _endIndexZ = 0;
 
-	private int _tipSize;
-	private int _oneLinePerChunkTipNum;
-	private int _oneChunkTipNum;
-	private int _oneChunkSize;
-	private int _dummyPointElements;
-	private int _maptipIndicesElements;
-
+	private GrassChunk _grassChunk;
 	private GrassDummyPoint[,] _maptipsDummyPoint;
 	private Vector2[,,] _maptipsIndices;
 
@@ -62,8 +59,8 @@ public class GrassManager : MonoBehaviour {
 		_xIndex = new int();
 		_zIndex = new int();
 
-		_xIndex = (int)_position.x / _tipSize;
-		_zIndex = (int)_position.z / _tipSize;
+		_xIndex = (int)_position.x / _grassChunk.TipSize;
+		_zIndex = (int)_position.z / _grassChunk.TipSize;
 	}
 
 	/// <summary>
@@ -88,35 +85,45 @@ public class GrassManager : MonoBehaviour {
 		_maptipsDummyPoint[_zIndex, _xIndex].SetTexIndex(_texIndex);
 	}
 
+	/// <summary>
+	/// インデックスからダミーポイントを取得し返却する。
+	/// </summary>
+	/// <param name="_xIndex"></param>
+	/// <param name="_zIndex"></param>
+	/// <returns></returns>
 	public GrassDummyPoint GetDummyPoint(int _xIndex, int _zIndex)
 	{
 		return _maptipsDummyPoint[_zIndex, _xIndex];
 	}
 
+	/// <summary>
+	/// 与えられたインデックスに応じたテクスチャをセットしたMaterialPropetyBlockを返す。
+	/// </summary>
+	/// <param name="_texIndex"></param>
+	/// <returns></returns>
 	public MaterialPropertyBlock GetMatPropBlock(int _texIndex)
 	{
 		_matPropBlock.SetTexture("_MainTex", _textures[_texIndex]);
 		return _matPropBlock;
 	}
 
+	/// <summary>
+	/// 1から引数で与えられた数値までのランダム値を返却。
+	/// </summary>
+	/// <param name="_maxTexCount"></param>
+	/// <returns></returns>
+	public int GetRandomTextureIndex(int _maxTexCount)
+	{
+		return Random.Range(1, _maxTexCount);
+	}
+
 	private void Start ()
 	{
-		_tipSize = _grassData.TipSize;
-		_oneLinePerChunkTipNum = _grassData.OneLinePerChunkTipNum;
-		_oneChunkTipNum = _oneLinePerChunkTipNum * _oneLinePerChunkTipNum;
-		_oneChunkSize = _tipSize * _oneLinePerChunkTipNum;
-		_dummyPointElements = _grassData.TerrainSize / _tipSize;
-		_maptipIndicesElements = _grassData.TerrainSize / _oneChunkSize;
-
+		_grassChunk = new GrassChunk(_grassData);
 		_matPropBlock = new MaterialPropertyBlock();
 
-		_maptipsDummyPoint = new GrassDummyPoint[_dummyPointElements, _dummyPointElements];
-		_maptipsIndices = new Vector2[_maptipIndicesElements, _maptipIndicesElements, _oneChunkTipNum];
-
-		if (_grassData.ChunkWidth % 2 == 1) _halfWidth = (_grassData.ChunkWidth - 1) / 2;
-		else _halfWidth = _grassData.ChunkWidth / 2;
-		if (_grassData.ChunkDepth % 2 == 1) _halfDepth = (_grassData.ChunkDepth - 1) / 2;
-		else _halfDepth = _grassData.ChunkDepth / 2;
+		_maptipsDummyPoint = new GrassDummyPoint[_grassChunk.DummyPointElements, _grassChunk.DummyPointElements];
+		_maptipsIndices = new Vector2[_grassChunk.MaptipIndicesElements, _grassChunk.MaptipIndicesElements, _grassChunk.OneChunkTipNum];
 
 		_pooledObjects = _pooler.GetObjects();
 		SetupDummyPoint();
@@ -137,9 +144,9 @@ public class GrassManager : MonoBehaviour {
 
 	private IEnumerator Search()
 	{
-		_playerLocation = new Vector3((int)_player.position.x / _oneChunkSize,
+		_playerLocation = new Vector3((int)_player.position.x / _grassChunk.OneChunkSize,
 									  0,
-									  (int)_player.position.z / _oneChunkSize);
+									  (int)_player.position.z / _grassChunk.OneChunkSize);
 
 		var _waitSeconds = new WaitForSeconds(0.2f);
 
@@ -147,9 +154,9 @@ public class GrassManager : MonoBehaviour {
 		{
 			_oldLocation = _playerLocation;
 
-			_playerLocation = new Vector3((int)_player.position.x / _oneChunkSize,
+			_playerLocation = new Vector3((int)_player.position.x / _grassChunk.OneChunkSize,
 										  0,
-										  (int)_player.position.z / _oneChunkSize);
+										  (int)_player.position.z / _grassChunk.OneChunkSize);
 
 			_movedChunkDirection = _playerLocation - _oldLocation;
 
@@ -159,11 +166,11 @@ public class GrassManager : MonoBehaviour {
 
 	private void SetIndex()
 	{
-		int _startX = (int)System.Math.Max(0, _playerLocation.x - _halfWidth);
-		int _endX = (int)System.Math.Min(_maptipIndicesElements, _playerLocation.x + _halfWidth);
+		int _startX = (int)System.Math.Max(0, _playerLocation.x - _grassChunk.HalfWidth);
+		int _endX = (int)System.Math.Min(_grassChunk.MaptipIndicesElements, _playerLocation.x + _grassChunk.HalfWidth);
 
-		int _startZ = (int)System.Math.Max(0, _playerLocation.z - _halfDepth);
-		int _endZ = (int)System.Math.Min(_maptipIndicesElements, _playerLocation.z + _halfDepth);
+		int _startZ = (int)System.Math.Max(0, _playerLocation.z - _grassChunk.HalfDepth);
+		int _endZ = (int)System.Math.Min(_grassChunk.MaptipIndicesElements, _playerLocation.z + _grassChunk.HalfDepth);
 
 		_startIndexX = _startX;
 		_startIndexZ = _startZ;
@@ -239,7 +246,7 @@ public class GrassManager : MonoBehaviour {
 
 	private void GrassUpdate(int _chunkWidth, int _chunkDepth, int _count)
 	{
-		for (int i = 0; i < _oneChunkTipNum; i++)
+		for (int i = 0; i < _grassChunk.OneChunkTipNum; i++)
 		{
 			Vector2 _index = _maptipsIndices[_chunkDepth, _chunkWidth, i];
 			GrassDummyPoint _dummyPoint = _maptipsDummyPoint[(int)_index.x, (int)_index.y];
@@ -272,15 +279,15 @@ public class GrassManager : MonoBehaviour {
 		int _countWidth = 0;
 		int _countDepth = 0;
 
-		for (int i = 0; i < _maptipIndicesElements; i++)
+		for (int i = 0; i < _grassChunk.MaptipIndicesElements; i++)
 		{
-			for (int j = 0; j < _oneLinePerChunkTipNum; j++)
+			for (int j = 0; j < _grassChunk.OneLinePerChunkTipNum; j++)
 			{
-				for (int k = 0; k < _maptipIndicesElements; k++)
+				for (int k = 0; k < _grassChunk.MaptipIndicesElements; k++)
 				{
-					for (int l = 0; l < _oneLinePerChunkTipNum; l++)
+					for (int l = 0; l < _grassChunk.OneLinePerChunkTipNum; l++)
 					{
-						_maptipsIndices[i, k, j * _oneLinePerChunkTipNum + l] = new Vector2(_countDepth, _countWidth);
+						_maptipsIndices[i, k, j * _grassChunk.OneLinePerChunkTipNum + l] = new Vector2(_countDepth, _countWidth);
 						_countWidth++;
 					}
 				}
@@ -292,9 +299,9 @@ public class GrassManager : MonoBehaviour {
 
 	private void SetupDummyPoint()
 	{
-		for (int i = 0; i < _dummyPointElements; i++)
+		for (int i = 0; i < _grassChunk.DummyPointElements; i++)
 		{
-			for (int j = 0; j < _dummyPointElements; j++)
+			for (int j = 0; j < _grassChunk.DummyPointElements; j++)
 			{
 				SetPoint(j, i);
 			}
@@ -305,14 +312,14 @@ public class GrassManager : MonoBehaviour {
 
 	private void SetPoint(int _indexX, int _indexZ)
 	{
-		Vector3 _point = new Vector3(_indexX * _tipSize, 1000, _indexZ * _tipSize);
+		Vector3 _point = new Vector3(_indexX * _grassChunk.TipSize, 1000, _indexZ * _grassChunk.TipSize);
 		Ray _ray = new Ray(_point, new Vector3(0, -1, 0));
 		RaycastHit _hit;
 		_maptipsDummyPoint[_indexZ, _indexX] = new GrassDummyPoint(new Vector3(_point.x, -1000, _point.z), Quaternion.identity, true, new Vector3(0, 0, 0));
 
 		if (Physics.Raycast(_ray, out _hit, 2000, _lm))
 		{
-			_ray.origin = _point + new Vector3(_tipSize, 0, _tipSize);
+			_ray.origin = _point + new Vector3(_grassChunk.TipSize, 0, _grassChunk.TipSize);
 			RaycastHit _anotherHit;
 
 			if(Physics.Raycast(_ray,out _anotherHit, 2000, _lm))

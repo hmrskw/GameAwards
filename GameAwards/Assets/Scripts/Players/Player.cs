@@ -8,6 +8,9 @@ public class Player : MonoBehaviour {
     LayerMask mask;
 
     [SerializeField]
+    LayerMask buildingMask;
+
+    [SerializeField]
     float gravity;
 
     [SerializeField]
@@ -82,26 +85,40 @@ public class Player : MonoBehaviour {
         }
 
         //移動している間アニメーションを動かす
-        animator.SetBool("IsWalk", (characterMoveForward != Vector3.zero) && !isPulled || StringView.Instance.isSpin);
+        animator.SetBool("IsWalk", (characterMoveForward != Vector3.zero) && !isPulled || StringView.Instance.IsSpin);
         animator.SetBool("IsJump", (!canJump));
         animator.SetBool("IsPulled", (isPulled));
 
-        //移動方向を向かせる(移動方向+坂の傾き)
-        if (!isPulled)
-        transform.LookAt(
-            transform.position + 
-            new Vector3(characterMoveForward.x, 0f, characterMoveForward.z) + 
-            new Vector3(slope.x, 0f, slope.z) +
-            new Vector3(centripetalDirection.x, 0f, centripetalDirection.z));
-        else
-            transform.LookAt((
-                transform.position -
-                new Vector3(characterMoveForward.x, 0f, characterMoveForward.z) -
-                new Vector3(slope.x, 0f, slope.z) -
-                new Vector3(centripetalDirection.x, 0f, centripetalDirection.z)));
-        //Debug.Log(((characterMoveForward + new Vector3(slope.x, velocity, slope.z)) * speed));
-        // 移動方向にスピードを掛けたものに、坂を滑り落ちる速度と向心力を加算
-        transform.Translate(((characterMoveForward + new Vector3(slope.x , velocity, slope.z)) * speed) + centripetalDirection, Space.World);
+        animator.SetBool("Hit", Physics.Raycast(transform.position + new Vector3(0, 2f, 0), characterMoveForward/*,out hit*/, 5f, buildingMask));
+
+        if (animator.GetCurrentAnimatorStateInfo(0).shortNameHash != Animator.StringToHash("Butukaru"))
+        {
+            //移動方向を向かせる(移動方向+坂の傾き)
+            if (!isPulled)
+            {
+                transform.LookAt(
+                    transform.position +
+                    new Vector3(characterMoveForward.x, 0f, characterMoveForward.z) +
+                    new Vector3(slope.x, 0f, slope.z) +
+                    new Vector3(centripetalDirection.x, 0f, centripetalDirection.z));
+            }
+            else
+            {
+                transform.LookAt((
+                    transform.position -
+                    new Vector3(characterMoveForward.x, 0f, characterMoveForward.z) -
+                    new Vector3(slope.x, 0f, slope.z) -
+                    new Vector3(centripetalDirection.x, 0f, centripetalDirection.z)));
+            }
+            //RaycastHit hit;
+
+            // 移動方向にスピードを掛けたものに、坂を滑り落ちる速度と向心力を加算
+            transform.Translate(((characterMoveForward + new Vector3(slope.x, velocity, slope.z)) * speed) + centripetalDirection, Space.World);
+        }
+        else if(Physics.Raycast(transform.position + new Vector3(0, 2f, 0), characterMoveForward/*,out hit*/, 5f, buildingMask))
+        {
+            transform.Translate(-(((characterMoveForward + new Vector3(slope.x, velocity, slope.z)) * speed) + centripetalDirection), Space.World);
+        }
         centripetalDirection = Vector3.zero;
     }
 
@@ -150,33 +167,6 @@ public class Player : MonoBehaviour {
             
         }
     }
-
-    /*void OnTriggerEnter(Collider col)
-    {
-        Debug.Log("hit");
-
-        velocity = 0;
-        canJump = true;
-
-        Vector3 hitPoint = col.ClosestPointOnBounds(transform.position);
-
-        Debug.Log(hitPoint + " === " + transform.position);
-        Vector3 a = hitPoint - transform.position;
-        Debug.Log("a = " + a);
-
-        a = a.normalized;
-
-        Debug.Log("a.normalized = " + a);
-
-        Debug.Log("point" + hitPoint + "a" + a);
-        Plane p = new Plane(a,hitPoint);
-        
-        float dis = p.GetDistanceToPoint(transform.position);
-
-        Debug.Log(dis);
-
-        transform.position += a * dis;
-    }*/
     
     void OnCollisionExit(Collision other)
     {
@@ -203,11 +193,6 @@ public class Player : MonoBehaviour {
 
         float num = (Vector3.Angle(Vector3.Cross(-characterMoveDirection,Vector3.up), direction * f)-90f)/4.5f*speed;
         centripetalDirection = Vector3.Cross(direction * f,Vector3.up)* num;
-    }
-
-    public void SetInputDirection(Vector3 inputDirection)
-    {
-
     }
 
     /// <summary>

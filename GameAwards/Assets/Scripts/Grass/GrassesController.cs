@@ -3,12 +3,22 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// ******************************************************
+/// 制作者：丸本慶大
+/// ******************************************************
+/// 草オブジェクトをいくつかまとめたブロックで管理するため
+/// そのブロック内の草をまとめてコントロールするクラス。
+/// </summary>
 public class GrassesController : MonoBehaviour {
 	[SerializeField]
 	List<Grass> _grasses;
 
 	[SerializeField]
 	GrassData _grassData;
+
+	[SerializeField]
+	List<ParticleSystem> _particle;
 
 	List<MeshRenderer> _renderers;
 
@@ -59,6 +69,14 @@ public class GrassesController : MonoBehaviour {
 		for(int i = 0; i < _renderers.Count; i++)
 		{
 			_renderers[i].SetPropertyBlock(_mat);
+		}
+	}
+
+	public void PlayParticle()
+	{
+		foreach(var _part in _particle)
+		{
+			_part.Play();
 		}
 	}
 }
