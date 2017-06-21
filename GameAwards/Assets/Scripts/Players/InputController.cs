@@ -45,11 +45,19 @@ public class InputController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        //スティックの入力を受け取る
-        var character1Horizontal = Input.GetAxis("LeftHorizontal");
-        var character1Vertical = Input.GetAxis("LeftVertical");
-        var character2Horizontal = Input.GetAxis("RightHorizontal");
-        var character2Vertical = Input.GetAxis("RightVertical");
+        float character1Horizontal = 0;
+        float character1Vertical = 0;
+        float character2Horizontal = 0;
+        float character2Vertical = 0;
+
+        if (StringView.Instance.isPlayCutScene == false)
+        {
+            //スティックの入力を受け取る
+            character1Horizontal = Input.GetAxis("LeftHorizontal");
+            character1Vertical = Input.GetAxis("LeftVertical");
+            character2Horizontal = Input.GetAxis("RightHorizontal");
+            character2Vertical = Input.GetAxis("RightVertical");
+        }
 
         pulledCharacter = PulledCharacter.NONE;
         StringView.Instance.IsSpin = false;
@@ -159,19 +167,21 @@ public class InputController : MonoBehaviour {
                 SoundManager.Instance.StopBGM("asioto");
             }
         }
-
-        //ジャンプ
-        if (Input.GetButton("LeftJump") && PlayerCharacter1Components.playerModel.CanJump &&
+        if (StringView.Instance.isPlayCutScene == false)
+        {
+            //ジャンプ
+            if (Input.GetButton("LeftJump") && PlayerCharacter1Components.playerModel.CanJump &&
             PlayerCharacter1.transform.position.y - PlayerCharacter2.transform.position.y < maxDistanceLength)
-        {
-            PlayerCharacter1Components.playerModel.CanJump = false;
-            SoundManager.Instance.PlaySE("jump");
-        }
-        if (Input.GetButton("RightJump") && PlayerCharacter2Components.playerModel.CanJump &&
-            PlayerCharacter2.transform.position.y - PlayerCharacter1.transform.position.y < maxDistanceLength)
-        {
-            PlayerCharacter2Components.playerModel.CanJump = false;
-            SoundManager.Instance.PlaySE("jump");
+            {
+                PlayerCharacter1Components.playerModel.CanJump = false;
+                SoundManager.Instance.PlaySE("jump");
+            }
+            if (Input.GetButton("RightJump") && PlayerCharacter2Components.playerModel.CanJump &&
+                PlayerCharacter2.transform.position.y - PlayerCharacter1.transform.position.y < maxDistanceLength)
+            {
+                PlayerCharacter2Components.playerModel.CanJump = false;
+                SoundManager.Instance.PlaySE("jump");
+            }
         }
     }
 

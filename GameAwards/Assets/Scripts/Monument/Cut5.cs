@@ -21,8 +21,8 @@ public class Cut5 : Monument {
     [SerializeField, Tooltip("演出で移動する敵の移動先")]
     Transform moveCharacterTarget;
 
-    [SerializeField]
-    GameObject wall;
+    //[SerializeField]
+    //GameObject wall;
 
     [SerializeField]
     Player p1;
@@ -67,7 +67,7 @@ public class Cut5 : Monument {
     {
         int initialDestroyEnemyCount = StringView.Instance.DestroyEnemyCount;
         yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera, 1.0f, ChangePlayer));
-        wall.SetActive(true);
+        //wall.SetActive(true);
         yield return StartCoroutine(MoveCamera());
 
         yield return new WaitForSeconds(1f);
@@ -79,11 +79,14 @@ public class Cut5 : Monument {
         }
 
         yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera, 1.0f, ChangePlayer));
+        yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera, 1.0f, ()=> {
+            guideObjct.SetActive(false);
+            ChangePlayer();
+        }));
         //isOn = false;
         //yield return StartCoroutine(MoveCamera());
         yield return StartCoroutine(FlowerAnim());
-        wall.SetActive(false);
+        //wall.SetActive(false);
         yield return StartCoroutine(FadeInFadeOut(CutSceneCamera, GoalSceneCamera, 1.0f,null));
         wind.Stop();
         yield return new WaitForSeconds(5f);
@@ -96,7 +99,6 @@ public class Cut5 : Monument {
         StringView.Instance.cutP2 = p2.transform;
         StringView.Instance.isPlayCutScene = !StringView.Instance.isPlayCutScene;
 
-        guideObjct.SetActive(false);
         CutSceneCamera.camera.transform.LookAt(cameraTargetTransform);
     }
 
