@@ -16,8 +16,8 @@ public class Player : MonoBehaviour {
     [SerializeField]
     float speed;
 
-    [SerializeField]
-    float jumpPower;
+    //[SerializeField]
+    //float jumpPower;
 
     [SerializeField]
     float slopeAngle;
@@ -27,9 +27,9 @@ public class Player : MonoBehaviour {
     Vector3 characterMoveForward;
 
     Vector3 centripetalDirection;
-    
+
     [SerializeField]
-    float jpower = 0.49f;
+    float jpower;//  = 0.49f;
 
     float velocity = 0;
 
@@ -37,7 +37,7 @@ public class Player : MonoBehaviour {
     bool canJump;
     public bool CanJump {
         set {
-            velocity = jpower;
+            velocity = jpower/speed;
             canJump = value;
         }
         get {
@@ -189,7 +189,7 @@ public class Player : MonoBehaviour {
     /// </summary>
     public void Centripetal(float distance,Vector3 direction ,Vector3 characterMoveDirection)
     {
-        float f = (speed * speed) / distance;
+        float f = (/*speed * speed*/1) / distance;
 
         float num = (Vector3.Angle(Vector3.Cross(-characterMoveDirection,Vector3.up), direction * f)-90f)/4.5f*speed;
         centripetalDirection = Vector3.Cross(direction * f,Vector3.up)* num;

@@ -59,7 +59,6 @@ public class HumanTree : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        Debug.Log("en" + col.gameObject.tag);
         if (StringView.Instance.IsDraw == false && col.gameObject.tag == "Midpoint")
         {
             StringView.Instance.IsDraw = true;

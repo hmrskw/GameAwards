@@ -42,6 +42,9 @@ public class GoalController : MonoBehaviour
     IEnumerator Task()
     {
         yield return StartCoroutine(Wait());
+        windObj.SetActive(false);
+        pulseObj.gameObject.SetActive(true);
+        /*
         while (StringView.Instance.isPlayCutScene)
         {
             yield return null;
@@ -52,16 +55,15 @@ public class GoalController : MonoBehaviour
         yield return StartCoroutine(FadeIn(CutSceneCamera, 1));
 
         //windParticle.Stop();
-        pulseObj.gameObject.SetActive(true);
         //yield return new WaitForSeconds(5f);
-        windObj.SetActive(false);
 
         yield return StartCoroutine(FadeOut(CutSceneCamera, 1));
         CutSceneCamera.camera.SetActive(false);
         mainCamera.camera.SetActive(true);
         yield return StartCoroutine(FadeIn(mainCamera, 1));
+        */
     }
-
+    /*
     IEnumerator FadeOut(CameraAndMask fadeOut, float time)
     {
         float startTime = Time.timeSinceLevelLoad;
@@ -91,7 +93,7 @@ public class GoalController : MonoBehaviour
             yield return null;
         }
     }
-
+    */
 
     IEnumerator Wait()
     {
@@ -105,7 +107,6 @@ public class GoalController : MonoBehaviour
                 }
                 if (open == false) break;
             }
-            //if (open == true && windObj.activeInHierarchy == true) windObj.SetActive(false);
             yield return null;
         }
     }    

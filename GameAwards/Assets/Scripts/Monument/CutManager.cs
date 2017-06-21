@@ -104,7 +104,7 @@ public class CutManager : Monument
     IEnumerator Task()
     {
         yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera[cameraIndex], 1.0f,()=> {
-            guideObjct.SetActive(false);
+            if(guideObjct != null) guideObjct.SetActive(false);
 
             playerCharacter.SetActive(!playerCharacter.activeInHierarchy);
             cutSceneP1.SetActive(!cutSceneP1.activeInHierarchy);
@@ -130,7 +130,7 @@ public class CutManager : Monument
             yield return new WaitForSeconds(5f);
 
             yield return StartCoroutine(FadeInFadeOut(GoalSceneCamera, MainCamera, 1.0f, () => {
-                guideObjct.SetActive(false);
+                //guideObjct.SetActive(false);
 
                 playerCharacter.SetActive(!playerCharacter.activeInHierarchy);
                 cutSceneP1.SetActive(!cutSceneP1.activeInHierarchy);
