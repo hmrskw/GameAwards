@@ -80,7 +80,7 @@ public class CutScene : Monument
             SoundManager.Instance.StopBGM("asioto");
         }*/
 
-        StringView.Instance.GrassTextureUpdate(1);
+        StringView.Instance.GrassTextureUpdate(0);
         //SoundManager.Instance.PlaySE("se object");
         if (StringView.Instance.isPlayCutScene == false) StartCutScene();
     }

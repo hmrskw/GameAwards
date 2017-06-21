@@ -279,8 +279,8 @@ public class StringView : MonoBehaviour {
         {
             _texIndex = 0;
         }
-        else if(_texIndex > 1){
-            _texIndex = 1;
+        else if(_texIndex > 3){
+            _texIndex = 3;
         }
     }
 

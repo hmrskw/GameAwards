@@ -90,7 +90,10 @@ public class Cut5 : Monument {
         yield return StartCoroutine(FadeInFadeOut(CutSceneCamera, GoalSceneCamera, 1.0f,null));
         wind.Stop();
         yield return new WaitForSeconds(5f);
-        yield return StartCoroutine(FadeInFadeOut(GoalSceneCamera, MainCamera, 1.0f, ChangePlayer));
+        yield return StartCoroutine(FadeInFadeOut(GoalSceneCamera, MainCamera, 1.0f, ()=> {
+            StringView.Instance.GrassTextureUpdate(1);
+            ChangePlayer();
+        }));
     }
 
     void ChangePlayer()
