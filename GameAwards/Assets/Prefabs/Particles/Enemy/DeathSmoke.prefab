@@ -65,7 +65,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1197208100902024}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1120, y: 88, z: 2006.31}
+  m_LocalPosition: {x: 1911.9, y: 4.89, z: 784.92}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4012508676086384}
@@ -127,7 +127,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -311330966
+  randomSeed: 1264673380
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -904,7 +904,7 @@ ParticleSystem:
     enabled: 1
     frameOverTime:
       minMaxState: 0
-      scalar: 0.78125
+      scalar: 0.125
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -968,8 +968,8 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    tilesX: 8
-    tilesY: 8
+    tilesX: 4
+    tilesY: 4
     animationType: 0
     rowIndex: 0
     cycles: 1
@@ -2939,7 +2939,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
-  randomSeed: -1321832203
+  randomSeed: -924233501
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3074,13 +3074,13 @@ ParticleSystem:
       maxColor: {r: 0.47843137, g: 0.9764706, b: 1, a: 1}
     startSize:
       minMaxState: 3
-      scalar: 2
+      scalar: 1.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 2
           time: 0
-          value: 1
+          value: 0.8666666
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -3092,7 +3092,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 2
           time: 0
-          value: 0.75
+          value: 1
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -3728,7 +3728,7 @@ ParticleSystem:
     enabled: 1
     frameOverTime:
       minMaxState: 0
-      scalar: 0.78125
+      scalar: 0.125
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -3792,8 +3792,8 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    tilesX: 8
-    tilesY: 8
+    tilesX: 4
+    tilesY: 4
     animationType: 0
     rowIndex: 0
     cycles: 1
@@ -4958,7 +4958,7 @@ ParticleSystem:
     radiusScale: 1
   SubModule:
     serializedVersion: 2
-    enabled: 1
+    enabled: 0
     subEmitters:
     - emitter: {fileID: 0}
       type: 2
