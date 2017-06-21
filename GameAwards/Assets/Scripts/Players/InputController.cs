@@ -170,13 +170,13 @@ public class InputController : MonoBehaviour {
         if (StringView.Instance.isPlayCutScene == false)
         {
             //ジャンプ
-            if (Input.GetButton("LeftJump") && PlayerCharacter1Components.playerModel.CanJump &&
+            if (Input.GetButtonDown("LeftJump") && PlayerCharacter1Components.playerModel.CanJump &&
             PlayerCharacter1.transform.position.y - PlayerCharacter2.transform.position.y < maxDistanceLength)
             {
                 PlayerCharacter1Components.playerModel.CanJump = false;
                 SoundManager.Instance.PlaySE("jump");
             }
-            if (Input.GetButton("RightJump") && PlayerCharacter2Components.playerModel.CanJump &&
+            if (Input.GetButtonDown("RightJump") && PlayerCharacter2Components.playerModel.CanJump &&
                 PlayerCharacter2.transform.position.y - PlayerCharacter1.transform.position.y < maxDistanceLength)
             {
                 PlayerCharacter2Components.playerModel.CanJump = false;
