@@ -96,7 +96,6 @@ public class CutManager : Monument
             yield return null;
         }
         StringView.Instance.GrassTextureUpdate(1);
-        SoundManager.Instance.PlaySE("se object");
         //SoundManager.Instance.PlaySE("se object");
         if (StringView.Instance.isPlayCutScene == false) StartCutScene();
     }
@@ -291,7 +290,10 @@ public class CutManager : Monument
                 yield return null;
             }
         }
-        if(particle != null)particle.Play();
+        if (particle != null) {
+            SoundManager.Instance.PlaySE("se object");
+            particle.Play();
+        }
     }
 
     IEnumerator Zoom(int index)
