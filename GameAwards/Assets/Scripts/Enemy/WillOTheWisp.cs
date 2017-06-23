@@ -50,7 +50,7 @@ public class WillOTheWisp : MonoBehaviour {
 
     IEnumerator Wait()
     {
-        while (StringView.Instance.OnHitLine(obj.transform.position) == false)
+        while (StringView.Instance.OnHitLine(new Vector3(obj.transform.position.x, 0, obj.transform.position.z)) == false)
         {
             yield return null;
         }
@@ -97,7 +97,7 @@ public class WillOTheWisp : MonoBehaviour {
         Ray ray = new Ray(obj.transform.position, -transform.up);
         RaycastHit hit;
 
-        while (StringView.Instance.OnHitLine(obj.transform.position) == false)
+        while (StringView.Instance.OnHitLine(new Vector3(obj.transform.position.x,0, obj.transform.position.z)) == false)
         {
             if (Vector3.Distance(obj.transform.position, targetPosition[tartgetID].position) < 5) {
                 tartgetID = Random.Range(0, targetPosition.Length);

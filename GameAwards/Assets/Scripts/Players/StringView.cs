@@ -283,23 +283,23 @@ public class StringView : MonoBehaviour {
             {
                 Vector3 curve =
                     B_SplineCurve(
-                        head.position + new Vector3(0, 3, 0),
-                        tail.position + new Vector3(0, 3, 0),
-                        point + new Vector3(0, 3, 0),
+                        head.position/* + new Vector3(0, 3, 0)*/,
+                        tail.position/* + new Vector3(0, 3, 0)*/,
+                        point/* + new Vector3(0, 3, 0)*/,
                         length
                     );
-                if (Vector3.Distance(new Vector3(curve.x, curve.y, curve.z), new Vector3(position.x, position.y, position.z)) < 5) return true;
+                if (Vector3.Distance(new Vector3(curve.x, curve.y, curve.z), new Vector3(position.x, position.y, position.z)) < 3) return true;
             }
             else
             {
                 Vector3 curve =
                     B_SplineCurve(
-                        cutP1.position + new Vector3(0, 3, 0),
-                        cutP2.position + new Vector3(0, 3, 0),
-                        point + new Vector3(0, 3, 0),
+                        cutP1.position/* + new Vector3(0, 3, 0)*/,
+                        cutP2.position/* + new Vector3(0, 3, 0)*/,
+                        point/* + new Vector3(0, 3, 0)*/,
                         length
                     );
-                if (Vector3.Distance(new Vector3(curve.x, curve.y, curve.z), new Vector3(position.x, position.y, position.z)) < 5) return true;
+                if (Vector3.Distance(new Vector3(curve.x, curve.y, curve.z), new Vector3(position.x, position.y, position.z)) < 3) return true;
             }
         }
         return false;

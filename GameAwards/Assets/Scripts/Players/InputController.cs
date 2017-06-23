@@ -37,6 +37,8 @@ public class InputController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        maxDistanceLength = 10;
+
         PlayerCharacter1Components.playerModel = PlayerCharacter1.GetComponent<Player>();
 
         PlayerCharacter2Components.playerModel = PlayerCharacter2.GetComponent<Player>();
