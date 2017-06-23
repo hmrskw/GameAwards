@@ -22,8 +22,8 @@ TagManager:
   - Grass
   - WillO
   - Building
-  - 
-  - 
+  - PlayerPhysics
+  - PlayersCollision
   - 
   - 
   - 
