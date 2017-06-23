@@ -74,14 +74,9 @@ public class CutScene : Monument
         while (StringView.Instance.OnHitLine(transform.position) == false)
         {
             yield return null;
-        }/*
-        if (SoundManager.Instance.IsPlayBGM("asioto") == true)
-        {
-            SoundManager.Instance.StopBGM("asioto");
-        }*/
+        }
 
         StringView.Instance.GrassTextureUpdate(0);
-        //SoundManager.Instance.PlaySE("se object");
         if (StringView.Instance.isPlayCutScene == false) StartCutScene();
     }
 
