@@ -28,6 +28,9 @@ public class TitlePopupController : MonoBehaviour {
 	[SerializeField]
 	TitleController _titleCtrl;
 
+	[SerializeField]
+	ProgressBarController _progCtrl;
+
 	void Start ()
 	{
 		StartCoroutine(FadeInPopup());
@@ -52,6 +55,8 @@ public class TitlePopupController : MonoBehaviour {
 			yield return null;
 		}
 
+		StartCoroutine(FadeInProgressBar());
+
 		foreach(var _text in _flavorText)
 		{
 			_startTime = Time.timeSinceLevelLoad;
@@ -72,5 +77,22 @@ public class TitlePopupController : MonoBehaviour {
 		}
 
 		StartCoroutine(_titleCtrl.LoadSceneAsync());
+	}
+
+	IEnumerator FadeInProgressBar()
+	{
+		float _startTime = Time.timeSinceLevelLoad;
+		float _elapsedTimeRatio = 0.0f;
+
+		while(_elapsedTimeRatio <= 1.0f)
+		{
+			float _elapsedTime = Time.timeSinceLevelLoad - _startTime;
+			_elapsedTimeRatio = _elapsedTime / _fadeTime;
+			float _curveValue = _curve.Evaluate(_elapsedTimeRatio);
+
+			_progCtrl.ChangeBarAlpha(_curveValue);
+
+			yield return null;
+		}
 	}
 }

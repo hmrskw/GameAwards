@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< 8c154c13e9ea5042c9b30ba76beddac91225260d
 guid: 09434f54583f0bc4f887579d35cf771d
 timeCreated: 1498222987
+=======
+guid: 40253d42a5429bd4e96e57451a13194a
+timeCreated: 1498235464
+>>>>>>> タイトル演出を追加。
 licenseType: Free
 VideoClipImporter:
   serializedVersion: 2

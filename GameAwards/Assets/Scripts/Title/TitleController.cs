@@ -18,10 +18,7 @@ public class TitleController : MonoBehaviour {
 	GameObject _button;
 
 	[SerializeField, Tooltip("タイトルロゴとPushAnyButtonの文字")]
-	GameObject _logos;
-
-	[SerializeField, Tooltip("フェードアウト用のマスク画像")]
-	Image _fadeMaskImage;
+	Text _logos;
 
 	[SerializeField, Tooltip("フェードのアニメーション用")]
 	AnimationCurve _fadeCurve;
@@ -89,8 +86,8 @@ public class TitleController : MonoBehaviour {
 
 	private IEnumerator DisplayPopup()
 	{
-		_logos.SetActive(false);
 		_Popup.SetActive(true);
+		StartCoroutine(FadeOutText());
 
 		yield return new WaitUntil(() => _operationCompleted);
 
@@ -98,15 +95,9 @@ public class TitleController : MonoBehaviour {
 		_button.SetActive(true);
 	}
 
-	private IEnumerator GoToGamemain()
+	private IEnumerator FadeOutText()
 	{
-		yield return StartCoroutine(FadeOutScreen());
-		SceneManager.UnloadSceneAsync(0);
-	}
-
-	private IEnumerator FadeOutScreen()
-	{
-		Color _color = new Color(0, 0, 0, 0);
+		Color _color = new Color(1, 1, 1, 1);
 		float _startTime = Time.timeSinceLevelLoad;
 		float _curveValue = 0.0f;
 
@@ -117,7 +108,7 @@ public class TitleController : MonoBehaviour {
 			_curveValue = _fadeCurve.Evaluate(_elapsedTimeRatio);
 
 			_color.a = _curveValue;
-			_fadeMaskImage.color = _color;
+			_logos.color = _color;
 			yield return null;
 		}
 	}
