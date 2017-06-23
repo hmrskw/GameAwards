@@ -278,8 +278,8 @@ public class CutScene : Monument
 
     IEnumerator MoveCharacter()
     {
-        p1.SetCharacterMoveDirection(new Vector3(0, 0, -characterMoveSpeed));
-        p2.SetCharacterMoveDirection(new Vector3(0, 0, -characterMoveSpeed));
+        p1.SetCharacterMoveDirection(new Vector3(characterMoveSpeed, 0, 0));
+        p2.SetCharacterMoveDirection(new Vector3(characterMoveSpeed, 0, 0));
         yield return new WaitForSeconds(2f);
         p1.SetCharacterMoveDirection(new Vector3(0, 0, 0));
         p2.SetCharacterMoveDirection(new Vector3(0, 0, 0));
