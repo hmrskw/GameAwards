@@ -74,14 +74,9 @@ public class CutScene : Monument
         while (StringView.Instance.OnHitLine(transform.position) == false)
         {
             yield return null;
-        }/*
-        if (SoundManager.Instance.IsPlayBGM("asioto") == true)
-        {
-            SoundManager.Instance.StopBGM("asioto");
-        }*/
+        }
 
         StringView.Instance.GrassTextureUpdate(0);
-        //SoundManager.Instance.PlaySE("se object");
         if (StringView.Instance.isPlayCutScene == false) StartCutScene();
     }
 
@@ -278,8 +273,8 @@ public class CutScene : Monument
 
     IEnumerator MoveCharacter()
     {
-        p1.SetCharacterMoveDirection(new Vector3(0, 0, -characterMoveSpeed));
-        p2.SetCharacterMoveDirection(new Vector3(0, 0, -characterMoveSpeed));
+        p1.SetCharacterMoveDirection(new Vector3(characterMoveSpeed, 0, 0));
+        p2.SetCharacterMoveDirection(new Vector3(characterMoveSpeed, 0, 0));
         yield return new WaitForSeconds(2f);
         p1.SetCharacterMoveDirection(new Vector3(0, 0, 0));
         p2.SetCharacterMoveDirection(new Vector3(0, 0, 0));

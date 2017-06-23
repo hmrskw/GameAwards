@@ -17,6 +17,9 @@ public class GoalController : MonoBehaviour
     Monument[] checkPoints;
 
     [SerializeField]
+    ParticleSystem[] checkPointParticles;
+
+    [SerializeField]
     GameObject windObj;
 
     //[SerializeField]
@@ -30,8 +33,6 @@ public class GoalController : MonoBehaviour
 
     [SerializeField]
     CameraAndMask CutSceneCamera;
-
-    bool open = false;
 
     // Use this for initialization
     void Start () {
@@ -97,17 +98,31 @@ public class GoalController : MonoBehaviour
 
     IEnumerator Wait()
     {
+        bool open = false;
+        bool isNotPlayParticles = false;
+
         while (open == false) {
+            open = checkPoints[0].IsOn;
             for (int i = 0; i < checkPoints.Length; i++)
             {
-                if (i == 0) open = checkPoints[i].IsOn;
-                else
-                {
-                    open &= checkPoints[i].IsOn;
-                }
+                open &= checkPoints[i].IsOn;
                 if (open == false) break;
             }
             yield return null;
+        }
+        while (isNotPlayParticles == false)
+        {
+            isNotPlayParticles = !checkPointParticles[0].isPlaying;
+            for (int i = 0; i < checkPoints.Length; i++)
+            {
+                isNotPlayParticles &= !checkPointParticles[i].isPlaying;
+                if (isNotPlayParticles == false) break;
+            }
+            yield return null;
+            /*
+            for (int i = 0; i < checkPoints.Length; i++) {
+                isPlayParticles &= checkPointParticles[i].isPlaying;
+            }*/
         }
     }    
 }
