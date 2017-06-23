@@ -76,7 +76,8 @@ public class Player : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-        Vector3 slope = Sliding();
+        //Vector3 slope = 
+        Sliding();
         
         if (canJump == false)
         {
@@ -99,7 +100,7 @@ public class Player : MonoBehaviour {
                 transform.LookAt(
                     transform.position +
                     new Vector3(characterMoveForward.x, 0f, characterMoveForward.z) +
-                    new Vector3(slope.x, 0f, slope.z) +
+                    //new Vector3(slope.x, 0f, slope.z) +
                     new Vector3(centripetalDirection.x, 0f, centripetalDirection.z));
             }
             else
@@ -107,17 +108,17 @@ public class Player : MonoBehaviour {
                 transform.LookAt((
                     transform.position -
                     new Vector3(characterMoveForward.x, 0f, characterMoveForward.z) -
-                    new Vector3(slope.x, 0f, slope.z) -
+                    //new Vector3(slope.x, 0f, slope.z) -
                     new Vector3(centripetalDirection.x, 0f, centripetalDirection.z)));
             }
             //RaycastHit hit;
 
             // 移動方向にスピードを掛けたものに、坂を滑り落ちる速度と向心力を加算
-            transform.Translate(((characterMoveForward + new Vector3(slope.x, velocity, slope.z)) * speed) + centripetalDirection, Space.World);
+            transform.Translate(((characterMoveForward + new Vector3(/*slope.x*/0, velocity,0/* slope.z*/)) * speed) + centripetalDirection, Space.World);
         }
         else if(Physics.Raycast(transform.position + new Vector3(0, 2f, 0), characterMoveForward/*,out hit*/, 5f, buildingMask))
         {
-            transform.Translate(-(((characterMoveForward + new Vector3(slope.x, velocity, slope.z)) * speed) + centripetalDirection), Space.World);
+            transform.Translate(-(((characterMoveForward + new Vector3(/*slope.x*/0, velocity,0/* slope.z*/)) * speed) + centripetalDirection), Space.World);
         }
         centripetalDirection = Vector3.zero;
     }
