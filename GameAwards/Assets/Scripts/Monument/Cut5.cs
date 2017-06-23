@@ -17,12 +17,12 @@ public class Cut5 : Monument {
     [SerializeField, Tooltip("カメラはこのオブジェクトの方向を見続ける")]
     Transform cameraTargetTransform;
     [SerializeField, Tooltip("演出で移動する敵")]
-    GameObject moveCharacter;
+    GameObject moveEnemy;
     [SerializeField, Tooltip("演出で移動する敵の移動先")]
-    Transform moveCharacterTarget;
+    Transform moveEnemyTarget;
 
-    //[SerializeField]
-    //GameObject wall;
+    [SerializeField]
+    GameObject[] Characters;
 
     [SerializeField]
     Player p1;
@@ -142,7 +142,7 @@ public class Cut5 : Monument {
     IEnumerator MoveCamera()
     {
         float startTime = Time.timeSinceLevelLoad;
-        Vector3 startPosition = moveCharacter.transform.position;
+        Vector3 startPosition = moveEnemy.transform.position;
         float diff = Time.timeSinceLevelLoad - startTime;
         float pos;
 
@@ -152,7 +152,7 @@ public class Cut5 : Monument {
             pos = curve.Evaluate(diff / cameraMoveTime);
 
             CutSceneCamera.camera.transform.LookAt(cameraTargetTransform);
-            moveCharacter.transform.position = Vector3.Lerp(startPosition, moveCharacterTarget.position, pos);
+            moveEnemy.transform.position = Vector3.Lerp(startPosition, moveEnemyTarget.position, pos);
 
             yield return null;
         }
@@ -160,7 +160,7 @@ public class Cut5 : Monument {
 
     IEnumerator FlowerAnim()
     {
-        Destroy(moveCharacter);
+        Destroy(moveEnemy);
         SoundManager.Instance.PlaySE("se object");
         yield return StartCoroutine(Boot());
 

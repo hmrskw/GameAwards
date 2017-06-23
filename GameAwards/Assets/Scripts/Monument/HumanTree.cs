@@ -13,6 +13,8 @@ public class HumanTree : MonoBehaviour
     Text textUI;
     [SerializeField]
     float fadeTime;
+    [SerializeField]
+    AnimationCurve curve;
 
     IEnumerator func = null;
     
@@ -32,11 +34,14 @@ public class HumanTree : MonoBehaviour
         float startTime = Time.timeSinceLevelLoad;
         float diff = Time.timeSinceLevelLoad - startTime;
         Color alpha = textUI.color;
+        float rate;
 
         while (diff < (fadeTime))
         {
             diff = Time.timeSinceLevelLoad - startTime;
-            alpha.a = diff / (fadeTime);
+            rate = curve.Evaluate(diff / fadeTime);
+            alpha.a = Mathf.Lerp(alpha.a, 1,rate);
+            //alpha.a = diff / (fadeTime);
             textUI.color = alpha;
             yield return null;
         }
@@ -47,11 +52,14 @@ public class HumanTree : MonoBehaviour
         float startTime = Time.timeSinceLevelLoad;
         float diff = Time.timeSinceLevelLoad - startTime;
         Color alpha = textUI.color;
+        float rate;
 
         while (diff < fadeTime)
         {
             diff = Time.timeSinceLevelLoad - startTime;
-            alpha.a = 1 - (diff / (fadeTime));
+            rate = curve.Evaluate(1 - (diff / (fadeTime)));
+            alpha.a = Mathf.Lerp(alpha.a, 0, rate);
+            //alpha.a = 1 - (diff / (fadeTime));
             textUI.color = alpha;
             yield return null;
         }
