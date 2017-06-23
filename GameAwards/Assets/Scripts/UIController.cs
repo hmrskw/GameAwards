@@ -14,24 +14,49 @@ public class UIController : MonoBehaviour {
     };
 
     [SerializeField]
-    UI[] ui;
+    UI[] moveAndRotateUI;
+
+    [SerializeField]
+    UI jumpUI;
+
+    [SerializeField]
+    Transform[] characters;
+
+    [SerializeField]
+    Transform[] highFlowers;
+
+    [SerializeField]
+    float drawJumpUIDistance;
 
     [SerializeField]
     AnimationCurve curve;
 
+    [SerializeField]
+    float drawTime;
+
     void Start()
     {
-        for (int j = 0; j < ui.Length; j++)
+        for (int j = 0; j < moveAndRotateUI.Length; j++)
         {
-            for (int i = 0; i < ui[j].back.Length; i++)
+            for (int i = 0; i < moveAndRotateUI[j].back.Length; i++)
             {
-                ui[j].back[i].color = new Color(ui[j].back[i].color.r, ui[j].back[i].color.g, ui[j].back[i].color.b, 0);
+                moveAndRotateUI[j].back[i].color = new Color(moveAndRotateUI[j].back[i].color.r, moveAndRotateUI[j].back[i].color.g, moveAndRotateUI[j].back[i].color.b, 0);
             }
-            for (int i = 0; i < ui[j].controller.Length; i++)
+            for (int i = 0; i < moveAndRotateUI[j].controller.Length; i++)
             {
-                ui[j].controller[i].color = new Color(ui[j].controller[i].color.r, ui[j].controller[i].color.g, ui[j].controller[i].color.b, 0);
+                moveAndRotateUI[j].controller[i].color = new Color(moveAndRotateUI[j].controller[i].color.r, moveAndRotateUI[j].controller[i].color.g, moveAndRotateUI[j].controller[i].color.b, 0);
             }
         }
+
+        for (int i = 0; i < jumpUI.back.Length; i++)
+        {
+            jumpUI.back[i].color = new Color(jumpUI.back[i].color.r, jumpUI.back[i].color.g, jumpUI.back[i].color.b, 0);
+        }
+        for (int i = 0; i < jumpUI.controller.Length; i++)
+        {
+            jumpUI.controller[i].color = new Color(jumpUI.controller[i].color.r, jumpUI.controller[i].color.g, jumpUI.controller[i].color.b, 0);
+        }
+
         StartCoroutine(DrawUI());
     }
     
@@ -41,12 +66,42 @@ public class UIController : MonoBehaviour {
         {
             yield return null;
         }
-        for (int i = 0; i < ui.Length; i++) {
-            yield return StartCoroutine(UIFadeIn(ui[i].controller, ui[i].back, 2));
-            yield return new WaitForSeconds(10f);
-            yield return StartCoroutine(UIFadeOut(ui[i].controller, ui[i].back, 2));
+        for (int i = 0; i < moveAndRotateUI.Length; i++) {
+            yield return StartCoroutine(UIFadeIn(moveAndRotateUI[i].controller, moveAndRotateUI[i].back, 2));
+            yield return new WaitForSeconds(drawTime);
+            yield return StartCoroutine(UIFadeOut(moveAndRotateUI[i].controller, moveAndRotateUI[i].back, 2));
         }
+
+
+        float dis = Vector2.Distance(new Vector2(highFlowers[0].position.x, highFlowers[0].position.z), new Vector2(characters[0].position.x, characters[0].position.z));
+        bool inLength = false;
+
+        for (int i = 0; i < characters.Length; i++)
+        {
+            for (int j = 0; j < highFlowers.Length; j++)
+            {
+                dis = Vector2.Distance(new Vector2(highFlowers[j].position.x, highFlowers[j].position.z), new Vector2(characters[i].position.x, characters[i].position.z));
+                inLength |= (dis < drawJumpUIDistance);
+            }
+        }
+
+        while (inLength == false)
+        {
+            for(int i = 0;i<characters.Length ; i++)
+            {
+                for (int j = 0; j < highFlowers.Length; j++)
+                {
+                    dis = Vector2.Distance(new Vector2(highFlowers[j].position.x, highFlowers[j].position.z), new Vector2(characters[i].position.x, characters[i].position.z));
+                    inLength |= (dis < drawJumpUIDistance);
+                }
+            }
+            yield return null;
+        }
+            yield return StartCoroutine(UIFadeIn(jumpUI.controller, jumpUI.back, 2));
+            yield return new WaitForSeconds(drawTime);
+            yield return StartCoroutine(UIFadeOut(jumpUI.controller, jumpUI.back, 2));
     }
+
 
     IEnumerator UIFadeIn(Image[] controllerImages, Image[] backImages, float fadeTime)
     {
