@@ -16,8 +16,8 @@ public class Player : MonoBehaviour {
     [SerializeField]
     float speed;
 
-    [SerializeField]
-    float jumpPower;
+    //[SerializeField]
+    //float jumpPower;
 
     [SerializeField]
     float slopeAngle;
@@ -27,9 +27,9 @@ public class Player : MonoBehaviour {
     Vector3 characterMoveForward;
 
     Vector3 centripetalDirection;
-    
+
     [SerializeField]
-    float jpower = 0.49f;
+    float jpower;//  = 0.49f;
 
     float velocity = 0;
 
@@ -37,7 +37,7 @@ public class Player : MonoBehaviour {
     bool canJump;
     public bool CanJump {
         set {
-            velocity = jpower;
+            velocity = jpower/speed;
             canJump = value;
         }
         get {
@@ -76,7 +76,8 @@ public class Player : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-        Vector3 slope = Sliding();
+        //Vector3 slope = 
+        Sliding();
         
         if (canJump == false)
         {
@@ -99,7 +100,7 @@ public class Player : MonoBehaviour {
                 transform.LookAt(
                     transform.position +
                     new Vector3(characterMoveForward.x, 0f, characterMoveForward.z) +
-                    new Vector3(slope.x, 0f, slope.z) +
+                    //new Vector3(slope.x, 0f, slope.z) +
                     new Vector3(centripetalDirection.x, 0f, centripetalDirection.z));
             }
             else
@@ -107,17 +108,17 @@ public class Player : MonoBehaviour {
                 transform.LookAt((
                     transform.position -
                     new Vector3(characterMoveForward.x, 0f, characterMoveForward.z) -
-                    new Vector3(slope.x, 0f, slope.z) -
+                    //new Vector3(slope.x, 0f, slope.z) -
                     new Vector3(centripetalDirection.x, 0f, centripetalDirection.z)));
             }
             //RaycastHit hit;
 
             // 移動方向にスピードを掛けたものに、坂を滑り落ちる速度と向心力を加算
-            transform.Translate(((characterMoveForward + new Vector3(slope.x, velocity, slope.z)) * speed) + centripetalDirection, Space.World);
+            transform.Translate(((characterMoveForward + new Vector3(/*slope.x*/0, velocity,0/* slope.z*/)) * speed) + centripetalDirection, Space.World);
         }
         else if(Physics.Raycast(transform.position + new Vector3(0, 2f, 0), characterMoveForward/*,out hit*/, 5f, buildingMask))
         {
-            transform.Translate(-(((characterMoveForward + new Vector3(slope.x, velocity, slope.z)) * speed) + centripetalDirection), Space.World);
+            transform.Translate(-(((characterMoveForward + new Vector3(/*slope.x*/0, velocity,0/* slope.z*/)) * speed) + centripetalDirection), Space.World);
         }
         centripetalDirection = Vector3.zero;
     }
@@ -189,7 +190,7 @@ public class Player : MonoBehaviour {
     /// </summary>
     public void Centripetal(float distance,Vector3 direction ,Vector3 characterMoveDirection)
     {
-        float f = (speed * speed) / distance;
+        float f = (/*speed * speed*/1) / distance;
 
         float num = (Vector3.Angle(Vector3.Cross(-characterMoveDirection,Vector3.up), direction * f)-90f)/4.5f*speed;
         centripetalDirection = Vector3.Cross(direction * f,Vector3.up)* num;

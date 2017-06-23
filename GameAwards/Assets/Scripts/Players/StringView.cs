@@ -230,18 +230,12 @@ public class StringView : MonoBehaviour {
                         {
 							int _dpIndex = _grassManager.GetDummyPoint(_xIndex, _zIndex).TexIndex;
 
-							int _textureIndex = _texIndex;
-							if(_texIndex != 0)
-							{
-								_textureIndex = _grassManager.GetRandomTextureIndex(_texIndex + 1);
-							}
-
 							if (_dpIndex != _texIndex)
 							{
-								_grassManager.ChangeTexIndex(_xIndex, _zIndex, _textureIndex);
+								_grassManager.ChangeTexIndex(_xIndex, _zIndex, _texIndex);
 							}
 
-							grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_textureIndex));
+							grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_texIndex));
 							grassComponent.Growth();
 							grassComponent.PlayParticle();
 						}
@@ -253,16 +247,10 @@ public class StringView : MonoBehaviour {
 						{
 							int _dpTexIndex = _grassManager.GetDummyPoint(_xIndex, _zIndex).TexIndex;
 
-							int _textureIndex = _texIndex;
-							if (_texIndex != 0)
-							{
-								_textureIndex = _grassManager.GetRandomTextureIndex(_texIndex + 1);
-							}
-
 							if (_dpTexIndex != _texIndex)
 							{
-								_grassManager.ChangeTexIndex(_xIndex, _zIndex, _textureIndex);
-								grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_textureIndex));
+								_grassManager.ChangeTexIndex(_xIndex, _zIndex, _texIndex);
+								grassComponent.ChangeMaterials(_grassManager.GetMatPropBlock(_texIndex));
 							}
 						}
 					}
@@ -279,8 +267,8 @@ public class StringView : MonoBehaviour {
         {
             _texIndex = 0;
         }
-        else if(_texIndex > 1){
-            _texIndex = 1;
+        else if(_texIndex > 3){
+            _texIndex = 3;
         }
     }
 

@@ -346,7 +346,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1770853509795718}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -70, y: 2, z: 7}
+  m_LocalPosition: {x: -96, y: 2, z: 13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4124171975835362}
@@ -952,7 +952,7 @@ ParticleSystem:
   simulationSpeed: 1
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   autoRandomSeed: 1
   startDelay:
     minMaxState: 0
@@ -996,7 +996,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
-  randomSeed: -454908427
+  randomSeed: 2091293243
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -1791,7 +1791,7 @@ ParticleSystem:
     enabled: 1
     frameOverTime:
       minMaxState: 0
-      scalar: 0.25
+      scalar: 0.0625
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1855,8 +1855,8 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    tilesX: 8
-    tilesY: 8
+    tilesX: 4
+    tilesY: 4
     animationType: 0
     rowIndex: 0
     cycles: 1
@@ -3826,7 +3826,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1295165610
+  randomSeed: 159689974
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -6786,7 +6786,7 @@ ParticleSystem:
   simulationSpeed: 1
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   autoRandomSeed: 1
   startDelay:
     minMaxState: 0
@@ -6830,7 +6830,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
-  randomSeed: 53195545
+  randomSeed: 1146962581
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -7619,7 +7619,7 @@ ParticleSystem:
     enabled: 1
     frameOverTime:
       minMaxState: 0
-      scalar: 0.78125
+      scalar: 0.125
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -7683,8 +7683,8 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    tilesX: 8
-    tilesY: 8
+    tilesX: 4
+    tilesY: 4
     animationType: 0
     rowIndex: 0
     cycles: 1
@@ -9610,7 +9610,7 @@ ParticleSystem:
   simulationSpeed: 1
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   autoRandomSeed: 1
   startDelay:
     minMaxState: 0
@@ -9654,7 +9654,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
-  randomSeed: -1679918900
+  randomSeed: -917118510
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -10443,7 +10443,7 @@ ParticleSystem:
     enabled: 1
     frameOverTime:
       minMaxState: 0
-      scalar: 0.78125
+      scalar: 0.125
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10507,8 +10507,8 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    tilesX: 8
-    tilesY: 8
+    tilesX: 4
+    tilesY: 4
     animationType: 0
     rowIndex: 0
     cycles: 1
@@ -12478,7 +12478,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -986470392
+  randomSeed: -789157049
   InitialModule:
     serializedVersion: 3
     enabled: 1

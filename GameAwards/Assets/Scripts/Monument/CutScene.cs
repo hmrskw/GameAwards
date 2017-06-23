@@ -39,7 +39,7 @@ public class CutScene : Monument
     Player p2;
 
     [SerializeField]
-    GameObject playerCharacter;
+    GameObject[] playerCharacters;
     [SerializeField]
     GameObject cutSceneCharacters;
     [SerializeField]
@@ -75,13 +75,8 @@ public class CutScene : Monument
         {
             yield return null;
         }
-        if (SoundManager.Instance.IsPlayBGM("asioto") == true)
-        {
-            SoundManager.Instance.StopBGM("asioto");
-        }
 
-        StringView.Instance.GrassTextureUpdate(1);
-        //SoundManager.Instance.PlaySE("se object");
+        StringView.Instance.GrassTextureUpdate(0);
         if (StringView.Instance.isPlayCutScene == false) StartCutScene();
     }
 
@@ -90,7 +85,10 @@ public class CutScene : Monument
         yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera,1.0f,
             () => {
                 guideObjct.SetActive(false);
-                playerCharacter.SetActive(!playerCharacter.activeInHierarchy);
+                for (int i = 0; i < playerCharacters.Length; i++)
+                {
+                    playerCharacters[i].SetActive(false);
+                }
                 cutSceneCharacters.SetActive(!cutSceneCharacters.activeInHierarchy);
                 if (cutSceneCharacters.activeInHierarchy == true)
                 {
@@ -101,6 +99,10 @@ public class CutScene : Monument
                 StringView.Instance.cutP1 = p1.transform;
                 StringView.Instance.cutP2 = p2.transform;
                 StringView.Instance.isPlayCutScene = !StringView.Instance.isPlayCutScene;
+                if (SoundManager.Instance.IsPlayBGM("asioto") == true)
+                {
+                    SoundManager.Instance.StopBGM("asioto");
+                }
                 CutSceneCamera.camera.transform.LookAt(targetTransform);
             }
         ));
@@ -130,7 +132,10 @@ public class CutScene : Monument
 
             yield return new WaitForSeconds(3.0f);
             yield return StartCoroutine(FadeInFadeOut(CheckPoints[CheckPoints.Length - 1].cutCamera, MainCamera, 3.0f, () => {
-                playerCharacter.SetActive(!playerCharacter.activeInHierarchy);
+                for (int i = 0; i < playerCharacters.Length; i++)
+                {
+                    playerCharacters[i].SetActive(true);
+                }
                 cutSceneCharacters.SetActive(!cutSceneCharacters.activeInHierarchy);
                 if (cutSceneCharacters.activeInHierarchy == true)
                 {
@@ -148,7 +153,10 @@ public class CutScene : Monument
         {
             yield return StartCoroutine(FadeInFadeOut(CutSceneCamera, MainCamera, 1.0f,
                 () => {
-                    playerCharacter.SetActive(!playerCharacter.activeInHierarchy);
+                    for (int i = 0; i < playerCharacters.Length; i++)
+                    {
+                        playerCharacters[i].SetActive(true);
+                    }
                     cutSceneCharacters.SetActive(!cutSceneCharacters.activeInHierarchy);
                     if (cutSceneCharacters.activeInHierarchy == true)
                     {
@@ -228,7 +236,7 @@ public class CutScene : Monument
 
     IEnumerator FlowerAnim()
     {
-        SoundManager.Instance.PlaySE("se object");
+        //SoundManager.Instance.PlaySE("se object");
         yield return StartCoroutine(Boot());
 
         while (openAnimation.GetCurrentAnimatorStateInfo(0).normalizedTime - animationStart < 1 || particle.isPlaying)
@@ -259,12 +267,14 @@ public class CutScene : Monument
             yield return null;
         }
         particle.Play();
+        yield return new WaitForSeconds(0.5f);
+        SoundManager.Instance.PlaySE("se object");
     }
 
     IEnumerator MoveCharacter()
     {
-        p1.SetCharacterMoveDirection(new Vector3(0, 0, -characterMoveSpeed));
-        p2.SetCharacterMoveDirection(new Vector3(0, 0, -characterMoveSpeed));
+        p1.SetCharacterMoveDirection(new Vector3(characterMoveSpeed, 0, 0));
+        p2.SetCharacterMoveDirection(new Vector3(characterMoveSpeed, 0, 0));
         yield return new WaitForSeconds(2f);
         p1.SetCharacterMoveDirection(new Vector3(0, 0, 0));
         p2.SetCharacterMoveDirection(new Vector3(0, 0, 0));

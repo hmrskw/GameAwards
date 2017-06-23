@@ -14,7 +14,7 @@ public class TitlePopupController : MonoBehaviour {
 	Image _background;
 
 	[SerializeField, Tooltip("フレーバーテキスト")]
-	Text _flavorText;
+	List<Image> _flavorText;
 
 	[SerializeField, Tooltip("背景の最終アルファ値(0~255)"), Range(0, 255)]
 	float _backgroundAlpha;
@@ -39,7 +39,6 @@ public class TitlePopupController : MonoBehaviour {
 		float _startTime = Time.timeSinceLevelLoad;
 		float _elapsedTimeRatio = 0.0f;
 		Color _bgColor = _background.color;
-		Color _textColor = _flavorText.color;
 
 		while (_elapsedTimeRatio <= 1.0f)
 		{
@@ -50,10 +49,26 @@ public class TitlePopupController : MonoBehaviour {
 			_bgColor.a = _normalizedAlpha * _curveValue;
 			_background.color = _bgColor;
 
-			_textColor.a = _curveValue;
-			_flavorText.color = _textColor;
-
 			yield return null;
+		}
+
+		foreach(var _text in _flavorText)
+		{
+			_startTime = Time.timeSinceLevelLoad;
+			_elapsedTimeRatio = 0.0f;
+			Color _textColor = new Color(1, 1, 1, 0);
+
+			while (_elapsedTimeRatio <= 1.0f)
+			{
+				float _elapsedTime = Time.timeSinceLevelLoad - _startTime;
+				_elapsedTimeRatio = _elapsedTime / _fadeTime;
+				float _curveValue = _curve.Evaluate(_elapsedTimeRatio);
+
+				_textColor.a = _curveValue;
+				_text.color = _textColor;
+
+				yield return null;
+			}
 		}
 
 		StartCoroutine(_titleCtrl.LoadSceneAsync());

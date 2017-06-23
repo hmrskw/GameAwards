@@ -91,12 +91,16 @@ public class CutManager : Monument
 
     override protected IEnumerator Wait()
     {
+        for (int i = 0; i < targetObjcts.Length; i++)
+        {
+            targetObjcts[i].SetActive(false);
+        }
+
         while (StringView.Instance.OnHitLine(monument.transform.position) == false)
         {
             yield return null;
         }
         StringView.Instance.GrassTextureUpdate(1);
-        SoundManager.Instance.PlaySE("se object");
         //SoundManager.Instance.PlaySE("se object");
         if (StringView.Instance.isPlayCutScene == false) StartCutScene();
     }
@@ -104,7 +108,7 @@ public class CutManager : Monument
     IEnumerator Task()
     {
         yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera[cameraIndex], 1.0f,()=> {
-            guideObjct.SetActive(false);
+            if(guideObjct != null) guideObjct.SetActive(false);
 
             playerCharacter.SetActive(!playerCharacter.activeInHierarchy);
             cutSceneP1.SetActive(!cutSceneP1.activeInHierarchy);
@@ -130,7 +134,7 @@ public class CutManager : Monument
             yield return new WaitForSeconds(5f);
 
             yield return StartCoroutine(FadeInFadeOut(GoalSceneCamera, MainCamera, 1.0f, () => {
-                guideObjct.SetActive(false);
+                //guideObjct.SetActive(false);
 
                 playerCharacter.SetActive(!playerCharacter.activeInHierarchy);
                 cutSceneP1.SetActive(!cutSceneP1.activeInHierarchy);
@@ -291,7 +295,14 @@ public class CutManager : Monument
                 yield return null;
             }
         }
-        if(particle != null)particle.Play();
+        if (particle != null) {
+            SoundManager.Instance.PlaySE("se object");
+            particle.Play();
+        }
+        for (int i = 0; i < targetObjcts.Length; i++)
+        {
+            targetObjcts[i].SetActive(false);
+        }
     }
 
     IEnumerator Zoom(int index)

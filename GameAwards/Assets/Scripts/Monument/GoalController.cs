@@ -17,6 +17,9 @@ public class GoalController : MonoBehaviour
     Monument[] checkPoints;
 
     [SerializeField]
+    ParticleSystem[] checkPointParticles;
+
+    [SerializeField]
     GameObject windObj;
 
     //[SerializeField]
@@ -31,8 +34,6 @@ public class GoalController : MonoBehaviour
     [SerializeField]
     CameraAndMask CutSceneCamera;
 
-    bool open = false;
-
     // Use this for initialization
     void Start () {
         pulseObj.gameObject.SetActive(false);
@@ -42,6 +43,9 @@ public class GoalController : MonoBehaviour
     IEnumerator Task()
     {
         yield return StartCoroutine(Wait());
+        windObj.SetActive(false);
+        pulseObj.gameObject.SetActive(true);
+        /*
         while (StringView.Instance.isPlayCutScene)
         {
             yield return null;
@@ -52,16 +56,15 @@ public class GoalController : MonoBehaviour
         yield return StartCoroutine(FadeIn(CutSceneCamera, 1));
 
         //windParticle.Stop();
-        pulseObj.gameObject.SetActive(true);
         //yield return new WaitForSeconds(5f);
-        windObj.SetActive(false);
 
         yield return StartCoroutine(FadeOut(CutSceneCamera, 1));
         CutSceneCamera.camera.SetActive(false);
         mainCamera.camera.SetActive(true);
         yield return StartCoroutine(FadeIn(mainCamera, 1));
+        */
     }
-
+    /*
     IEnumerator FadeOut(CameraAndMask fadeOut, float time)
     {
         float startTime = Time.timeSinceLevelLoad;
@@ -91,22 +94,35 @@ public class GoalController : MonoBehaviour
             yield return null;
         }
     }
-
+    */
 
     IEnumerator Wait()
     {
+        bool open = false;
+        bool isNotPlayParticles = false;
+
         while (open == false) {
+            open = checkPoints[0].IsOn;
             for (int i = 0; i < checkPoints.Length; i++)
             {
-                if (i == 0) open = checkPoints[i].IsOn;
-                else
-                {
-                    open &= checkPoints[i].IsOn;
-                }
+                open &= checkPoints[i].IsOn;
                 if (open == false) break;
             }
-            //if (open == true && windObj.activeInHierarchy == true) windObj.SetActive(false);
             yield return null;
+        }
+        while (isNotPlayParticles == false)
+        {
+            isNotPlayParticles = !checkPointParticles[0].isPlaying;
+            for (int i = 0; i < checkPoints.Length; i++)
+            {
+                isNotPlayParticles &= !checkPointParticles[i].isPlaying;
+                if (isNotPlayParticles == false) break;
+            }
+            yield return null;
+            /*
+            for (int i = 0; i < checkPoints.Length; i++) {
+                isPlayParticles &= checkPointParticles[i].isPlaying;
+            }*/
         }
     }    
 }
