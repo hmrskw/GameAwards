@@ -22,9 +22,9 @@ GameObject:
   - component: {fileID: 33218450834478450}
   - component: {fileID: 23235709876987258}
   - component: {fileID: 64238232454178708}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: leaf3
-  m_TagString: Ground
+  m_TagString: Leaf
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

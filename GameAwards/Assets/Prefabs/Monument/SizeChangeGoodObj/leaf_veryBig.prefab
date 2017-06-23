@@ -37,9 +37,9 @@ GameObject:
   - component: {fileID: 33270942239146116}
   - component: {fileID: 23387485124565430}
   - component: {fileID: 64908983888994704}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: leaf4
-  m_TagString: Ground
+  m_TagString: Leaf
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50,14 +50,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1031910612921302}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 13.26}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalRotation: {x: 0.17642921, y: -0.7760223, z: -0.21092373, w: 0.5676032}
+  m_LocalPosition: {x: 1.97, y: -1.58, z: -4.99}
+  m_LocalScale: {x: 1.5001985, y: 1.5001945, z: 1.5000006}
   m_Children:
   - {fileID: 4971149990547674}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -7.301, y: -105.59601, z: -31.162}
 --- !u!4 &4971149990547674
 Transform:
   m_ObjectHideFlags: 1
