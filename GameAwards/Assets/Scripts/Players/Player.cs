@@ -146,7 +146,7 @@ public class Player : MonoBehaviour {
         //地面の傾斜方向を調べる
         return hit.normal;
     }
-
+    
     /// <summary>
     /// 踏み台になるものに乗っているか調べる
     /// </summary>
@@ -156,16 +156,13 @@ public class Player : MonoBehaviour {
         if(other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Player"))
         {
             RaycastHit hit;
-
             if (Physics.Raycast(transform.position + new Vector3(0, 5f, 0), Vector3.down, out hit, 6f, mask))
             {
                 transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
-            }
+                canJump = true;
 
-            canJump = true;
-            
-            velocity = 0;
-            
+                velocity = 0;
+            }
         }
     }
     
