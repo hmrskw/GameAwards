@@ -91,6 +91,11 @@ public class CutManager : Monument
 
     override protected IEnumerator Wait()
     {
+        for (int i = 0; i < targetObjcts.Length; i++)
+        {
+            targetObjcts[i].SetActive(false);
+        }
+
         while (StringView.Instance.OnHitLine(monument.transform.position) == false)
         {
             yield return null;
@@ -293,6 +298,10 @@ public class CutManager : Monument
         if (particle != null) {
             SoundManager.Instance.PlaySE("se object");
             particle.Play();
+        }
+        for (int i = 0; i < targetObjcts.Length; i++)
+        {
+            targetObjcts[i].SetActive(false);
         }
     }
 
