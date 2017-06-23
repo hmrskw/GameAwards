@@ -153,7 +153,7 @@ public class Player : MonoBehaviour {
     /// <param name="other">当たったオブジェクト</param>
     void OnCollisionEnter(Collision other)
     {
-        if(other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Player"))
+        if(other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Leaf"))
         {
             RaycastHit hit;
             if (Physics.Raycast(transform.position + new Vector3(0, 5f, 0), Vector3.down, out hit, 6f, mask))
@@ -168,7 +168,7 @@ public class Player : MonoBehaviour {
     
     void OnCollisionExit(Collision other)
     {
-        if (other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Leaf"))
         {
             RaycastHit hit;
 

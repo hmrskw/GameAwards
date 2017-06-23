@@ -8,6 +8,7 @@ TagManager:
   - GrownGrass
   - WitheredGrass
   - Midpoint
+  - Leaf
   layers:
   - Default
   - TransparentFX
