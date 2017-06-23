@@ -19,10 +19,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4026436594648998}
-  - component: {fileID: 65400829497804520}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: leaf_veryBig
-  m_TagString: Ground
+  m_TagString: Leaf
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -37,6 +36,7 @@ GameObject:
   - component: {fileID: 4971149990547674}
   - component: {fileID: 33270942239146116}
   - component: {fileID: 23387485124565430}
+  - component: {fileID: 64908983888994704}
   m_Layer: 8
   m_Name: leaf4
   m_TagString: Ground
@@ -52,7 +52,7 @@ Transform:
   m_GameObject: {fileID: 1031910612921302}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 13.26}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 4971149990547674}
   m_Father: {fileID: 0}
@@ -110,15 +110,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1730603244421652}
   m_Mesh: {fileID: 4300000, guid: d740061abe12ce24cb70f385cf32352a, type: 3}
---- !u!65 &65400829497804520
-BoxCollider:
+--- !u!64 &64908983888994704
+MeshCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1031910612921302}
+  m_GameObject: {fileID: 1730603244421652}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 9.091473, y: 0.48187256, z: 4.072876}
-  m_Center: {x: -0.022623062, y: -0.17616272, z: 0.011047363}
+  m_Convex: 0
+  m_InflateMesh: 0
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: d740061abe12ce24cb70f385cf32352a, type: 3}
