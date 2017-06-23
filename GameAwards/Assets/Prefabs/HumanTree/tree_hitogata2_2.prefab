@@ -100,7 +100,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1147666428078824}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -134, y: -1, z: -58}
+  m_LocalPosition: {x: -139.5, y: -1, z: -182.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4458734611119160}
@@ -142,13 +142,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1174390298188050}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.044509042, y: 0.025667952, z: -0.026913906, w: -0.99831647}
+  m_LocalPosition: {x: 0.5883789, y: -0.037397385, z: 0.93759155}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4323953883468326}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -5.019, y: -363.087, z: 3.2240002}
 --- !u!4 &4798336913730318
 Transform:
   m_ObjectHideFlags: 1
@@ -252,11 +252,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flavorText:
-  - "\u4EBA\u578B2"
-  - "\u304B\u304D\u304F\u3051\u3053"
+  - "\u8DB3\u304C\u3001\u306A\u3093\u3067\u3001\u3042\u3041\u2026"
+  - "\u5F85\u3063\u3066\uFF01\u7F6E\u3044\u3066\u3044\u304B\u306A\u3044\u3067\uFF01"
   drawTime: 2
   textUI: {fileID: 0}
   fadeTime: 0.5
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!135 &135099691905657128
 SphereCollider:
   m_ObjectHideFlags: 1
