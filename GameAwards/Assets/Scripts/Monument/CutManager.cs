@@ -256,6 +256,7 @@ public class CutManager : Monument
                     cutAnim.GetCurrentAnimatorStateInfo(0).shortNameHash == beforeAnimHash ||
                     cutAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < (830 / totalFrame))//発生させたいフレーム/アニメーションの総フレーム数
                 {
+                    //CutSceneCamera[cameraIndex].camera.transform.LookAt(targetTransform);
                     if (pulse.baseScale.x > 0)
                     {
                         pulse.baseScale -= new Vector3(0.01f, 0.01f, 0.01f);
