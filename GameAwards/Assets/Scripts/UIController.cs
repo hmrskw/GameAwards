@@ -7,10 +7,17 @@ using UnityEngine.SceneManagement;
 public class UIController : MonoBehaviour {
 
     [System.Serializable]
+    public struct ControllerUI
+    {
+        public Image controller;
+        public Sprite[] sprites;
+        //public Image word;
+    };
+
+    [System.Serializable]
     public struct UI {
         public Image[] back;
-        public Image[] controller;
-        //public Image word;
+        public ControllerUI[] controllerUI;
     };
 
     [SerializeField]
@@ -39,6 +46,8 @@ public class UIController : MonoBehaviour {
 
     public bool isDrawUI;
 
+    bool isWaitJump = false;
+
     void Start()
     {
         for (int j = 0; j < moveAndRotateUI.Length; j++)
@@ -47,9 +56,14 @@ public class UIController : MonoBehaviour {
             {
                 moveAndRotateUI[j].back[i].color = new Color(moveAndRotateUI[j].back[i].color.r, moveAndRotateUI[j].back[i].color.g, moveAndRotateUI[j].back[i].color.b, 0);
             }
-            for (int i = 0; i < moveAndRotateUI[j].controller.Length; i++)
+            for (int i = 0; i < moveAndRotateUI[j].controllerUI.Length; i++)
             {
-                moveAndRotateUI[j].controller[i].color = new Color(moveAndRotateUI[j].controller[i].color.r, moveAndRotateUI[j].controller[i].color.g, moveAndRotateUI[j].controller[i].color.b, 0);
+                moveAndRotateUI[j].controllerUI[i].controller.color = 
+                    new Color(
+                        moveAndRotateUI[j].controllerUI[i].controller.color.r,
+                        moveAndRotateUI[j].controllerUI[i].controller.color.g,
+                        moveAndRotateUI[j].controllerUI[i].controller.color.b,
+                        0);
             }
         }
 
@@ -57,18 +71,28 @@ public class UIController : MonoBehaviour {
         {
             jumpUI.back[i].color = new Color(jumpUI.back[i].color.r, jumpUI.back[i].color.g, jumpUI.back[i].color.b, 0);
         }
-        for (int i = 0; i < jumpUI.controller.Length; i++)
+        for (int i = 0; i < jumpUI.controllerUI.Length; i++)
         {
-            jumpUI.controller[i].color = new Color(jumpUI.controller[i].color.r, jumpUI.controller[i].color.g, jumpUI.controller[i].color.b, 0);
+            jumpUI.controllerUI[i].controller.color = 
+                new Color(
+                    jumpUI.controllerUI[i].controller.color.r,
+                    jumpUI.controllerUI[i].controller.color.g,
+                    jumpUI.controllerUI[i].controller.color.b,
+                    0);
         }
 
         for (int i = 0; i < wordUI.back.Length; i++)
         {
             wordUI.back[i].color = new Color(wordUI.back[i].color.r, wordUI.back[i].color.g, wordUI.back[i].color.b, 1);
         }
-        for (int i = 0; i < wordUI.controller.Length; i++)
+        for (int i = 0; i < wordUI.controllerUI.Length; i++)
         {
-            wordUI.controller[i].color = new Color(wordUI.controller[i].color.r, wordUI.controller[i].color.g, wordUI.controller[i].color.b, 1);
+            wordUI.controllerUI[i].controller.color = 
+                new Color(
+                    wordUI.controllerUI[i].controller.color.r,
+                    wordUI.controllerUI[i].controller.color.g,
+                    wordUI.controllerUI[i].controller.color.b,
+                    1);
         }
         isDrawUI = true;
         StartCoroutine(DrawUI());
@@ -81,14 +105,24 @@ public class UIController : MonoBehaviour {
             yield return null;
         }
         yield return new WaitForSeconds(drawTime);
-        yield return StartCoroutine(UIFadeOut(wordUI.controller, wordUI.back, 1));
+        yield return StartCoroutine(UIFadeOut(wordUI.controllerUI, wordUI.back, 1));
 
         isDrawUI = false;
 
         for (int i = 0; i < moveAndRotateUI.Length; i++) {
-            yield return StartCoroutine(UIFadeIn(moveAndRotateUI[i].controller, moveAndRotateUI[i].back, 1));
-            yield return new WaitForSeconds(drawTime);
-            yield return StartCoroutine(UIFadeOut(moveAndRotateUI[i].controller, moveAndRotateUI[i].back, 1));
+            yield return StartCoroutine(UIFadeIn(moveAndRotateUI[i].controllerUI, moveAndRotateUI[i].back, 1));
+
+            //なんだこのコード・・・
+            for (int j = 0; j < drawTime / 0.25f; j++)
+            {
+                for (int k = 0; k < moveAndRotateUI[i].controllerUI.Length; k++)
+                {
+                    moveAndRotateUI[i].controllerUI[k].controller.sprite = moveAndRotateUI[i].controllerUI[k].sprites[j % moveAndRotateUI[i].controllerUI[k].sprites.Length];
+                }
+                yield return new WaitForSeconds(0.25f);
+            }
+
+            yield return StartCoroutine(UIFadeOut(moveAndRotateUI[i].controllerUI, moveAndRotateUI[i].back, 1));
         }
 
 
@@ -116,24 +150,39 @@ public class UIController : MonoBehaviour {
             }
             yield return null;
         }
-        yield return StartCoroutine(UIFadeIn(jumpUI.controller, jumpUI.back, 2));
-        while (Input.GetButtonDown("LeftJump") || Input.GetButtonDown("RightJump"))
+        yield return StartCoroutine(UIFadeIn(jumpUI.controllerUI, jumpUI.back, 2));
+        StartCoroutine(WaitJump());
+        while (isWaitJump == false)
         {
-            yield return null;
+            //なんだこのコード・・・
+            for (int j = 0; j < drawTime / 0.25f; j++)
+            {
+                for (int k = 0; k < jumpUI.controllerUI.Length; k++)
+                {
+                    jumpUI.controllerUI[k].controller.sprite = jumpUI.controllerUI[k].sprites[j % jumpUI.controllerUI[k].sprites.Length];
+                }
+                yield return new WaitForSeconds(0.25f);
+            }
         }
         yield return new WaitForSeconds(drawTime/2);
-        yield return StartCoroutine(UIFadeOut(jumpUI.controller, jumpUI.back, 2));
+        yield return StartCoroutine(UIFadeOut(jumpUI.controllerUI, jumpUI.back, 2));
     }
 
-
-    IEnumerator UIFadeIn(Image[] controllerImages, Image[] backImages, float fadeTime)
+    IEnumerator WaitJump() {
+        while (isWaitJump == false) {
+            isWaitJump = Input.GetButtonDown("LeftJump") || Input.GetButtonDown("RightJump");
+            yield return null;
+        }
+    }
+    
+    IEnumerator UIFadeIn(ControllerUI[] controllerImages, Image[] backImages, float fadeTime)
     {
         float startTime = Time.timeSinceLevelLoad;
         float diff = Time.timeSinceLevelLoad - startTime;
         Color[] controllersImageAlpha = new Color[controllerImages.Length];
         for (int i = 0; i < controllerImages.Length; i++)
         {
-            controllersImageAlpha[i] = controllerImages[i].color;
+            controllersImageAlpha[i] = controllerImages[i].controller.color;
         }
         Color[] backImagesAlpha = new Color[backImages.Length];
         for (int i = 0; i < backImages.Length; i++)
@@ -150,7 +199,7 @@ public class UIController : MonoBehaviour {
             {
                 controllersImageAlpha[i].a = Mathf.Lerp(controllersImageAlpha[i].a, 1, rate);
                 //alpha.a = diff / (fadeTime);
-                controllerImages[i].color = controllersImageAlpha[i];
+                controllerImages[i].controller.color = controllersImageAlpha[i];
             }
             for (int i = 0; i < backImages.Length; i++)
             {
@@ -169,14 +218,14 @@ public class UIController : MonoBehaviour {
         }
     }
 
-    IEnumerator UIFadeOut(Image[] controllerImages, Image[] backImages, float fadeTime)
+    IEnumerator UIFadeOut(ControllerUI[] controllerImages, Image[] backImages, float fadeTime)
     {
         float startTime = Time.timeSinceLevelLoad;
         float diff = Time.timeSinceLevelLoad - startTime;
         Color[] controllersImageAlpha = new Color[controllerImages.Length];
         for (int i = 0; i < controllerImages.Length; i++)
         {
-            controllersImageAlpha[i] = controllerImages[i].color;
+            controllersImageAlpha[i] = controllerImages[i].controller.color;
         }
         Color[] backImagesAlpha = new Color[backImages.Length];
         for (int i = 0; i < backImages.Length; i++)
@@ -194,7 +243,7 @@ public class UIController : MonoBehaviour {
             {
                 controllersImageAlpha[i].a = Mathf.Lerp(controllersImageAlpha[i].a, 0, rate);
                 //alpha.a = diff / (fadeTime);
-                controllerImages[i].color = controllersImageAlpha[i];
+                controllerImages[i].controller.color = controllersImageAlpha[i];
             }
             for (int i = 0; i < backImages.Length; i++)
             {

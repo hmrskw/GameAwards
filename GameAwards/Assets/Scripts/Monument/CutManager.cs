@@ -96,6 +96,7 @@ public class CutManager : Monument
             targetObjcts[i].SetActive(false);
         }
 
+        if (cut == CUT.ED) StartCoroutine(Look());
         while (StringView.Instance.OnHitLine(monument.transform.position) == false)
         {
             yield return null;
@@ -125,7 +126,6 @@ public class CutManager : Monument
             StringView.Instance.isPlayCutScene = !StringView.Instance.isPlayCutScene;
             SoundManager.Instance.StopBGM("asioto");
         }));
-        if (cut == CUT.ED) StartCoroutine(Look());
         yield return StartCoroutine(Anim());
         if (cut != CUT.ED)
         {
@@ -381,10 +381,10 @@ public class CutManager : Monument
 
     IEnumerator Look()
     {
-        while (openAnimation.GetCurrentAnimatorStateInfo(0).normalizedTime - animationStart < 1)
+        while (true)
         {
+            CutSceneCamera[cameraIndex].camera.transform.LookAt(targetTransform);
             yield return null;
         }
-        yield return null;
     }
 }
