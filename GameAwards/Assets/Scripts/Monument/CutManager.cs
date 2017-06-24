@@ -125,6 +125,7 @@ public class CutManager : Monument
             StringView.Instance.isPlayCutScene = !StringView.Instance.isPlayCutScene;
             SoundManager.Instance.StopBGM("asioto");
         }));
+        if (cut == CUT.ED) StartCoroutine(Look());
         yield return StartCoroutine(Anim());
         if (cut != CUT.ED)
         {
@@ -376,5 +377,14 @@ public class CutManager : Monument
                 yield return null;
             }
         }
+    }
+
+    IEnumerator Look()
+    {
+        while (openAnimation.GetCurrentAnimatorStateInfo(0).normalizedTime - animationStart < 1)
+        {
+            yield return null;
+        }
+        yield return null;
     }
 }
