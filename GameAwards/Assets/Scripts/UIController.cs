@@ -66,10 +66,11 @@ public class UIController : MonoBehaviour {
         {
             yield return null;
         }
+
         for (int i = 0; i < moveAndRotateUI.Length; i++) {
-            yield return StartCoroutine(UIFadeIn(moveAndRotateUI[i].controller, moveAndRotateUI[i].back, 2));
+            yield return StartCoroutine(UIFadeIn(moveAndRotateUI[i].controller, moveAndRotateUI[i].back, 1));
             yield return new WaitForSeconds(drawTime);
-            yield return StartCoroutine(UIFadeOut(moveAndRotateUI[i].controller, moveAndRotateUI[i].back, 2));
+            yield return StartCoroutine(UIFadeOut(moveAndRotateUI[i].controller, moveAndRotateUI[i].back, 1));
         }
 
 
@@ -97,9 +98,13 @@ public class UIController : MonoBehaviour {
             }
             yield return null;
         }
-            yield return StartCoroutine(UIFadeIn(jumpUI.controller, jumpUI.back, 2));
-            yield return new WaitForSeconds(drawTime);
-            yield return StartCoroutine(UIFadeOut(jumpUI.controller, jumpUI.back, 2));
+        yield return StartCoroutine(UIFadeIn(jumpUI.controller, jumpUI.back, 2));
+        while (Input.GetButtonDown("LeftJump") || Input.GetButtonDown("RightJump"))
+        {
+            yield return null;
+        }
+        yield return new WaitForSeconds(drawTime/2);
+        yield return StartCoroutine(UIFadeOut(jumpUI.controller, jumpUI.back, 2));
     }
 
 
