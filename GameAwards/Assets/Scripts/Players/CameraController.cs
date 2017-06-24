@@ -31,6 +31,9 @@ public class CameraController : MonoBehaviour {
     [SerializeField]
     AnimationCurve curve;
 
+    [SerializeField]
+    UIController uiController;
+
     void Start()
     {
         endPosition = transform.position;
@@ -44,25 +47,29 @@ public class CameraController : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
-        Vector3 camPos = Vector3.Lerp(PlayerCharacter1.transform.position, PlayerCharacter2.transform.position, 0.5f);
-
-        //transform.position = new Vector3(camPos.x, camPos.y, camPos.z);
-        endPosition = new Vector3(camPos.x, camPos.y, camPos.z);
-
-        CameraObjct.transform.localPosition = new Vector3(0, 12, -30);
-
-        float dis = Vector3.Distance(PlayerCharacter1.transform.position, PlayerCharacter2.transform.position);
-
-        if (dis > 7f)
+    void Update()
+    {
+        if (uiController.isDrawUI == false)
         {
-            dis -= 7f;
-            CameraObjct.transform.localPosition += new Vector3(0, dis * 0.5f, -dis * 1.5f);
+            Vector3 camPos = Vector3.Lerp(PlayerCharacter1.transform.position, PlayerCharacter2.transform.position, 0.5f);
+
+            //transform.position = new Vector3(camPos.x, camPos.y, camPos.z);
+            endPosition = new Vector3(camPos.x, camPos.y, camPos.z);
+
+            CameraObjct.transform.localPosition = new Vector3(0, 12, -30);
+
+            float dis = Vector3.Distance(PlayerCharacter1.transform.position, PlayerCharacter2.transform.position);
+
+            if (dis > 7f)
+            {
+                dis -= 7f;
+                CameraObjct.transform.localPosition += new Vector3(0, dis * 0.5f, -dis * 1.5f);
+            }
+
+            //Check();
+
+            transform.Rotate(0, Input.GetAxis("RotateCameraLeft") * panSpeed, 0, Space.Self);
         }
-
-        //Check();
-
-        transform.Rotate(0, Input.GetAxis("RotateCameraLeft") * panSpeed, 0, Space.Self);
     }
 
     /*void Check()

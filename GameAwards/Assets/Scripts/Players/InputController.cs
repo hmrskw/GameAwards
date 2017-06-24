@@ -25,6 +25,9 @@ public class InputController : MonoBehaviour {
     [SerializeField]
     GameObject CameraPivot;
 
+    [SerializeField]
+    UIController uiController;
+
     static float maxDistanceLength = 10;
 
     PlayerComponents PlayerCharacter1Components = new PlayerComponents();
@@ -49,7 +52,7 @@ public class InputController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (FadeManager.Instance.IsFading == false)
+        if (FadeManager.Instance.IsFading == false && uiController.isDrawUI == false)
         {
             float character1Horizontal = 0;
             float character1Vertical = 0;

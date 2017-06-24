@@ -14,6 +14,9 @@ public class UIController : MonoBehaviour {
     };
 
     [SerializeField]
+    UI wordUI;
+
+    [SerializeField]
     UI[] moveAndRotateUI;
 
     [SerializeField]
@@ -33,6 +36,8 @@ public class UIController : MonoBehaviour {
 
     [SerializeField]
     float drawTime;
+
+    public bool isDrawUI;
 
     void Start()
     {
@@ -57,6 +62,15 @@ public class UIController : MonoBehaviour {
             jumpUI.controller[i].color = new Color(jumpUI.controller[i].color.r, jumpUI.controller[i].color.g, jumpUI.controller[i].color.b, 0);
         }
 
+        for (int i = 0; i < wordUI.back.Length; i++)
+        {
+            wordUI.back[i].color = new Color(wordUI.back[i].color.r, wordUI.back[i].color.g, wordUI.back[i].color.b, 1);
+        }
+        for (int i = 0; i < wordUI.controller.Length; i++)
+        {
+            wordUI.controller[i].color = new Color(wordUI.controller[i].color.r, wordUI.controller[i].color.g, wordUI.controller[i].color.b, 1);
+        }
+        isDrawUI = true;
         StartCoroutine(DrawUI());
     }
     
@@ -66,6 +80,10 @@ public class UIController : MonoBehaviour {
         {
             yield return null;
         }
+        yield return new WaitForSeconds(drawTime);
+        yield return StartCoroutine(UIFadeOut(wordUI.controller, wordUI.back, 1));
+
+        isDrawUI = false;
 
         for (int i = 0; i < moveAndRotateUI.Length; i++) {
             yield return StartCoroutine(UIFadeIn(moveAndRotateUI[i].controller, moveAndRotateUI[i].back, 1));
