@@ -13,28 +13,46 @@ public class FlashButton : MonoBehaviour
 	[SerializeField]
 	Image _image;
 
-	public Coroutine _coroutine { get; private set; }
+	private bool _isLooping;
+
+	private Coroutine _coroutine;
 
 	private void Start()
 	{
+		_isLooping = true;
 		_coroutine = StartCoroutine(Flash());
+	}
+
+	public void StopAnimation()
+	{
+		_isLooping = false;
 	}
 
 	private IEnumerator Flash()
 	{
-		float _startTime = Time.timeSinceLevelLoad;
-		Color _color = new Color(1, 1, 1, 1);
-
 		while (true)
 		{
-			float _elapsedTime = Time.timeSinceLevelLoad - _startTime;
-			float _elapsedTimeRatio = (_elapsedTime / _animationTime) % 1.00f;
-			float _curveValue = _curve.Evaluate(_elapsedTimeRatio);
+			float _startTime = Time.timeSinceLevelLoad;
+			Color _color = new Color(1, 1, 1, 1);
+			float _elapsedTimeRatio = 0.0f;
 
-			_color.a = _curveValue;
-			_image.color = _color;
+			while (_elapsedTimeRatio <= 1.0f)
+			{
+				float _elapsedTime = Time.timeSinceLevelLoad - _startTime;
+				_elapsedTimeRatio = _elapsedTime / _animationTime;
+				float _curveValue = _curve.Evaluate(_elapsedTimeRatio);
 
-			yield return null;
+				_color.a = _curveValue;
+				_image.color = _color;
+
+				if (!_isLooping)
+				{
+					_image.color = new Color(1, 1, 1, 1);
+					yield break;
+				}
+
+				yield return null;
+			}
 		}
 	}
 }
