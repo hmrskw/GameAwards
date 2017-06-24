@@ -18,7 +18,7 @@ public class TitleController : MonoBehaviour {
 	GameObject _button;
 
 	[SerializeField, Tooltip("タイトルロゴとPushAnyButtonの文字")]
-	Text _logos;
+	Image _logos;
 
 	[SerializeField, Tooltip("フェードのアニメーション用")]
 	AnimationCurve _fadeCurve;
@@ -31,6 +31,9 @@ public class TitleController : MonoBehaviour {
 
 	[SerializeField, Tooltip("プログレスバー(Text)")]
 	Text _text;
+
+	[SerializeField]
+	FlashButton _pushAnyButton;
 
 	private bool _isPushedAnyButtonOnce = false;
 	private bool _isEnableGameStartButton = false;
@@ -61,6 +64,11 @@ public class TitleController : MonoBehaviour {
 		_operationCompleted = true;
 	}
 
+	private void Start()
+	{
+		SoundManager.Instance.PlayBGM("TitleBGM");
+	}
+
 	private void Update ()
 	{
 		if (_isPushedGameStartOnce) return;
@@ -69,6 +77,8 @@ public class TitleController : MonoBehaviour {
 		{
 			if (Input.anyKeyDown)
 			{
+				SoundManager.Instance.PlaySE("se object");
+				_pushAnyButton.StopAnimation();
 				_isPushedAnyButtonOnce = true;
 				StartCoroutine(DisplayPopup());
 			}
