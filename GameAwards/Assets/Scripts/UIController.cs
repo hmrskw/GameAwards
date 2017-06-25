@@ -138,7 +138,6 @@ public class UIController : MonoBehaviour {
         {
             yield return null;
         }
-        SoundManager.Instance.StopBGM("TitleBGM");
         yield return new WaitForSeconds(drawTime);
         yield return StartCoroutine(UIFadeOut(wordUI.controllerUI, wordUI.back, 1));
 
