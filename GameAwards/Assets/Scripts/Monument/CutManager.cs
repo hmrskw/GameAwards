@@ -368,6 +368,7 @@ public class CutManager : Monument
                 yield return null;
             }
             yield return StartCoroutine(WhiteIn(CutSceneCamera[cameraIndex],2f));
+            SoundManager.Instance.StopAll();
             SceneManager.LoadScene(0);
         }
         else

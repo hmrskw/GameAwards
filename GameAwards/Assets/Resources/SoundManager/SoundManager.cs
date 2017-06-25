@@ -171,7 +171,7 @@ public class SoundManager : MonoBehaviour
         }
         return false;
     }
-
+    
     /// <summary>
     /// BGMを停止
     /// </summary>
@@ -202,5 +202,17 @@ public class SoundManager : MonoBehaviour
         {
             bgmSource.Pause();
         }*/
+    }
+
+    public void StopAll()
+    {
+        foreach (AudioSource source in bgmSource)
+        {
+            source.Stop();
+        }
+        foreach (AudioSource source in seSource)
+        {
+            source.Stop();
+        }
     }
 }
