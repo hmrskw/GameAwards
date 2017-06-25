@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Name: GrassData
   m_EditorClassIdentifier: 
   TerrainSize: 3000
-  ChunkDepth: 27
-  ChunkWidth: 27
+  ChunkDepth: 23
+  ChunkWidth: 23
   OneLinePerChunkTipNum: 2
   Constraint: 20
   Curve:
@@ -60,5 +60,5 @@ MonoBehaviour:
     m_RotationOrder: 0
   GrowthBaseTime: 2
   WitherBaseTime: 1
-  RandomMin: {x: 1.5, y: 2, z: 1.5}
-  RandomMax: {x: 2, y: 2.5, z: 2}
+  RandomMin: {x: 2, y: 2, z: 2}
+  RandomMax: {x: 2.5, y: 2.5, z: 2.5}
