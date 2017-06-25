@@ -297,7 +297,7 @@ public class StringView : MonoBehaviour {
                     );
                 if (Vector3.Distance(new Vector3(curve.x, curve.y, curve.z), new Vector3(position.x, position.y, position.z)) < 3)
                 {
-                    mats[0].color = lineColor[1];
+                    mats[0].SetColor("_EmissionColor", lineColor[1]);
                     fadeStartTime = Time.timeSinceLevelLoad;
                     return true;
                 }
@@ -313,7 +313,7 @@ public class StringView : MonoBehaviour {
                     );
                 if (Vector3.Distance(new Vector3(curve.x, curve.y, curve.z), new Vector3(position.x, position.y, position.z)) < 3)
                 {
-                    mats[0].color = lineColor[1];
+                    mats[0].SetColor("_EmissionColor", lineColor[1]);
                     fadeStartTime = Time.timeSinceLevelLoad;
                     return true;
                 }
@@ -335,7 +335,7 @@ public class StringView : MonoBehaviour {
 
             if(diff < fadeTime)
             {
-                mats[0].color = Color.Lerp(mats[0].color, lineColor[0], rate);
+                mats[0].SetColor("_EmissionColor",Color.Lerp(mats[0].color, lineColor[0], rate));
             }
             yield return null;
         }
