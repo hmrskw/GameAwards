@@ -49,7 +49,7 @@ public class CameraController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (uiController.isDrawUI == false)
+        //if (uiController.isDrawUI == false)
         {
             Vector3 camPos = Vector3.Lerp(PlayerCharacter1.transform.position, PlayerCharacter2.transform.position, 0.5f);
 

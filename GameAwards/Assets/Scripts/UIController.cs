@@ -46,7 +46,11 @@ public class UIController : MonoBehaviour {
 
     public bool isDrawUI;
 
+    bool isTutorial = true;
+
     bool isWaitJump = false;
+
+    int id = 0;
 
     void Start()
     {
@@ -95,7 +99,17 @@ public class UIController : MonoBehaviour {
                     1);
         }
         isDrawUI = true;
+        StartCoroutine(Count());
         StartCoroutine(DrawUI());
+    }
+
+    IEnumerator Count()
+    {
+        while (isTutorial)
+        {
+            id++;
+            yield return new WaitForSeconds(0.25f);
+        }
     }
     
     IEnumerator DrawUI()
@@ -107,23 +121,39 @@ public class UIController : MonoBehaviour {
         yield return new WaitForSeconds(drawTime);
         yield return StartCoroutine(UIFadeOut(wordUI.controllerUI, wordUI.back, 1));
 
+        yield return StartCoroutine(UIFadeIn(moveAndRotateUI[1].controllerUI, moveAndRotateUI[1].back, 1));
+
+        //なんだこのコード・・・
+        //for (int j = 0; j < drawTime / 0.25f; j++)
+        while (Input.GetAxis("RotateCameraLeft") < 0.1f && Input.GetAxis("RotateCameraLeft") > -0.1f)
+        {
+            for (int k = 0; k < moveAndRotateUI[1].controllerUI.Length; k++)
+            {
+                moveAndRotateUI[1].controllerUI[k].controller.sprite = moveAndRotateUI[1].controllerUI[k].sprites[id % moveAndRotateUI[1].controllerUI[k].sprites.Length];
+            }
+            yield return null;
+        }
+        //yield return new WaitForSeconds(drawTime / 2);
+
+        yield return StartCoroutine(UIFadeOut(moveAndRotateUI[1].controllerUI, moveAndRotateUI[1].back, 1));
+
         isDrawUI = false;
 
-        for (int i = 0; i < moveAndRotateUI.Length; i++) {
-            yield return StartCoroutine(UIFadeIn(moveAndRotateUI[i].controllerUI, moveAndRotateUI[i].back, 1));
+        //for (int i = 0; i < moveAndRotateUI.Length; i++) {
+        yield return StartCoroutine(UIFadeIn(moveAndRotateUI[0].controllerUI, moveAndRotateUI[0].back, 1));
 
-            //なんだこのコード・・・
-            for (int j = 0; j < drawTime / 0.25f; j++)
+        //なんだこのコード・・・
+        for (int j = 0; j < drawTime / 0.25f; j++)
+        {
+            for (int k = 0; k < moveAndRotateUI[0].controllerUI.Length; k++)
             {
-                for (int k = 0; k < moveAndRotateUI[i].controllerUI.Length; k++)
-                {
-                    moveAndRotateUI[i].controllerUI[k].controller.sprite = moveAndRotateUI[i].controllerUI[k].sprites[j % moveAndRotateUI[i].controllerUI[k].sprites.Length];
-                }
-                yield return new WaitForSeconds(0.25f);
+                moveAndRotateUI[0].controllerUI[k].controller.sprite = moveAndRotateUI[0].controllerUI[k].sprites[j % moveAndRotateUI[0].controllerUI[k].sprites.Length];
             }
-
-            yield return StartCoroutine(UIFadeOut(moveAndRotateUI[i].controllerUI, moveAndRotateUI[i].back, 1));
+            yield return new WaitForSeconds(0.25f);
         }
+
+        yield return StartCoroutine(UIFadeOut(moveAndRotateUI[0].controllerUI, moveAndRotateUI[0].back, 1));
+        //}
 
 
         float dis = Vector2.Distance(new Vector2(highFlowers[0].position.x, highFlowers[0].position.z), new Vector2(characters[0].position.x, characters[0].position.z));
@@ -151,28 +181,22 @@ public class UIController : MonoBehaviour {
             yield return null;
         }
         yield return StartCoroutine(UIFadeIn(jumpUI.controllerUI, jumpUI.back, 2));
-        StartCoroutine(WaitJump());
-        while (isWaitJump == false)
+        //StartCoroutine(WaitJump());
+        while (/*isWaitJump == false*/Input.GetButtonDown("LeftJump") == false && Input.GetButtonDown("RightJump") == false)
         {
             //なんだこのコード・・・
-            for (int j = 0; j < drawTime / 0.25f; j++)
-            {
+            //for (int j = 0; j < drawTime / 0.25f; j++)
+            //{
                 for (int k = 0; k < jumpUI.controllerUI.Length; k++)
                 {
-                    jumpUI.controllerUI[k].controller.sprite = jumpUI.controllerUI[k].sprites[j % jumpUI.controllerUI[k].sprites.Length];
+                    jumpUI.controllerUI[k].controller.sprite = jumpUI.controllerUI[k].sprites[id % jumpUI.controllerUI[k].sprites.Length];
                 }
-                yield return new WaitForSeconds(0.25f);
-            }
-        }
-        yield return new WaitForSeconds(drawTime/2);
-        yield return StartCoroutine(UIFadeOut(jumpUI.controllerUI, jumpUI.back, 2));
-    }
-
-    IEnumerator WaitJump() {
-        while (isWaitJump == false) {
-            isWaitJump = Input.GetButtonDown("LeftJump") || Input.GetButtonDown("RightJump");
             yield return null;
+            //}
         }
+        //yield return new WaitForSeconds(drawTime/2);
+        yield return StartCoroutine(UIFadeOut(jumpUI.controllerUI, jumpUI.back, 2));
+        isTutorial = false;
     }
     
     IEnumerator UIFadeIn(ControllerUI[] controllerImages, Image[] backImages, float fadeTime)
