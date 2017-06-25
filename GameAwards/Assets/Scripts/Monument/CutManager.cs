@@ -381,11 +381,9 @@ public class CutManager : Monument
             {
                 yield return null;
             }
-            //AsyncOperation _loadOpe = SceneManager.LoadSceneAsync(2, LoadSceneMode.Additive);
             yield return StartCoroutine(WhiteIn(CutSceneCamera[cameraIndex],2f));
             SoundManager.Instance.StopAll();
-            SceneManager.LoadScene(2);
-            //FadeManager.Instance.FadeScene(1, 2.0f, 2.0f, new Color(1, 1, 1), _loadOpe);
+            SceneManager.LoadScene(0);
         }
         else
         {
