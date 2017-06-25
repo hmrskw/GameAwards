@@ -20,11 +20,17 @@ public class TitleController : MonoBehaviour {
 	[SerializeField, Tooltip("タイトルロゴとPushAnyButtonの文字")]
 	Image _logos;
 
+	[SerializeField]
+	GameObject _selectMenues;
+
 	[SerializeField, Tooltip("フェードのアニメーション用")]
 	AnimationCurve _fadeCurve;
 
 	[SerializeField, Tooltip("フェードアウトに掛かる時間(0秒だとゼロ除算でエラー)")]
 	float _fadeTime;
+
+	[SerializeField]
+	Image _fadeMask;
 
 	[SerializeField, Tooltip("プログレスバー(Slider)")]
 	Slider _slider;
@@ -38,6 +44,7 @@ public class TitleController : MonoBehaviour {
 	private bool _isPushedAnyButtonOnce = false;
 	private bool _isEnableGameStartButton = false;
 	private bool _isPushedGameStartOnce = false;
+	private bool _hasSelected = false;
 
 	private AsyncOperation _loadOpe;
 	private bool _operationCompleted = false;
@@ -73,14 +80,31 @@ public class TitleController : MonoBehaviour {
 	{
 		if (_isPushedGameStartOnce) return;
 
+		if (!_hasSelected && _isPushedAnyButtonOnce)
+		{
+			if (Input.GetButtonDown("Submit"))
+			{
+				SoundManager.Instance.PlaySE("se object");
+				StartCoroutine(DisplayPopup());
+				_hasSelected = true;
+			}
+			else if (Input.GetButtonDown("Cancel"))
+			{
+				SoundManager.Instance.PlaySE("se object");
+				StartCoroutine(FadeOutGameExit());
+				_hasSelected = true;
+			}
+		}
+
 		if (!_isPushedAnyButtonOnce)
 		{
 			if (Input.anyKeyDown)
 			{
 				SoundManager.Instance.PlaySE("se object");
 				_pushAnyButton.StopAnimation();
+				_logos.enabled = false;
+				_selectMenues.SetActive(true);
 				_isPushedAnyButtonOnce = true;
-				StartCoroutine(DisplayPopup());
 			}
 		}
 
@@ -97,7 +121,6 @@ public class TitleController : MonoBehaviour {
 	private IEnumerator DisplayPopup()
 	{
 		_Popup.SetActive(true);
-		StartCoroutine(FadeOutText());
 
 		yield return new WaitUntil(() => _operationCompleted);
 
@@ -105,21 +128,23 @@ public class TitleController : MonoBehaviour {
 		_button.SetActive(true);
 	}
 
-	private IEnumerator FadeOutText()
+	private IEnumerator FadeOutGameExit()
 	{
-		Color _color = new Color(1, 1, 1, 1);
+		Color _color = new Color(0, 0, 0, 1);
 		float _startTime = Time.timeSinceLevelLoad;
-		float _curveValue = 0.0f;
+		float _elapsedTimeRatio = 0.0f;
 
-		while (_curveValue < 1.0f)
+		while (_elapsedTimeRatio <= 1.0f)
 		{
 			float _elapsedTime = Time.timeSinceLevelLoad - _startTime;
-			float _elapsedTimeRatio = _elapsedTime / _fadeTime;
-			_curveValue = _fadeCurve.Evaluate(_elapsedTimeRatio);
+			_elapsedTimeRatio = _elapsedTime / _fadeTime;
+			float _curveValue = _fadeCurve.Evaluate(_elapsedTimeRatio);
 
 			_color.a = _curveValue;
-			_logos.color = _color;
+			_fadeMask.color = _color;
 			yield return null;
 		}
+
+		Application.Quit();
 	}
 }

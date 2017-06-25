@@ -15,12 +15,10 @@ public class FlashButton : MonoBehaviour
 
 	private bool _isLooping;
 
-	private Coroutine _coroutine;
-
 	private void Start()
 	{
 		_isLooping = true;
-		_coroutine = StartCoroutine(Flash());
+		StartCoroutine(Flash());
 	}
 
 	public void StopAnimation()
