@@ -1,0 +1,9 @@
+diff a/GameAwards/Assets/Scripts/Endroll/EndrollController.cs b/GameAwards/Assets/Scripts/Endroll/EndrollController.cs	(rejected hunks)
+@@ -1,7 +1,6 @@
+ ﻿using System.Collections;
+ using System.Collections.Generic;
+ using UnityEngine;
+-using UnityEngine.SceneManagement;
+ 
+ public class EndrollController : MonoBehaviour
+ {

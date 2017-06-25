@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EndrollController : MonoBehaviour
 {
@@ -28,7 +29,11 @@ public class EndrollController : MonoBehaviour
 		Vector3 _position = _rect.localPosition;
 		float _rectY = _rect.position.y;
 
-		while (_elapsedTimeRatio <= 1.0f)
+        while (SceneManager.GetActiveScene().buildIndex != 2)
+        {
+            yield return null;
+        }
+        while (_elapsedTimeRatio <= 1.0f)
 		{
 			float _elapsedTime = Time.timeSinceLevelLoad;
 			_elapsedTimeRatio = _elapsedTime / _moveTime;
@@ -38,5 +43,9 @@ public class EndrollController : MonoBehaviour
 			_rect.localPosition = _position;
 			yield return null;
 		}
+        SceneManager.LoadScene(0);
+        //AsyncOperation _loadOpe = SceneManager.LoadSceneAsync(0, LoadSceneMode.Additive);
+
+        //FadeManager.Instance.FadeScene(2, 3.0f, 6.0f, new Color(0, 0, 0), _loadOpe);
 	}
 }

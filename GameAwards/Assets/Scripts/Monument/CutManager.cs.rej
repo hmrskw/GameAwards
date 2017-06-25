@@ -1,0 +1,9 @@
+diff a/GameAwards/Assets/Scripts/Monument/CutManager.cs b/GameAwards/Assets/Scripts/Monument/CutManager.cs	(rejected hunks)
+@@ -383,6 +383,7 @@
+             }
+             yield return StartCoroutine(WhiteIn(CutSceneCamera[cameraIndex],2f));
+             SoundManager.Instance.StopAll();
++            SceneManager.LoadScene(0);
+         }
+         else
+         {

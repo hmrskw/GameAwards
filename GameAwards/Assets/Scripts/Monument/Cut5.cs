@@ -161,7 +161,6 @@ public class Cut5 : Monument {
     IEnumerator FlowerAnim()
     {
         Destroy(moveEnemy);
-        SoundManager.Instance.PlaySE("se object");
         yield return StartCoroutine(Boot());
 
         while (openAnimation.GetCurrentAnimatorStateInfo(0).normalizedTime - animationStart < 1 || particle.isPlaying)
@@ -192,6 +191,8 @@ public class Cut5 : Monument {
         {
             yield return null;
         }
+
+        SoundManager.Instance.PlaySE("se object");
         particle.Play();
     }
 
