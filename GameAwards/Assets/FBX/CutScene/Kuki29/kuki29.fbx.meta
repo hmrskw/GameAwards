@@ -1,0 +1,194 @@
+fileFormatVersion: 2
+guid: fde45a6dbace1934ebbdbf5307bccfd3
+timeCreated: 1498291694
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: big_turu
+    100002: big_turu_1
+    100004: big_turu_2
+    100006: big_turu_3
+    100008: big_turu_4
+    100010: big_turu_5
+    100012: big_turu_6
+    100014: big_turu_7
+    100016: Flower_center 1
+    100018: hana
+    100020: hanabira1
+    100022: hanabira1_2
+    100024: hanabira2
+    100026: hanabira2_2
+    100028: hanabira3
+    100030: hanabira3_2
+    100032: hanabira4
+    100034: hanabira4_2
+    100036: hanabira5
+    100038: hanabira5_2
+    100040: hanabira6
+    100042: hanabira7
+    100044: hanabira7_2
+    100046: hanabira8
+    100048: hanabira8_2
+    100050: jhanabira6_2
+    100052: kuki1
+    100054: kuki2
+    100056: //RootNode
+    100058: kuki3
+    100060: kuki4
+    100062: left
+    100064: Plane
+    100066: rigu
+    100068: stereoCamera Interest
+    100070: turu
+    100072: turu1
+    100074: turu1_1
+    100076: turu1_2
+    100078: turu1_3
+    100080: turu1_4
+    100082: turu1_5
+    100084: turu1_6
+    100086: turu1_7
+    100088: turu2
+    100090: turu2_1
+    100092: turu2_2
+    100094: turu2_3
+    100096: turu2_4
+    100098: turu2_5
+    100100: turu2_6
+    100102: turu2_7
+    400000: big_turu
+    400002: big_turu_1
+    400004: big_turu_2
+    400006: big_turu_3
+    400008: big_turu_4
+    400010: big_turu_5
+    400012: big_turu_6
+    400014: big_turu_7
+    400016: Flower_center 1
+    400018: hana
+    400020: hanabira1
+    400022: hanabira1_2
+    400024: hanabira2
+    400026: hanabira2_2
+    400028: hanabira3
+    400030: hanabira3_2
+    400032: hanabira4
+    400034: hanabira4_2
+    400036: hanabira5
+    400038: hanabira5_2
+    400040: hanabira6
+    400042: hanabira7
+    400044: hanabira7_2
+    400046: hanabira8
+    400048: hanabira8_2
+    400050: jhanabira6_2
+    400052: kuki1
+    400054: kuki2
+    400056: //RootNode
+    400058: kuki3
+    400060: kuki4
+    400062: left
+    400064: Plane
+    400066: rigu
+    400068: stereoCamera Interest
+    400070: turu
+    400072: turu1
+    400074: turu1_1
+    400076: turu1_2
+    400078: turu1_3
+    400080: turu1_4
+    400082: turu1_5
+    400084: turu1_6
+    400086: turu1_7
+    400088: turu2
+    400090: turu2_1
+    400092: turu2_2
+    400094: turu2_3
+    400096: turu2_4
+    400098: turu2_5
+    400100: turu2_6
+    400102: turu2_7
+    2300000: Plane
+    3300000: Plane
+    4300000: hana
+    4300002: turu1
+    4300004: turu2
+    4300006: big_turu
+    4300008: Plane
+    7400000: Take 004
+    9500000: //RootNode
+    13700000: big_turu
+    13700002: hana
+    13700004: turu1
+    13700006: turu2
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1.5
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

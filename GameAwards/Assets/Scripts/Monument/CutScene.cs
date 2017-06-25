@@ -47,12 +47,9 @@ public class CutScene : Monument
 
     [SerializeField]
     CheckPointCut[] CheckPoints;
-    /*
-    CameraAndMask[] cutCamera;
-    [SerializeField]
-    Monument[] guids;
-    */
 
+    [SerializeField]
+    ParticleSystem wind;
     void Start()
     {
         openAnimation = GetComponent<Animator>();
@@ -84,7 +81,6 @@ public class CutScene : Monument
     {
         yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera,1.0f,
             () => {
-                guideObjct.SetActive(false);
                 for (int i = 0; i < playerCharacters.Length; i++)
                 {
                     playerCharacters[i].SetActive(false);
@@ -112,6 +108,9 @@ public class CutScene : Monument
         StartCoroutine(MoveCharacter());
         yield return StartCoroutine(MoveCamera());
         yield return StartCoroutine(FlowerAnim());
+        StartCoroutine(RotateCamera(20,2));
+        wind.Stop();
+        yield return new WaitForSeconds(3f);
 
         //他の花を映す
         if (CheckPoints.Length > 0)
@@ -142,11 +141,11 @@ public class CutScene : Monument
                     cutSceneCharacters.transform.position = cutSceneCharactersInitPosition.position;
                     cutSceneCharacters.transform.rotation = cutSceneCharactersInitPosition.rotation;
                 }
+                guideObjct.SetActive(false);
 
                 StringView.Instance.cutP1 = p1.transform;
                 StringView.Instance.cutP2 = p2.transform;
                 StringView.Instance.isPlayCutScene = !StringView.Instance.isPlayCutScene;
-                CutSceneCamera.camera.transform.LookAt(targetTransform);
             }));
         }
         else
@@ -163,13 +162,30 @@ public class CutScene : Monument
                         cutSceneCharacters.transform.position = cutSceneCharactersInitPosition.position;
                         cutSceneCharacters.transform.rotation = cutSceneCharactersInitPosition.rotation;
                     }
+                    guideObjct.SetActive(false);
 
                     StringView.Instance.cutP1 = p1.transform;
                     StringView.Instance.cutP2 = p2.transform;
                     StringView.Instance.isPlayCutScene = !StringView.Instance.isPlayCutScene;
-                    CutSceneCamera.camera.transform.LookAt(targetTransform);
                 }
             ));
+        }
+    }
+
+    IEnumerator RotateCamera(float angle ,float time)
+    {
+        float startTime = Time.timeSinceLevelLoad;
+        float diff = Time.timeSinceLevelLoad - startTime;
+
+        while (diff < (time))
+        {
+            diff = Time.timeSinceLevelLoad - startTime;
+
+            CutSceneCamera.camera.transform.localRotation = 
+                Quaternion.Lerp(CutSceneCamera.camera.transform.localRotation,
+                Quaternion.Euler(new Vector3(CutSceneCamera.camera.transform.localRotation.x - angle, CutSceneCamera.camera.transform.localRotation.y + 180, CutSceneCamera.camera.transform.localRotation.z)),
+                diff / (time));
+            yield return null;
         }
     }
     /*

@@ -96,6 +96,7 @@ public class CutManager : Monument
             targetObjcts[i].SetActive(false);
         }
 
+        if (cut == CUT.ED) StartCoroutine(Look());
         while (StringView.Instance.OnHitLine(monument.transform.position) == false)
         {
             yield return null;
@@ -256,6 +257,7 @@ public class CutManager : Monument
                     cutAnim.GetCurrentAnimatorStateInfo(0).shortNameHash == beforeAnimHash ||
                     cutAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < (830 / totalFrame))//発生させたいフレーム/アニメーションの総フレーム数
                 {
+                    //CutSceneCamera[cameraIndex].camera.transform.LookAt(targetTransform);
                     if (pulse.baseScale.x > 0)
                     {
                         pulse.baseScale -= new Vector3(0.01f, 0.01f, 0.01f);
@@ -374,6 +376,15 @@ public class CutManager : Monument
             {
                 yield return null;
             }
+        }
+    }
+
+    IEnumerator Look()
+    {
+        while (true)
+        {
+            CutSceneCamera[cameraIndex].camera.transform.LookAt(targetTransform);
+            yield return null;
         }
     }
 }

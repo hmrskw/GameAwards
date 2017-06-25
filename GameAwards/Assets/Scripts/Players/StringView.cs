@@ -39,6 +39,15 @@ public class StringView : MonoBehaviour {
     [SerializeField]
     Material[] mats;
 
+    [SerializeField]
+    Color[] lineColor;
+
+    [SerializeField]
+    AnimationCurve curve;
+
+    [SerializeField]
+    float fadeTime;
+
     public bool isPlayCutScene;
 
     int destroyEnemyCount = 0;
@@ -86,6 +95,8 @@ public class StringView : MonoBehaviour {
 
     float length = 0f;
 
+    float fadeStartTime;
+
     void Awake()
     {
         if (instance != null)
@@ -100,6 +111,7 @@ public class StringView : MonoBehaviour {
     void Start () {
         lineRenderer = gameObject.GetComponent<LineRenderer>();
         point = Vector3.Lerp(head.position, tail.position, 0.5f);
+        StartCoroutine(ColorFade());
     }
 
     /// <summary>
@@ -135,11 +147,6 @@ public class StringView : MonoBehaviour {
 
     void Update()
     {
-        if (isSpin)
-        {
-            lineRenderer.material = mats[1];
-        }
-        else
         {
             lineRenderer.material = mats[0];
         }
@@ -283,25 +290,54 @@ public class StringView : MonoBehaviour {
             {
                 Vector3 curve =
                     B_SplineCurve(
-                        head.position + new Vector3(0, 3, 0),
-                        tail.position + new Vector3(0, 3, 0),
-                        point + new Vector3(0, 3, 0),
+                        head.position/* + new Vector3(0, 3, 0)*/,
+                        tail.position/* + new Vector3(0, 3, 0)*/,
+                        point/* + new Vector3(0, 3, 0)*/,
                         length
                     );
-                if (Vector3.Distance(new Vector3(curve.x, curve.y, curve.z), new Vector3(position.x, position.y, position.z)) < 5) return true;
+                if (Vector3.Distance(new Vector3(curve.x, curve.y, curve.z), new Vector3(position.x, position.y, position.z)) < 3)
+                {
+                    mats[0].color = lineColor[1];
+                    fadeStartTime = Time.timeSinceLevelLoad;
+                    return true;
+                }
             }
             else
             {
                 Vector3 curve =
                     B_SplineCurve(
-                        cutP1.position + new Vector3(0, 3, 0),
-                        cutP2.position + new Vector3(0, 3, 0),
-                        point + new Vector3(0, 3, 0),
+                        cutP1.position/* + new Vector3(0, 3, 0)*/,
+                        cutP2.position/* + new Vector3(0, 3, 0)*/,
+                        point/* + new Vector3(0, 3, 0)*/,
                         length
                     );
-                if (Vector3.Distance(new Vector3(curve.x, curve.y, curve.z), new Vector3(position.x, position.y, position.z)) < 5) return true;
+                if (Vector3.Distance(new Vector3(curve.x, curve.y, curve.z), new Vector3(position.x, position.y, position.z)) < 3)
+                {
+                    mats[0].color = lineColor[1];
+                    fadeStartTime = Time.timeSinceLevelLoad;
+                    return true;
+                }
             }
         }
         return false;
+    }
+
+    IEnumerator ColorFade()
+    {
+        fadeStartTime = Time.timeSinceLevelLoad;
+        float diff = Time.timeSinceLevelLoad - fadeStartTime;
+        float rate;
+
+        while (true)
+        {
+            diff = Time.timeSinceLevelLoad - fadeStartTime;
+            rate = curve.Evaluate(diff / fadeTime);
+
+            if(diff < fadeTime)
+            {
+                mats[0].color = Color.Lerp(mats[0].color, lineColor[0], rate);
+            }
+            yield return null;
+        }
     }
 }

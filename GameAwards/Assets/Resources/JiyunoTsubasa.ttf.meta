@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: b62b9cd6b359a0245bb0267898228fa9
+timeCreated: 1498279910
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: JiyunoTsubasaFont
+  fontNames:
+  - JiyunoTsubasaFont
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

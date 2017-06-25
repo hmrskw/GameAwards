@@ -25,6 +25,9 @@ public class InputController : MonoBehaviour {
     [SerializeField]
     GameObject CameraPivot;
 
+    [SerializeField]
+    UIController uiController;
+
     static float maxDistanceLength = 10;
 
     PlayerComponents PlayerCharacter1Components = new PlayerComponents();
@@ -37,6 +40,8 @@ public class InputController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        maxDistanceLength = 10;
+
         PlayerCharacter1Components.playerModel = PlayerCharacter1.GetComponent<Player>();
 
         PlayerCharacter2Components.playerModel = PlayerCharacter2.GetComponent<Player>();
@@ -47,7 +52,7 @@ public class InputController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (FadeManager.Instance.IsFading == false)
+        if (FadeManager.Instance.IsFading == false && uiController.isDrawUI == false)
         {
             float character1Horizontal = 0;
             float character1Vertical = 0;
@@ -199,6 +204,7 @@ public class InputController : MonoBehaviour {
         }
 
         SoundManager.Instance.PlayBGM("kankyou hiru");
+        SoundManager.Instance.PlayBGM("bgm");
     }
 
     /// <summary>

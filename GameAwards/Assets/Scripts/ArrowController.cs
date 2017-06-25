@@ -5,6 +5,7 @@ using UnityEngine;
 public class ArrowController : MonoBehaviour {
     [SerializeField]
     Color activeColor;
+
     [SerializeField]
     Color inactiveColor;
 
@@ -19,6 +20,9 @@ public class ArrowController : MonoBehaviour {
     [SerializeField]
     Material mat;
 
+    [SerializeField]
+    GameObject windObj;
+
     //IEnumerator func;
 
     // Use this for initialization
@@ -28,18 +32,24 @@ public class ArrowController : MonoBehaviour {
 
     void OnTriggerEnter(Collider col)
     {
-        if (monument.IsOn == false && col.gameObject.tag == "Midpoint")
+        if (windObj == null || windObj.activeInHierarchy == false)
         {
-            StartCoroutine(ArrowFadeIn(fadeTime));
+            if (monument.IsOn == false && col.gameObject.tag == "Midpoint")
+            {
+                StartCoroutine(ArrowFadeIn(fadeTime));
+            }
         }
     }
 
     void OnTriggerExit(Collider col)
     {
-        if (col.gameObject.tag == "Midpoint")
+        if (windObj == null || windObj.activeInHierarchy == false)
         {
-            StopCoroutine(ArrowFadeIn(fadeTime));
-            StartCoroutine(ArrowFadeOut(fadeTime));
+            if (col.gameObject.tag == "Midpoint")
+            {
+                StopCoroutine(ArrowFadeIn(fadeTime));
+                StartCoroutine(ArrowFadeOut(fadeTime));
+            }
         }
     }
     
