@@ -53,6 +53,7 @@ public class FadeManager : MonoBehaviour {
 		_fadeImage.gameObject.SetActive(true);
 
 		yield return StartCoroutine(Fade(_fadeoutTime, _maskColor, _fadeoutCurve));
+		SoundManager.Instance.StopAll();
 
 		if (_nextOpe != null)
 		{
