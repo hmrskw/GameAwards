@@ -68,7 +68,7 @@ public class CameraController : MonoBehaviour {
 
             //Check();
 
-            transform.Rotate(0, Input.GetAxis("RotateCameraLeft") * panSpeed, 0, Space.Self);
+            transform.Rotate(0, Input.GetAxis("RotateCameraLeft") * -panSpeed, 0, Space.Self);
         }
     }
 
