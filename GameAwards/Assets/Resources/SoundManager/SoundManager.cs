@@ -137,7 +137,7 @@ public class SoundManager : MonoBehaviour
     /// BGMを再生する
     /// </summary>
     /// <param name="bgmName">再生したいBGM名</param>
-    public void PlayBGM(string bgmName)
+    public void PlayBGM(string bgmName,float volime = 1)
     {
         //使用していないseSourceを探す
         for (int i = 0; i < bgmSource.Length; i++)
@@ -146,6 +146,7 @@ public class SoundManager : MonoBehaviour
             {
                 if (bgmSource[i].isPlaying == false)
                 {
+                    bgmSource[i].volume = volime;
                     bgmSource[i].Play();
                 }
                 return;
@@ -153,6 +154,8 @@ public class SoundManager : MonoBehaviour
             else if (bgmSource[i].isPlaying == false)
             {
                 bgmSource[i].clip = bgmDict[bgmName];
+
+                bgmSource[i].volume = volime;
                 bgmSource[i].Play();
                 return;
             }

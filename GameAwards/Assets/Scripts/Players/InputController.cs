@@ -204,7 +204,8 @@ public class InputController : MonoBehaviour {
         }
 
         SoundManager.Instance.PlayBGM("kankyou hiru");
-        SoundManager.Instance.PlayBGM("bgm");
+
+        SoundManager.Instance.PlayBGM("bgm",0.4f);
     }
 
     /// <summary>
