@@ -78,6 +78,7 @@ public class TitleController : MonoBehaviour {
 
 	private void Update ()
 	{
+		if (FadeManager.Instance.IsFading) return;
 		if (_isPushedGameStartOnce) return;
 
 		if (!_hasSelected && _isPushedAnyButtonOnce)
