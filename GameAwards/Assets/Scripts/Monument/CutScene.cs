@@ -68,7 +68,11 @@ public class CutScene : Monument
 
     override protected IEnumerator Wait()
     {
-        while (StringView.Instance.OnHitLine(transform.position) == false)
+        while (
+            Vector3.Distance(playerCharacters[0].transform.position, transform.position) > 30f&&
+            Vector3.Distance(playerCharacters[1].transform.position, transform.position) > 30f
+            )
+        //while (StringView.Instance.OnHitLine(transform.position) == false)
         {
             yield return null;
         }

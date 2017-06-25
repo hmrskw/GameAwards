@@ -240,7 +240,6 @@ public class UIController : MonoBehaviour {
             character2Pos = new Vector3(characters[1].position.x, 0, characters[1].position.z);
             a = camPos - character1Pos;
             b = camPos - character2Pos;
-            Debug.Log(Vector3.Cross(a, b));
 
             if (Vector3.Cross(a, b).y < 0)
             {
