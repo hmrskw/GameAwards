@@ -7,6 +7,7 @@ public class ManageCreator : MonoBehaviour {
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void CreatorManager()
     {
+        Cursor.visible = false;
         GameObject SoundManager = Instantiate((GameObject)Resources.Load("SoundManager/SoundManager"));
         DontDestroyOnLoad(SoundManager);
         GameObject FadeManager = Instantiate((GameObject)Resources.Load("FadeManager/FadeManager"));
