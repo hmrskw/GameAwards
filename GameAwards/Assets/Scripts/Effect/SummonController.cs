@@ -15,7 +15,7 @@ public class SummonController : MonoBehaviour {
 	[SerializeField, Tooltip("アニメーションにかかる時間(秒)")]
 	float _animationTime;
 	[SerializeField, Tooltip("スケールの最大値")]
-	Vector3 _limitScale;
+	public Vector3 _limitScale;
 
 	void Start ()
 	{

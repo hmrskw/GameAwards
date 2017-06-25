@@ -71,7 +71,9 @@ public class CutManager : Monument
     Camera cutCamera;
     [SerializeField]
     PulseController pulse;
-
+    [SerializeField]
+    SummonController flash;
+    
     [Space(15)]
     [SerializeField]
     CameraAndMask GoalSceneCamera;
@@ -255,16 +257,28 @@ public class CutManager : Monument
             {
                 while (
                     cutAnim.GetCurrentAnimatorStateInfo(0).shortNameHash == beforeAnimHash ||
-                    cutAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < (830 / totalFrame))//発生させたいフレーム/アニメーションの総フレーム数
+                    cutAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < (750 / totalFrame))//発生させたいフレーム/アニメーションの総フレーム数
                 {
-                    //CutSceneCamera[cameraIndex].camera.transform.LookAt(targetTransform);
+                    //flash.transform.localScale += new Vector3(0.5f, 0.5f, 0.5f);
                     if (pulse.baseScale.x > 0)
                     {
                         pulse.baseScale -= new Vector3(0.01f, 0.01f, 0.01f);
                     }
                     yield return null;
                 }
-                yield return StartCoroutine(WhiteIn(CutSceneCamera[cameraIndex], 3f));
+                while (
+                    cutAnim.GetCurrentAnimatorStateInfo(0).shortNameHash == beforeAnimHash ||
+                    cutAnim.GetCurrentAnimatorStateInfo(0).normalizedTime < (860 / totalFrame))//発生させたいフレーム/アニメーションの総フレーム数
+                {
+                    flash._limitScale += new Vector3(0.1f,0.1f, 0.1f);
+                    flash.transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
+                    Debug.Log(flash._limitScale);
+                    yield return null;
+                }
+                yield return StartCoroutine(WhiteIn(CutSceneCamera[cameraIndex], 2f));
+                flash._limitScale = new Vector3(0f, 0f, 0f);
+                flash.transform.localScale = new Vector3(0f, 0f, 0f);
+                //flash.transform
                 yield return new WaitForSeconds(1f);
                 yield return StartCoroutine(WhiteOut(CutSceneCamera[cameraIndex], 1f));
             }
