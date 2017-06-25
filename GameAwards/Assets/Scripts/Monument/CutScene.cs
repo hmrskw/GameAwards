@@ -108,7 +108,7 @@ public class CutScene : Monument
         StartCoroutine(MoveCharacter());
         yield return StartCoroutine(MoveCamera());
         yield return StartCoroutine(FlowerAnim());
-        StartCoroutine(RotateCamera(20,2));
+        StartCoroutine(RotateCamera(10,2));
         wind.Stop();
         yield return new WaitForSeconds(3f);
 

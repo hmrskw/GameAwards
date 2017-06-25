@@ -30,10 +30,16 @@ public class UIController : MonoBehaviour {
     UI jumpUI;
 
     [SerializeField]
+    UI swapUI;
+
+    [SerializeField]
     Transform[] characters;
 
     [SerializeField]
     Transform[] highFlowers;
+
+    [SerializeField]
+    Transform mainCameara;
 
     [SerializeField]
     float drawJumpUIDistance;
@@ -98,6 +104,20 @@ public class UIController : MonoBehaviour {
                     wordUI.controllerUI[i].controller.color.b,
                     1);
         }
+
+        for (int i = 0; i < swapUI.back.Length; i++)
+        {
+            swapUI.back[i].color = new Color(swapUI.back[i].color.r, swapUI.back[i].color.g, swapUI.back[i].color.b, 0);
+        }
+        for (int i = 0; i < swapUI.controllerUI.Length; i++)
+        {
+            swapUI.controllerUI[i].controller.color =
+                new Color(
+                    swapUI.controllerUI[i].controller.color.r,
+                    swapUI.controllerUI[i].controller.color.g,
+                    swapUI.controllerUI[i].controller.color.b,
+                    0);
+        }
         isDrawUI = true;
         StartCoroutine(Count());
         StartCoroutine(DrawUI());
@@ -134,10 +154,9 @@ public class UIController : MonoBehaviour {
             yield return null;
         }
         //yield return new WaitForSeconds(drawTime / 2);
+        isDrawUI = false;
 
         yield return StartCoroutine(UIFadeOut(moveAndRotateUI[1].controllerUI, moveAndRotateUI[1].back, 1));
-
-        isDrawUI = false;
 
         //for (int i = 0; i < moveAndRotateUI.Length; i++) {
         yield return StartCoroutine(UIFadeIn(moveAndRotateUI[0].controllerUI, moveAndRotateUI[0].back, 1));
@@ -197,8 +216,56 @@ public class UIController : MonoBehaviour {
         //yield return new WaitForSeconds(drawTime/2);
         yield return StartCoroutine(UIFadeOut(jumpUI.controllerUI, jumpUI.back, 2));
         isTutorial = false;
+        StartCoroutine(Swap());
     }
-    
+
+    IEnumerator Swap()
+    {
+        Vector3 camPos = new Vector3(mainCameara.position.x,0, mainCameara.position.z);
+        Vector3 character1Pos = new Vector3(characters[0].position.x, 0, characters[0].position.z);
+        Vector3 character2Pos = new Vector3(characters[1].position.x, 0, characters[1].position.z);
+        Vector3 a = camPos- character1Pos;
+        Vector3 b = camPos - character2Pos;
+        
+        float startTime = Time.timeSinceLevelLoad;
+        float diff = Time.timeSinceLevelLoad - startTime;
+
+        bool isDrawSwapUI = false;
+
+        while (true)
+        {
+            diff = Time.timeSinceLevelLoad - startTime;
+            camPos = new Vector3(mainCameara.position.x, 0, mainCameara.position.z);
+            character1Pos = new Vector3(characters[0].position.x, 0, characters[0].position.z);
+            character2Pos = new Vector3(characters[1].position.x, 0, characters[1].position.z);
+            a = camPos - character1Pos;
+            b = camPos - character2Pos;
+            Debug.Log(Vector3.Cross(a, b));
+
+            if (Vector3.Cross(a, b).y < 0)
+            {
+                startTime = Time.timeSinceLevelLoad;
+            }
+
+            yield return null;
+
+            if (isDrawSwapUI == false && diff > 3f)
+            {
+                yield return StartCoroutine(UIFadeIn(swapUI.controllerUI, swapUI.back, 1));
+                isDrawSwapUI = true;
+            }
+            if(isDrawSwapUI == true)
+            {
+                if (Vector3.Cross(a, b).y < 0)
+                {
+                    yield return StartCoroutine(UIFadeOut(swapUI.controllerUI, swapUI.back, 1));
+                    isDrawSwapUI = false;
+                }
+            }
+        }
+    }
+
+
     IEnumerator UIFadeIn(ControllerUI[] controllerImages, Image[] backImages, float fadeTime)
     {
         float startTime = Time.timeSinceLevelLoad;
