@@ -113,6 +113,7 @@ public class TitleController : MonoBehaviour {
 			if (Input.GetButtonDown("Submit"))
 			{
 				_isPushedGameStartOnce = true;
+				SoundManager.Instance.PlaySE("se object");
 				FadeManager.Instance.FadeScene(0, 3.0f, 6.0f, new Color(0, 0, 0), _loadOpe);
 			}
 		}
