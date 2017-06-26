@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -10,7 +10,6 @@ using UnityEngine.SceneManagement;
 /// 2017/06/18
 /// *************************************************
 /// DontDestroyOnLoadでシーン間フェードを管理するクラス。
-/// LoadSceneAsyncを使用することを前提にしています。
 /// *************************************************
 /// </summary>
 public class FadeManager : MonoBehaviour {
@@ -46,6 +45,21 @@ public class FadeManager : MonoBehaviour {
 		StartCoroutine(FadeSceneImpl(_unloadIndex, _fadeoutTime, _fadeInTime, _maskColor, _nextOpe));
 	}
 
+	/// <summary>
+	/// フェードアウトとフェードインをする関数。
+	/// こちらもシーンをまたぐことを想定し、ラッピング関数です。
+	/// 
+	/// フェードアウトとフェードインの間にアクションを渡すことで何か処理させることもできます。
+	/// </summary>
+	/// <param name="_fadeoutTime">フェードアウト時間(s)</param>
+	/// <param name="_fadeinTime">フェードイン時間(s)</param>
+	/// <param name="_maskColor">マスク画像の色</param>
+	/// <param name="_act">何かしたい場合はここにアクションを渡す</param>
+	public void FadeOutIn(float _fadeoutTime, float _fadeinTime, Color _maskColor, Action _act = null)
+	{
+		StartCoroutine(FadeOutInImpl(_fadeoutTime, _fadeinTime, _maskColor, _act));
+	}
+
 	private IEnumerator FadeSceneImpl(int _unloadSceneIndex, float _fadeoutTime, float _fadeinTime, Color _maskColor, AsyncOperation _nextOpe)
 	{
 		if (IsFading) yield break;
@@ -71,6 +85,25 @@ public class FadeManager : MonoBehaviour {
 		IsFading = false;
 	}
 
+	private IEnumerator FadeOutInImpl(float _fadeoutTime, float _fadeinTime, Color _maskColor, Action _act = null)
+	{
+		if (IsFading) yield break;
+		IsFading = true;
+		_fadeImage.gameObject.SetActive(true);
+
+		yield return StartCoroutine(Fade(_fadeoutTime, _maskColor, _fadeoutCurve));
+		SoundManager.Instance.StopAll();
+
+		if (_act != null)
+		{
+			_act();
+		}
+
+		yield return StartCoroutine(Fade(_fadeinTime, _maskColor, _fadeinCurve));
+		_fadeImage.gameObject.SetActive(false);
+		IsFading = false;
+	}
+
 	private IEnumerator Fade(float _fadeTime, Color _maskColor, AnimationCurve _curve)
 	{
 		float _startTime = Time.timeSinceLevelLoad;
@@ -88,9 +121,6 @@ public class FadeManager : MonoBehaviour {
 
 			yield return null;
 		}
-
-		_color.a = _curve.Evaluate(1.0f);
-		_fadeImage.color = _color;
 	}
 
 	private void Awake()
