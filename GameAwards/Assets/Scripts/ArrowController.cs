@@ -21,6 +21,9 @@ public class ArrowController : MonoBehaviour {
     Material mat;
 
     [SerializeField]
+    Material emblemMat;
+
+    [SerializeField]
     GameObject windObj;
 
     //IEnumerator func;
@@ -28,6 +31,18 @@ public class ArrowController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         mat.color = inactiveColor;
+    }
+
+    void Update()
+    {
+        if (monument.IsOn == false && (windObj == null || windObj.activeInHierarchy == false))
+        {
+            emblemMat.color = new Color(emblemMat.color.r, emblemMat.color.g, emblemMat.color.b, 1);
+        }
+        else
+        {
+            emblemMat.color = new Color(emblemMat.color.r, emblemMat.color.g, emblemMat.color.b, 0);
+        }
     }
 
     void OnTriggerEnter(Collider col)
