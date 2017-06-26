@@ -112,9 +112,10 @@ public class CutScene : Monument
         StartCoroutine(MoveCharacter());
         yield return StartCoroutine(MoveCamera());
         yield return StartCoroutine(FlowerAnim());
-        StartCoroutine(RotateCamera(10,2));
+        StartCoroutine(RotateCamera(10,4));
+        SoundManager.Instance.PlaySE("wind");
         wind.Stop();
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(5f);
 
         //他の花を映す
         if (CheckPoints.Length > 0)

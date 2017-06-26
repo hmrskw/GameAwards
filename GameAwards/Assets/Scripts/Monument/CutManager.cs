@@ -132,7 +132,7 @@ public class CutManager : Monument
         if (cut != CUT.ED)
         {
             yield return StartCoroutine(FadeInFadeOut(CutSceneCamera[cameraIndex], GoalSceneCamera, 1.0f,null));
-
+            SoundManager.Instance.PlaySE("wind");
             wind.Stop();
             yield return new WaitForSeconds(5f);
 
