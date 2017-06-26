@@ -272,7 +272,6 @@ public class CutManager : Monument
                 {
                     flash._limitScale += new Vector3(0.1f,0.1f, 0.1f);
                     flash.transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
-                    Debug.Log(flash._limitScale);
                     yield return null;
                 }
                 yield return StartCoroutine(WhiteIn(CutSceneCamera[cameraIndex], 2f));

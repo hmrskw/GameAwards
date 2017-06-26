@@ -408,7 +408,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1039521576
 RectTransform:
   m_ObjectHideFlags: 0
@@ -529,7 +529,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -1000}
+  m_AnchoredPosition: {x: 0, y: 304}
   m_SizeDelta: {x: 1920, y: 5000}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1954913826
@@ -578,18 +578,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.7
-  m_Text: "\u30FC \u30C7\u30A3\u30EC\u30AF\u30BF\u30FC \u30FC\n\u5CA9\u91CE \u8000\u5D69\n\n\n\n\u30FC
-    \u30D7\u30ED\u30B0\u30E9\u30DE\u30FC \u30FC\n\u30EA\u30FC\u30C9\u30D7\u30ED\u30B0\u30E9\u30DE\u30FC\u3000\u3000\u3000\u4E09\u6FA4
-    \u88D5\u6A39\n\u3000\u3000\u3000\u30D7\u30ED\u30B0\u30E9\u30DE\u30FC\u3000\u3000\u3000\u4E38\u672C
-    \u6176\u5927\n\n\n\n\u30FC \u30B2\u30FC\u30E0\u30C7\u30B6\u30A4\u30CA\u30FC \u30FC\n\u5CA9\u91CE
-    \u8000\u5D69\n\n\n\n\u30FC \u30B0\u30E9\u30D5\u30A3\u30C3\u30AB\u30FC \u30FC\n\u3000\u30A2\u30FC\u30C8\u30C7\u30A3\u30EC\u30AF\u30BF\u30FC\u3000\u3000\u9AD8\u6A4B
-    \u590F\u751F\n\u30AD\u30E3\u30E9\u30AF\u30BF\u30FC\u30C7\u30B6\u30A4\u30CA\u30FC\u3000\u3000\u9AD8\u6A4B
-    \u590F\u751F\u3000\n\u3000\u3000 \uFF13D\u30A2\u30FC\u30C6\u30A3\u30B9\u30C8\u3000\u3000\u9AD8\u6A4B
-    \u590F\u751F\n\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000  \u3000
-    \u3000\u5C71\u672C \u83DC\u7A42\u5B50\n\u3000    VFX\u30A2\u30FC\u30C6\u30A3\u30B9\u30C8\u3000
-    \  \u4E38\u672C \u6176\u5927\n\u3000\u3000 \u3000   UI\u30A2\u30CB\u30E1\u30FC\u30BF\u30FC\u3000
-    \ \u6E21\u90E8 \u5927\u6A39\u3000\n\n\n\n\u30FC \u30B5\u30A6\u30F3\u30C9\u30C7\u30B6\u30A4\u30CA\u30FC
-    \u30FC\n\u6749\u6FA4 \u548C\u6A39\n\n\n\n\n\n\n\n\u30FC \u5236\u4F5C \u30FC"
+  m_Text: "\u30D7\u30E9\u30F3\u30CA\u30FC\u517C\u30C7\u30A3\u30EC\u30AF\u30BF\u30FC\u3000\u3000\uFF11\u4EBA\n\u30D7\u30ED\u30B0\u30E9\u30DE\u30FC\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\uFF12\u4EBA\n\u30C7\u30B6\u30A4\u30CA\u30FC\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\uFF12\u4EBA\n\u30A2\u30CB\u30E1\u30FC\u30BF\u30FC\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\uFF11\u4EBA\n\u30B3\u30F3\u30DD\u30FC\u30B6\u30FC\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\uFF11\u4EBA"
 --- !u!222 &1954913828
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -794,22 +783,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rect: {fileID: 1954913825}
-  _fadeValue: 5800
-  _moveTime: 5
+  _fadeValue: 0
+  _moveTime: 3
   _curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
       time: 0
       value: 0
-      inSlope: 1
-      outSlope: 1
+      inSlope: 0
+      outSlope: 0
       tangentMode: 34
     - serializedVersion: 2
       time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
       tangentMode: 34
     m_PreInfinity: 2
     m_PostInfinity: 2
