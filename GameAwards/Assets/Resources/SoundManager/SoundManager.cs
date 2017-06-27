@@ -124,6 +124,39 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    public IEnumerator BGMFadeOut(float time)
+    {
+        float startTime = Time.timeSinceLevelLoad;
+        float diff = Time.timeSinceLevelLoad - startTime;
+        float initVolume = 0.4f;
+        while (diff < time)
+        {
+            diff = Time.timeSinceLevelLoad - startTime;
+            ChangeBGMVolume(initVolume*(1-diff / time));
+            yield return null;
+        }
+        foreach (AudioSource source in bgmSource)
+        {
+            source.Stop();
+        }
+    }
+
+    public IEnumerator BGMFadeIn(float time , string bgmName, float targetVolume)
+    {
+        PlayBGM(bgmName, 0f);
+        float startTime = Time.timeSinceLevelLoad;
+        float diff = Time.timeSinceLevelLoad - startTime;
+
+        startTime = Time.timeSinceLevelLoad;
+        diff = Time.timeSinceLevelLoad - startTime;
+        while (targetVolume > diff / time)
+        {
+            diff = Time.timeSinceLevelLoad - startTime;
+            ChangeBGMVolume(diff / time);
+            yield return null;
+        }
+    }
+
     /// <summary>
     /// BGMの音量を取得
     /// </summary>

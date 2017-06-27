@@ -372,8 +372,18 @@ public class CutManager : Monument
         //fadeIn.camera.SetActive(false);
     }
 
+    IEnumerator FadeBgm()
+    {
+        yield return StartCoroutine(SoundManager.Instance.BGMFadeOut(10f));
+
+        yield return StartCoroutine(SoundManager.Instance.BGMFadeIn(10f, "ending BGM", 0.5f));
+    }
     IEnumerator Anim()
     {
+        if (cut == CUT.ED)
+        {
+            StartCoroutine(FadeBgm());
+        }
         yield return StartCoroutine(Boot());
         if (cut == CUT.ED) {
             while (openAnimation.GetCurrentAnimatorStateInfo(0).normalizedTime - animationStart < 1)
@@ -382,7 +392,7 @@ public class CutManager : Monument
             }
             //AsyncOperation _loadOpe = SceneManager.LoadSceneAsync(2, LoadSceneMode.Additive);
             yield return StartCoroutine(WhiteIn(CutSceneCamera[cameraIndex],2f));
-            SoundManager.Instance.StopAll();
+            //SoundManager.Instance.StopAll();
             SceneManager.LoadScene(2);
             //FadeManager.Instance.FadeScene(1, 2.0f, 2.0f, new Color(1, 1, 1), _loadOpe);
         }
