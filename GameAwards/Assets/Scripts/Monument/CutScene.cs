@@ -95,6 +95,7 @@ public class CutScene : Monument
                     cutSceneCharacters.transform.position = cutSceneCharactersInitPosition.position;
                     cutSceneCharacters.transform.rotation = cutSceneCharactersInitPosition.rotation;
                 }
+                guideObjct.SetActive(false);
 
                 StringView.Instance.cutP1 = p1.transform;
                 StringView.Instance.cutP2 = p2.transform;
@@ -146,7 +147,7 @@ public class CutScene : Monument
                     cutSceneCharacters.transform.position = cutSceneCharactersInitPosition.position;
                     cutSceneCharacters.transform.rotation = cutSceneCharactersInitPosition.rotation;
                 }
-                guideObjct.SetActive(false);
+                //guideObjct.SetActive(false);
 
                 StringView.Instance.cutP1 = p1.transform;
                 StringView.Instance.cutP2 = p2.transform;
@@ -167,7 +168,7 @@ public class CutScene : Monument
                         cutSceneCharacters.transform.position = cutSceneCharactersInitPosition.position;
                         cutSceneCharacters.transform.rotation = cutSceneCharactersInitPosition.rotation;
                     }
-                    guideObjct.SetActive(false);
+                    //guideObjct.SetActive(false);
 
                     StringView.Instance.cutP1 = p1.transform;
                     StringView.Instance.cutP2 = p2.transform;
