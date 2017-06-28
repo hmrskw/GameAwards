@@ -55,9 +55,9 @@ public class FadeManager : MonoBehaviour {
 	/// <param name="_fadeinTime">フェードイン時間(s)</param>
 	/// <param name="_maskColor">マスク画像の色</param>
 	/// <param name="_act">何かしたい場合はここにアクションを渡す</param>
-	public void FadeOutIn(float _fadeoutTime, float _fadeinTime, Color _maskColor, Action _act = null)
+	public void FadeOutIn(float _fadeoutTime, float _fadeinTime, Color _maskColor, Action _act = null, bool _bgmFadeOut = false)
 	{
-		StartCoroutine(FadeOutInImpl(_fadeoutTime, _fadeinTime, _maskColor, _act));
+		StartCoroutine(FadeOutInImpl(_fadeoutTime, _fadeinTime, _maskColor, _bgmFadeOut, _act));
 	}
 
 	private IEnumerator FadeSceneImpl(int _unloadSceneIndex, float _fadeoutTime, float _fadeinTime, Color _maskColor, AsyncOperation _nextOpe)
@@ -85,12 +85,15 @@ public class FadeManager : MonoBehaviour {
 		IsFading = false;
 	}
 
-	private IEnumerator FadeOutInImpl(float _fadeoutTime, float _fadeinTime, Color _maskColor, Action _act = null)
+	private IEnumerator FadeOutInImpl(float _fadeoutTime, float _fadeinTime, Color _maskColor, bool _bgmFadeOut, Action _act = null)
 	{
         int sceneIndex = SceneManager.GetActiveScene().buildIndex;
         if (IsFading) yield break;
 		IsFading = true;
-        StartCoroutine(SoundManager.Instance.BGMFadeOut(_fadeoutTime));
+        if (_bgmFadeOut == true)
+        {
+            StartCoroutine(SoundManager.Instance.BGMFadeOut(_fadeoutTime));
+        }
         _fadeImage.gameObject.SetActive(true);
 
 		yield return StartCoroutine(Fade(_fadeoutTime, _maskColor, _fadeoutCurve));

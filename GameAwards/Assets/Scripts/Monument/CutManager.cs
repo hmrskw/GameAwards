@@ -120,6 +120,10 @@ public class CutManager : Monument
 
     IEnumerator Task()
     {
+        if (cut == CUT.ED)
+        {
+            StartCoroutine(FadeBgm());
+        }
         yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera[cameraIndex], 1.0f,()=> {
             if(guideObjct != null) guideObjct.SetActive(false);
 
@@ -384,16 +388,12 @@ public class CutManager : Monument
 
     IEnumerator FadeBgm()
     {
-        yield return StartCoroutine(SoundManager.Instance.BGMFadeOut(10f));
-
-        yield return StartCoroutine(SoundManager.Instance.BGMFadeIn(10f, "ending BGM", 0.5f));
+        yield return StartCoroutine(SoundManager.Instance.BGMFadeOut(6.5f));
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(SoundManager.Instance.BGMFadeIn(9f, "ending BGM", 0.5f));
     }
     IEnumerator Anim()
     {
-        if (cut == CUT.ED)
-        {
-            StartCoroutine(FadeBgm());
-        }
         yield return StartCoroutine(Boot());
         if (cut == CUT.ED) {
             while (openAnimation.GetCurrentAnimatorStateInfo(0).normalizedTime - animationStart < 1)
@@ -401,9 +401,10 @@ public class CutManager : Monument
                 yield return null;
             }
             //AsyncOperation _loadOpe = SceneManager.LoadSceneAsync(2, LoadSceneMode.Additive);
-            yield return StartCoroutine(WhiteIn(CutSceneCamera[cameraIndex],2f));
+            //yield return StartCoroutine(WhiteIn(CutSceneCamera[cameraIndex],2f));
             //SoundManager.Instance.StopAll();
-            SceneManager.LoadScene(2);
+            //SceneManager.LoadScene(2);
+            FadeManager.Instance.FadeOutIn(5.0f, 5.0f, new Color(1, 1, 1), () => SceneManager.LoadScene(2));
             //FadeManager.Instance.FadeScene(1, 2.0f, 2.0f, new Color(1, 1, 1), _loadOpe);
         }
         else

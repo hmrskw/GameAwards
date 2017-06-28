@@ -27,15 +27,22 @@ public class EndrollController : MonoBehaviour
 
 	IEnumerator ScrollStaffRoll()
 	{
-		float _startTime = Time.timeSinceLevelLoad;
+        while (FadeManager.Instance.IsFading == true)
+        {
+            Debug.Log(_rect.localPosition.y);
+            yield return null;
+        }
+        float _startTime = Time.timeSinceLevelLoad;
 		float _elapsedTimeRatio = 0.0f;
 		Vector3 _position = _basePosition;
 
 		while (_elapsedTimeRatio <= 1.0f)
 		{
-			float _elapsedTime = Time.timeSinceLevelLoad;
+			float _elapsedTime = Time.timeSinceLevelLoad - _startTime;
 			_elapsedTimeRatio = _elapsedTime / _moveTime;
 			float _value = _curve.Evaluate(_elapsedTimeRatio);
+
+            Debug.Log(_elapsedTime + "\n" + _elapsedTimeRatio + "\n" + _value);
 
 			_position.y = _basePosition.y + _fadeValue * _value;
 			_rect.localPosition = _position;
@@ -43,6 +50,6 @@ public class EndrollController : MonoBehaviour
 		}
 
 		yield return new WaitForSeconds(2.0f);
-		FadeManager.Instance.FadeOutIn(5.0f, 2.0f, new Color(0, 0, 0), () => SceneManager.LoadScene(0));
+		FadeManager.Instance.FadeOutIn(5.0f, 2.0f, new Color(0, 0, 0), () => SceneManager.LoadScene(0),true);
 	}
 }
