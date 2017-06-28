@@ -65,9 +65,9 @@ public class FadeManager : MonoBehaviour {
 		if (IsFading) yield break;
 		IsFading = true;
 		_fadeImage.gameObject.SetActive(true);
-
+        StartCoroutine(SoundManager.Instance.BGMFadeOut(_fadeoutTime));
 		yield return StartCoroutine(Fade(_fadeoutTime, _maskColor, _fadeoutCurve));
-		SoundManager.Instance.StopAll();
+		//SoundManager.Instance.StopAll();
 
 		if (_nextOpe != null)
 		{
@@ -87,19 +87,26 @@ public class FadeManager : MonoBehaviour {
 
 	private IEnumerator FadeOutInImpl(float _fadeoutTime, float _fadeinTime, Color _maskColor, Action _act = null)
 	{
-		if (IsFading) yield break;
+        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        if (IsFading) yield break;
 		IsFading = true;
-		_fadeImage.gameObject.SetActive(true);
+        StartCoroutine(SoundManager.Instance.BGMFadeOut(_fadeoutTime));
+        _fadeImage.gameObject.SetActive(true);
 
 		yield return StartCoroutine(Fade(_fadeoutTime, _maskColor, _fadeoutCurve));
-		SoundManager.Instance.StopAll();
+		//SoundManager.Instance.StopAll();
 
 		if (_act != null)
 		{
 			_act();
 		}
 
-		yield return StartCoroutine(Fade(_fadeinTime, _maskColor, _fadeinCurve));
+        while (SceneManager.GetActiveScene().buildIndex == sceneIndex)
+        {
+            yield return null;
+        }
+
+        yield return StartCoroutine(Fade(_fadeinTime, _maskColor, _fadeinCurve));
 		_fadeImage.gameObject.SetActive(false);
 		IsFading = false;
 	}
@@ -115,8 +122,7 @@ public class FadeManager : MonoBehaviour {
 		{
 			float _elapsedTime = Time.timeSinceLevelLoad - _startTime;
 			_elapsedTimeRatio = _elapsedTime / _fadeTime;
-
-			_color.a = _curve.Evaluate(_elapsedTimeRatio);
+            _color.a = _curve.Evaluate(_elapsedTimeRatio);
 			_fadeImage.color = _color;
 
 			yield return null;

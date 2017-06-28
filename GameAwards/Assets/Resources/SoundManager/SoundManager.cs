@@ -147,12 +147,11 @@ public class SoundManager : MonoBehaviour
         float startTime = Time.timeSinceLevelLoad;
         float diff = Time.timeSinceLevelLoad - startTime;
 
-        startTime = Time.timeSinceLevelLoad;
         diff = Time.timeSinceLevelLoad - startTime;
         while (targetVolume > diff / time)
         {
             diff = Time.timeSinceLevelLoad - startTime;
-            ChangeBGMVolume(diff / time);
+            ChangeBGMVolume((diff / time));
             yield return null;
         }
     }
@@ -172,28 +171,31 @@ public class SoundManager : MonoBehaviour
     /// <param name="bgmName">再生したいBGM名</param>
     public void PlayBGM(string bgmName,float volime = 1)
     {
-        //使用していないseSourceを探す
-        for (int i = 0; i < bgmSource.Length; i++)
+        //if (bgmName == "asioto")
         {
-            if (bgmSource[i].clip != null && bgmSource[i].clip.name == bgmName)
+            //使用していないseSourceを探す
+            for (int i = 0; i < bgmSource.Length; i++)
             {
-                if (bgmSource[i].isPlaying == false)
+                if (bgmSource[i].clip != null && bgmSource[i].clip.name == bgmName)
                 {
+                    if (bgmSource[i].isPlaying == false)
+                    {
+                        bgmSource[i].volume = volime;
+                        bgmSource[i].Play();
+                    }
+                    return;
+                }
+                else if (bgmSource[i].isPlaying == false)
+                {
+                    bgmSource[i].clip = bgmDict[bgmName];
+
                     bgmSource[i].volume = volime;
                     bgmSource[i].Play();
+                    return;
                 }
-                return;
             }
-            else if (bgmSource[i].isPlaying == false)
-            {
-                bgmSource[i].clip = bgmDict[bgmName];
-
-                bgmSource[i].volume = volime;
-                bgmSource[i].Play();
-                return;
-            }
-        }
-        Debug.LogWarning("同時に再生できる音の数を超えたので鳴らせませんでした。");
+            Debug.LogWarning("同時に再生できる音の数を超えたので鳴らせませんでした。");
+        }        
     }
 
     public bool IsPlayBGM(string bgmName)

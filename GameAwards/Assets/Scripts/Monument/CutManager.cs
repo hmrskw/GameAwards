@@ -98,10 +98,20 @@ public class CutManager : Monument
             targetObjcts[i].SetActive(false);
         }
 
-        if (cut == CUT.ED) StartCoroutine(Look());
-        while (StringView.Instance.OnHitLine(monument.transform.position) == false)
+        if (cut == CUT.ED)
         {
-            yield return null;
+            StartCoroutine(Look());
+            while (pulse.gameObject.activeInHierarchy == false || StringView.Instance.OnHitLine(monument.transform.position) == false)
+            {
+                yield return null;
+            }
+        }
+        else
+        {
+            while (StringView.Instance.OnHitLine(monument.transform.position) == false)
+            {
+                yield return null;
+            }
         }
         StringView.Instance.GrassTextureUpdate(1);
         //SoundManager.Instance.PlaySE("se object");
