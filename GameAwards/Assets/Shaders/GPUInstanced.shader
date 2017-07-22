@@ -7,7 +7,7 @@
 		_Cutoff("Cutoff"      , Range(0, 1)) = 0.5
 	}
 	SubShader {
-		Tags { "RenderType"="Opaque" "Queue"="Transparent" }
+		Tags { "RenderType"="Opaque" "Queue"="Geometry+1" }
 		LOD 20
 		Cull Off
 		

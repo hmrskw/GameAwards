@@ -88,6 +88,7 @@ public class Cut5 : Monument {
         yield return StartCoroutine(FlowerAnim());
         //wall.SetActive(false);
         yield return StartCoroutine(FadeInFadeOut(CutSceneCamera, GoalSceneCamera, 1.0f,null));
+        SoundManager.Instance.PlaySE("wind");
         wind.Stop();
         yield return new WaitForSeconds(5f);
         yield return StartCoroutine(FadeInFadeOut(GoalSceneCamera, MainCamera, 1.0f, ()=> {

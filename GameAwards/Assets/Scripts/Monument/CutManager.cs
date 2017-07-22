@@ -98,10 +98,20 @@ public class CutManager : Monument
             targetObjcts[i].SetActive(false);
         }
 
-        if (cut == CUT.ED) StartCoroutine(Look());
-        while (StringView.Instance.OnHitLine(monument.transform.position) == false)
+        if (cut == CUT.ED)
         {
-            yield return null;
+            StartCoroutine(Look());
+            while (pulse.gameObject.activeInHierarchy == false || StringView.Instance.OnHitLine(monument.transform.position) == false)
+            {
+                yield return null;
+            }
+        }
+        else
+        {
+            while (StringView.Instance.OnHitLine(monument.transform.position) == false)
+            {
+                yield return null;
+            }
         }
         StringView.Instance.GrassTextureUpdate(1);
         //SoundManager.Instance.PlaySE("se object");
@@ -110,6 +120,10 @@ public class CutManager : Monument
 
     IEnumerator Task()
     {
+        if (cut == CUT.ED)
+        {
+            StartCoroutine(FadeBgm());
+        }
         yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera[cameraIndex], 1.0f,()=> {
             if(guideObjct != null) guideObjct.SetActive(false);
 
@@ -132,7 +146,7 @@ public class CutManager : Monument
         if (cut != CUT.ED)
         {
             yield return StartCoroutine(FadeInFadeOut(CutSceneCamera[cameraIndex], GoalSceneCamera, 1.0f,null));
-
+            SoundManager.Instance.PlaySE("wind");
             wind.Stop();
             yield return new WaitForSeconds(5f);
 
@@ -272,7 +286,6 @@ public class CutManager : Monument
                 {
                     flash._limitScale += new Vector3(0.1f,0.1f, 0.1f);
                     flash.transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
-                    Debug.Log(flash._limitScale);
                     yield return null;
                 }
                 yield return StartCoroutine(WhiteIn(CutSceneCamera[cameraIndex], 2f));
@@ -373,6 +386,12 @@ public class CutManager : Monument
         //fadeIn.camera.SetActive(false);
     }
 
+    IEnumerator FadeBgm()
+    {
+        yield return StartCoroutine(SoundManager.Instance.BGMFadeOut(6.5f));
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(SoundManager.Instance.BGMFadeIn(9f, "ending BGM", 0.5f));
+    }
     IEnumerator Anim()
     {
         yield return StartCoroutine(Boot());
@@ -382,9 +401,10 @@ public class CutManager : Monument
                 yield return null;
             }
             //AsyncOperation _loadOpe = SceneManager.LoadSceneAsync(2, LoadSceneMode.Additive);
-            yield return StartCoroutine(WhiteIn(CutSceneCamera[cameraIndex],2f));
-            SoundManager.Instance.StopAll();
-            SceneManager.LoadScene(2);
+            //yield return StartCoroutine(WhiteIn(CutSceneCamera[cameraIndex],2f));
+            //SoundManager.Instance.StopAll();
+            //SceneManager.LoadScene(2);
+            FadeManager.Instance.FadeOutIn(5.0f, 5.0f, new Color(1, 1, 1), () => SceneManager.LoadScene(2));
             //FadeManager.Instance.FadeScene(1, 2.0f, 2.0f, new Color(1, 1, 1), _loadOpe);
         }
         else

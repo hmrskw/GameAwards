@@ -139,13 +139,11 @@ public class UIController : MonoBehaviour {
             yield return null;
         }
         SoundManager.Instance.StopBGM("TitleBGM");
-        yield return new WaitForSeconds(drawTime);
+        yield return new WaitForSeconds(drawTime * 1.5f);
         yield return StartCoroutine(UIFadeOut(wordUI.controllerUI, wordUI.back, 1));
 
         yield return StartCoroutine(UIFadeIn(moveAndRotateUI[1].controllerUI, moveAndRotateUI[1].back, 1));
 
-        //なんだこのコード・・・
-        //for (int j = 0; j < drawTime / 0.25f; j++)
         while (Input.GetAxis("RotateCameraLeft") < 0.1f && Input.GetAxis("RotateCameraLeft") > -0.1f)
         {
             for (int k = 0; k < moveAndRotateUI[1].controllerUI.Length; k++)
@@ -154,15 +152,14 @@ public class UIController : MonoBehaviour {
             }
             yield return null;
         }
-        //yield return new WaitForSeconds(drawTime / 2);
         isDrawUI = false;
+
+        yield return new WaitForSeconds(1f);
 
         yield return StartCoroutine(UIFadeOut(moveAndRotateUI[1].controllerUI, moveAndRotateUI[1].back, 1));
 
-        //for (int i = 0; i < moveAndRotateUI.Length; i++) {
         yield return StartCoroutine(UIFadeIn(moveAndRotateUI[0].controllerUI, moveAndRotateUI[0].back, 1));
 
-        //なんだこのコード・・・
         for (int j = 0; j < drawTime / 0.25f; j++)
         {
             for (int k = 0; k < moveAndRotateUI[0].controllerUI.Length; k++)
@@ -173,7 +170,6 @@ public class UIController : MonoBehaviour {
         }
 
         yield return StartCoroutine(UIFadeOut(moveAndRotateUI[0].controllerUI, moveAndRotateUI[0].back, 1));
-        //}
 
 
         float dis = Vector2.Distance(new Vector2(highFlowers[0].position.x, highFlowers[0].position.z), new Vector2(characters[0].position.x, characters[0].position.z));
@@ -201,20 +197,14 @@ public class UIController : MonoBehaviour {
             yield return null;
         }
         yield return StartCoroutine(UIFadeIn(jumpUI.controllerUI, jumpUI.back, 2));
-        //StartCoroutine(WaitJump());
-        while (/*isWaitJump == false*/Input.GetButtonDown("LeftJump") == false && Input.GetButtonDown("RightJump") == false)
+        while (Input.GetButtonDown("LeftJump") == false && Input.GetButtonDown("RightJump") == false)
         {
-            //なんだこのコード・・・
-            //for (int j = 0; j < drawTime / 0.25f; j++)
-            //{
                 for (int k = 0; k < jumpUI.controllerUI.Length; k++)
                 {
                     jumpUI.controllerUI[k].controller.sprite = jumpUI.controllerUI[k].sprites[id % jumpUI.controllerUI[k].sprites.Length];
                 }
             yield return null;
-            //}
         }
-        //yield return new WaitForSeconds(drawTime/2);
         yield return StartCoroutine(UIFadeOut(jumpUI.controllerUI, jumpUI.back, 2));
         isTutorial = false;
         StartCoroutine(Swap());
