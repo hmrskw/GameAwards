@@ -13,6 +13,7 @@
   
 ## 使用ツール
   * Unity5.6.0f3
+  * VisualStudio2015
   * Maya
   * MotionBuilder
   * SAI
