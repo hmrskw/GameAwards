@@ -2,6 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// *************************************************
+/// 制作者 三澤裕樹
+/// *************************************************
+/// 敵の挙動を制御するクラス
+/// *************************************************
+/// </summary>
+
 public class WillOTheWisp : MonoBehaviour {
     [SerializeField]
     GameObject targets;
@@ -30,7 +38,6 @@ public class WillOTheWisp : MonoBehaviour {
 
     AudioSource source;
 
-    // Use this for initialization
     void Start () {
         if (targets != null)
         {

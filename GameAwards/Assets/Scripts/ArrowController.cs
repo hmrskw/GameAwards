@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// *************************************************
+/// 制作者 三澤裕樹
+/// *************************************************
+/// 進行方向を伝えるための矢印を制御するクラス
+/// *************************************************
+/// </summary>
 public class ArrowController : MonoBehaviour {
     [SerializeField]
     Color activeColor;
@@ -26,9 +33,6 @@ public class ArrowController : MonoBehaviour {
     [SerializeField]
     GameObject windObj;
 
-    //IEnumerator func;
-
-    // Use this for initialization
     void Start () {
         mat.color = inactiveColor;
     }

@@ -4,6 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// *************************************************
+/// 制作者 三澤裕樹
+/// *************************************************
+/// 道中に配置されている花の開花処理
+/// *************************************************
+/// </summary>
 [System.Serializable]
 public class Monument : MonoBehaviour {
 

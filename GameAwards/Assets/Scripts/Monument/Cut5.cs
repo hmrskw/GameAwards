@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// *************************************************
+/// 制作者 三澤裕樹
+/// *************************************************
+/// 特定のカットシーンを制御するクラス
+/// *************************************************
+/// </summary>
 public class Cut5 : Monument {
     [SerializeField]
     CameraAndMask MainCamera;
@@ -50,24 +57,12 @@ public class Cut5 : Monument {
     override protected IEnumerator Wait()
     {
         yield return null;
-        //while (StringView.Instance.OnHitLine(transform.position) == false)
-        //{
-        //    yield return null;
-        //}
-        //if (SoundManager.Instance.IsPlayBGM("asioto") == true)
-        //{
-        //    SoundManager.Instance.StopBGM("asioto");
-        //}
-
-        //StringView.Instance.GrassTextureUpdate(0);
-        //if (StringView.Instance.isPlayCutScene == false) StartCutScene();
     }
 
     IEnumerator Task()
     {
         int initialDestroyEnemyCount = StringView.Instance.DestroyEnemyCount;
         yield return StartCoroutine(FadeInFadeOut(MainCamera, CutSceneCamera, 1.0f, ChangePlayer));
-        //wall.SetActive(true);
         yield return StartCoroutine(MoveCamera());
 
         yield return new WaitForSeconds(1f);
@@ -83,10 +78,7 @@ public class Cut5 : Monument {
             guideObjct.SetActive(false);
             ChangePlayer();
         }));
-        //isOn = false;
-        //yield return StartCoroutine(MoveCamera());
         yield return StartCoroutine(FlowerAnim());
-        //wall.SetActive(false);
         yield return StartCoroutine(FadeInFadeOut(CutSceneCamera, GoalSceneCamera, 1.0f,null));
         SoundManager.Instance.PlaySE("wind");
         wind.Stop();
@@ -105,40 +97,6 @@ public class Cut5 : Monument {
 
         CutSceneCamera.camera.transform.LookAt(cameraTargetTransform);
     }
-
-    /*IEnumerator FadeInFadeOut(CameraAndMask fadeIn, CameraAndMask fadeOut, float time)
-    {
-        float startTime = Time.timeSinceLevelLoad;
-        float diff = Time.timeSinceLevelLoad - startTime;
-        Color maskAlpha = new Color(0, 0, 0, 0);
-
-        while (diff < (time / 2f))
-        {
-            diff = Time.timeSinceLevelLoad - startTime;
-            maskAlpha.a = diff / (time / 2f);
-            fadeIn.mask.color = maskAlpha;
-            yield return null;
-        }
-        fadeIn.camera.SetActive(false);
-
-        StringView.Instance.cutP1 = p1.transform;
-        StringView.Instance.cutP2 = p2.transform;
-        StringView.Instance.isPlayCutScene = !StringView.Instance.isPlayCutScene;
-
-        guideObjct.SetActive(false);
-        fadeOut.camera.SetActive(true);
-        CutSceneCamera.camera.transform.LookAt(cameraTargetTransform);
-
-        startTime = Time.timeSinceLevelLoad;
-        diff = Time.timeSinceLevelLoad - startTime;
-        while (diff < time / 2f)
-        {
-            diff = Time.timeSinceLevelLoad - startTime;
-            maskAlpha.a = 1 - (diff / (time / 2f));
-            fadeOut.mask.color = maskAlpha;
-            yield return null;
-        }
-    }*/
 
     IEnumerator MoveCamera()
     {
@@ -178,7 +136,6 @@ public class Cut5 : Monument {
             isEvent = false;
             yield return new WaitForSeconds(0.5f);
             openAnimation.SetTrigger("Open");
-            //if (guideObjct != null && nextMonument != null) nextMonument.Guid();
             InputController.ExtendMaxDistanceLength(extendLength);
         }
         else if (guideObjct != null && guideObjct.activeInHierarchy == true)
@@ -207,7 +164,6 @@ public class Cut5 : Monument {
                 {
                     SoundManager.Instance.StopBGM("asioto");
                 }
-                //isOn = true;
                 isEvent = true;
                 StartCutScene();
             }

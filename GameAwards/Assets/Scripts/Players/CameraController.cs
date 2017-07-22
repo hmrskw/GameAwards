@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// *************************************************
+/// 制作者 三澤裕樹
+/// *************************************************
+/// カメラの挙動を制御するクラス
+/// *************************************************
+/// </summary>
 public class CameraController : MonoBehaviour {
 
     [SerializeField]
@@ -18,9 +25,6 @@ public class CameraController : MonoBehaviour {
 
     [SerializeField,Tooltip("カメラが左右に回転する速さ")]
     float panSpeed;
-
-    //[SerializeField, Tooltip("カメラが上下に回転する速さ")]
-    //float tiltSpeed;
 
     RaycastHit hit;
 
@@ -46,14 +50,11 @@ public class CameraController : MonoBehaviour {
         StartCoroutine(MoveCamera());
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //if (uiController.isDrawUI == false)
         {
             Vector3 camPos = Vector3.Lerp(PlayerCharacter1.transform.position, PlayerCharacter2.transform.position, 0.5f);
 
-            //transform.position = new Vector3(camPos.x, camPos.y, camPos.z);
             endPosition = new Vector3(camPos.x, camPos.y, camPos.z);
 
             CameraObjct.transform.localPosition = new Vector3(0, 12, -30);
@@ -66,39 +67,9 @@ public class CameraController : MonoBehaviour {
                 CameraObjct.transform.localPosition += new Vector3(0, dis * 0.5f, -dis * 1.5f);
             }
 
-            //Check();
-
             transform.Rotate(0, Input.GetAxis("RotateCameraLeft") * -panSpeed, 0, Space.Self);
         }
     }
-
-    /*void Check()
-    {
-        if (Physics.Raycast(transform.position + new Vector3(0, 2f, 0), transform.TransformDirection(Vector3.forward), out hit, 10f, LayerMask.GetMask("Ground")))
-        {
-            float angle = Vector3.Angle(hit.normal, transform.rotation.eulerAngles);
-            if (angle > 0 && angle < 60 && Mathf.Abs(180 - CameraTiltPivot.transform.rotation.eulerAngles.x) > 180 - angle/2)
-            {
-                CameraTiltPivot.transform.Rotate(-tiltSpeed, 0, 0, Space.Self);
-            }
-        }
-        else if(Physics.Raycast(transform.position + new Vector3(0, 2f, 0), transform.TransformDirection(Vector3.back), out hit, 10f, LayerMask.GetMask("Ground")))
-        {
-            float angle = Vector3.Angle(hit.normal, transform.rotation.eulerAngles);
-            if (angle > 0 && angle < 60 && Mathf.Abs(180 - CameraTiltPivot.transform.rotation.eulerAngles.x) >= 180 - angle / 2)
-            {
-                CameraTiltPivot.transform.Rotate(tiltSpeed, 0, 0, Space.Self);
-            }
-        }
-        else if (CameraTiltPivot.transform.rotation.eulerAngles.x > 180 || CameraTiltPivot.transform.rotation.eulerAngles.x < -1f)
-        {
-            CameraTiltPivot.transform.Rotate(tiltSpeed, 0, 0, Space.Self);
-        }
-        else if (CameraTiltPivot.transform.rotation.eulerAngles.x > 1f)
-        {
-            CameraTiltPivot.transform.Rotate(-tiltSpeed, 0, 0, Space.Self);
-        }
-    }*/
 
     IEnumerator MoveCamera()
     {

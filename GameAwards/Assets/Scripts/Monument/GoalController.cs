@@ -4,6 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// *************************************************
+/// 制作者 三澤裕樹
+/// *************************************************
+/// ゴールのカットシーンを制御するクラス
+/// *************************************************
+/// </summary>
 public class GoalController : MonoBehaviour
 {
     [System.Serializable]
@@ -22,9 +29,6 @@ public class GoalController : MonoBehaviour
     [SerializeField]
     GameObject windObj;
 
-    //[SerializeField]
-    //ParticleSystem windParticle;
-
     [SerializeField]
     GameObject pulseObj;
 
@@ -34,7 +38,6 @@ public class GoalController : MonoBehaviour
     [SerializeField]
     CameraAndMask CutSceneCamera;
 
-    // Use this for initialization
     void Start () {
         pulseObj.gameObject.SetActive(false);
         StartCoroutine(Task());
@@ -45,56 +48,7 @@ public class GoalController : MonoBehaviour
         yield return StartCoroutine(Wait());
         windObj.SetActive(false);
         pulseObj.gameObject.SetActive(true);
-        /*
-        while (StringView.Instance.isPlayCutScene)
-        {
-            yield return null;
-        }
-        yield return StartCoroutine(FadeOut(mainCamera,1));
-        mainCamera.camera.SetActive(false);
-        CutSceneCamera.camera.SetActive(true);
-        yield return StartCoroutine(FadeIn(CutSceneCamera, 1));
-
-        //windParticle.Stop();
-        //yield return new WaitForSeconds(5f);
-
-        yield return StartCoroutine(FadeOut(CutSceneCamera, 1));
-        CutSceneCamera.camera.SetActive(false);
-        mainCamera.camera.SetActive(true);
-        yield return StartCoroutine(FadeIn(mainCamera, 1));
-        */
     }
-    /*
-    IEnumerator FadeOut(CameraAndMask fadeOut, float time)
-    {
-        float startTime = Time.timeSinceLevelLoad;
-        float diff = Time.timeSinceLevelLoad - startTime;
-        Color maskAlpha = new Color(0, 0, 0, 0);
-
-        while (diff < (time))
-        {
-            diff = Time.timeSinceLevelLoad - startTime;
-            maskAlpha.a = diff / (time);
-            fadeOut.mask.color = maskAlpha;
-            yield return null;
-        }
-    }
-
-    IEnumerator FadeIn(CameraAndMask fadeIn, float time)
-    {
-        float startTime = Time.timeSinceLevelLoad;
-        float diff = Time.timeSinceLevelLoad - startTime;
-        Color maskAlpha = new Color(0, 0, 0, 1);
-
-        while (diff < time)
-        {
-            diff = Time.timeSinceLevelLoad - startTime;
-            maskAlpha.a = 1 - (diff / (time));
-            fadeIn.mask.color = maskAlpha;
-            yield return null;
-        }
-    }
-    */
 
     IEnumerator Wait()
     {
@@ -119,10 +73,6 @@ public class GoalController : MonoBehaviour
                 if (isNotPlayParticles == false) break;
             }
             yield return null;
-            /*
-            for (int i = 0; i < checkPoints.Length; i++) {
-                isPlayParticles &= checkPointParticles[i].isPlaying;
-            }*/
         }
     }    
 }

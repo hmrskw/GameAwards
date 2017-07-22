@@ -6,6 +6,13 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// *************************************************
+/// 制作者 三澤裕樹
+/// *************************************************
+/// 特定のカットシーンを制御するクラス
+/// *************************************************
+/// </summary>
 public class CutManager : Monument
 {
     public enum CUT

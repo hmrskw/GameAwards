@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// *************************************************
+/// 制作者 三澤裕樹
+/// *************************************************
+/// コントローラーからの入力を受け取るクラス
+/// *************************************************
+/// </summary>
 public class InputController : MonoBehaviour {
     class PlayerComponents
     {
-        //public Rigidbody rigidbody;
         public Player playerModel;
     }
     enum PulledCharacter
@@ -38,7 +44,6 @@ public class InputController : MonoBehaviour {
         Application.targetFrameRate = 30;
     }
 
-    // Use this for initialization
     void Start () {
         maxDistanceLength = 10;
 
@@ -47,10 +52,8 @@ public class InputController : MonoBehaviour {
         PlayerCharacter2Components.playerModel = PlayerCharacter2.GetComponent<Player>();
 
         StartCoroutine(PlayBGM());
-        //SoundManager.Instance.PlayBGM("kankyou hiru");
     }
 
-    // Update is called once per frame
     void Update() {
         if (FadeManager.Instance.IsFading == false && uiController.isDrawUI == false)
         {

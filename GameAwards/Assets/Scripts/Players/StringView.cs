@@ -4,6 +4,13 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// *************************************************
+/// 制作者 三澤裕樹
+/// *************************************************
+/// 糸の描画とあたり判定を制御するクラス
+/// *************************************************
+/// </summary>
 public class StringView : MonoBehaviour {
     static StringView instance;
 
@@ -107,7 +114,6 @@ public class StringView : MonoBehaviour {
         instance = this;
     }
 
-    // Use this for initialization
     void Start () {
         lineRenderer = gameObject.GetComponent<LineRenderer>();
         point = Vector3.Lerp(head.position, tail.position, 0.5f);
@@ -131,7 +137,6 @@ public class StringView : MonoBehaviour {
         );
     }
 
-    // Update is called once per frame
     Vector3 BezierCurve(Vector3 pt1, Vector3 pt2, Vector3 ctrlPt, float t)
     {
         if (t > 1.0f)
@@ -290,9 +295,9 @@ public class StringView : MonoBehaviour {
             {
                 Vector3 curve =
                     B_SplineCurve(
-                        head.position/* + new Vector3(0, 3, 0)*/,
-                        tail.position/* + new Vector3(0, 3, 0)*/,
-                        point/* + new Vector3(0, 3, 0)*/,
+                        head.position,
+                        tail.position,
+                        point,
                         length
                     );
                 if (Vector3.Distance(new Vector3(curve.x, curve.y, curve.z), new Vector3(position.x, position.y, position.z)) < 3)
@@ -306,9 +311,9 @@ public class StringView : MonoBehaviour {
             {
                 Vector3 curve =
                     B_SplineCurve(
-                        cutP1.position/* + new Vector3(0, 3, 0)*/,
-                        cutP2.position/* + new Vector3(0, 3, 0)*/,
-                        point/* + new Vector3(0, 3, 0)*/,
+                        cutP1.position,
+                        cutP2.position,
+                        point,
                         length
                     );
                 if (Vector3.Distance(new Vector3(curve.x, curve.y, curve.z), new Vector3(position.x, position.y, position.z)) < 3)

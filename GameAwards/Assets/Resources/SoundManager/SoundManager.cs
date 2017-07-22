@@ -2,6 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/// <summary>
+/// *************************************************
+/// 制作者 三澤裕樹
+/// *************************************************
+/// SEやBGMを管理するクラス
+/// *************************************************
+/// </summary>
 public class SoundManager : MonoBehaviour
 {
     private static SoundManager instance;
@@ -124,6 +131,11 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// BGMのフェードアウト
+    /// </summary>
+    /// <param name="time">フェード時間</param>
+    /// <returns></returns>
     public IEnumerator BGMFadeOut(float time)
     {
         float startTime = Time.timeSinceLevelLoad;
@@ -141,6 +153,13 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// BGMのフェードイン
+    /// </summary>
+    /// <param name="time">フェード時間</param>
+    /// <param name="bgmName">再生するBGMの名前</param>
+    /// <param name="targetVolume">どこまで音量上げるか</param>
+    /// <returns></returns>
     public IEnumerator BGMFadeIn(float time , string bgmName, float targetVolume)
     {
         PlayBGM(bgmName, 0f);
@@ -171,7 +190,6 @@ public class SoundManager : MonoBehaviour
     /// <param name="bgmName">再生したいBGM名</param>
     public void PlayBGM(string bgmName,float volime = 1)
     {
-        //if (bgmName == "asioto")
         {
             //使用していないseSourceを探す
             for (int i = 0; i < bgmSource.Length; i++)
@@ -198,6 +216,11 @@ public class SoundManager : MonoBehaviour
         }        
     }
 
+    /// <summary>
+    /// 特定のBGMが再生中か？
+    /// </summary>
+    /// <param name="bgmName">BGM名</param>
+    /// <returns>再生中か</returns>
     public bool IsPlayBGM(string bgmName)
     {
         foreach (AudioSource source in bgmSource)
@@ -222,7 +245,6 @@ public class SoundManager : MonoBehaviour
             {
                 if (source.clip != null && source.clip.name == bgmName)
                 {
-                    //Debug.Log("stop");
                     source.Stop();
                 }
             }
@@ -234,14 +256,11 @@ public class SoundManager : MonoBehaviour
                 if (source.name == bgmName) source.Pause();
             }
         }
-        /*
-        if (isPause == false) bgmSource.Stop();
-        else
-        {
-            bgmSource.Pause();
-        }*/
     }
 
+    /// <summary>
+    /// 全てのBGMとSEを停止する
+    /// </summary>
     public void StopAll()
     {
         foreach (AudioSource source in bgmSource)

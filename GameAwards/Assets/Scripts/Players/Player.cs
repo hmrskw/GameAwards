@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+/// <summary>
+/// *************************************************
+/// 制作者 三澤裕樹
+/// *************************************************
+/// プレイヤーの移動やあたり判定を制御するクラス
+/// *************************************************
+/// </summary>
 public class Player : MonoBehaviour {
     [SerializeField]
     LayerMask mask;
@@ -16,9 +23,6 @@ public class Player : MonoBehaviour {
     [SerializeField]
     float speed;
 
-    //[SerializeField]
-    //float jumpPower;
-
     [SerializeField]
     float slopeAngle;
 
@@ -29,7 +33,7 @@ public class Player : MonoBehaviour {
     Vector3 centripetalDirection;
 
     [SerializeField]
-    float jpower;//  = 0.49f;
+    float jpower;
 
     float velocity = 0;
 
@@ -67,16 +71,13 @@ public class Player : MonoBehaviour {
         get { return isStop; }
     }
 
-    // Use this for initialization
     void Start () {
         animator = GetComponent<Animator>();
         canJump = false;
     }
 
-    // Update is called once per frame
     void Update () {
 
-        //Vector3 slope = 
         Sliding();
         
         if (canJump == false)
@@ -100,7 +101,6 @@ public class Player : MonoBehaviour {
                 transform.LookAt(
                     transform.position +
                     new Vector3(characterMoveForward.x, 0f, characterMoveForward.z) +
-                    //new Vector3(slope.x, 0f, slope.z) +
                     new Vector3(centripetalDirection.x, 0f, centripetalDirection.z));
             }
             else
@@ -108,17 +108,15 @@ public class Player : MonoBehaviour {
                 transform.LookAt((
                     transform.position -
                     new Vector3(characterMoveForward.x, 0f, characterMoveForward.z) -
-                    //new Vector3(slope.x, 0f, slope.z) -
                     new Vector3(centripetalDirection.x, 0f, centripetalDirection.z)));
             }
-            //RaycastHit hit;
 
             // 移動方向にスピードを掛けたものに、坂を滑り落ちる速度と向心力を加算
-            transform.Translate(((characterMoveForward + new Vector3(/*slope.x*/0, velocity,0/* slope.z*/)) * speed) + centripetalDirection, Space.World);
+            transform.Translate(((characterMoveForward + new Vector3(0, velocity,0)) * speed) + centripetalDirection, Space.World);
         }
-        else if(Physics.Raycast(transform.position + new Vector3(0, 2f, 0), characterMoveForward/*,out hit*/, 5f, buildingMask))
+        else if(Physics.Raycast(transform.position + new Vector3(0, 2f, 0), characterMoveForward, 5f, buildingMask))
         {
-            transform.Translate(-(((characterMoveForward + new Vector3(/*slope.x*/0, velocity,0/* slope.z*/)) * speed) + centripetalDirection), Space.World);
+            transform.Translate(-(((characterMoveForward + new Vector3(0, velocity,0)) * speed) + centripetalDirection), Space.World);
         }
         centripetalDirection = Vector3.zero;
     }
@@ -131,7 +129,6 @@ public class Player : MonoBehaviour {
     {
         RaycastHit hit;
 
-        //Debug.DrawRay(transform.position + new Vector3(0, 3f, 0), Vector3.down, Color.red);
         if (Physics.Raycast(transform.position + new Vector3(0, 0.5f, 0), Vector3.down, out hit, slopeAngle / 10f, mask))
         {
             //ジャンプ中でなければキャラクターを地面に接地する高さにずらす
@@ -142,7 +139,7 @@ public class Player : MonoBehaviour {
 
             isSliding = (Vector3.Angle(hit.normal, Vector3.up) > slopeAngle);
         }
-        //Debug.Log(Vector3.Angle(hit.normal, Vector3.up));
+
         //地面の傾斜方向を調べる
         return hit.normal;
     }
@@ -187,7 +184,7 @@ public class Player : MonoBehaviour {
     /// </summary>
     public void Centripetal(float distance,Vector3 direction ,Vector3 characterMoveDirection)
     {
-        float f = (/*speed * speed*/1) / distance;
+        float f = 1 / distance;
 
         float num = (Vector3.Angle(Vector3.Cross(-characterMoveDirection,Vector3.up), direction * f)-90f)/4.5f*speed;
         centripetalDirection = Vector3.Cross(direction * f,Vector3.up)* num;

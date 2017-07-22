@@ -5,6 +5,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
+/// <summary>
+/// *************************************************
+/// 制作者 三澤裕樹
+/// *************************************************
+/// 特定のカットシーンを制御するクラス
+/// *************************************************
+/// </summary>
 public class CutScene : Monument
 {
     [System.Serializable]
@@ -72,7 +79,6 @@ public class CutScene : Monument
             Vector3.Distance(playerCharacters[0].transform.position, transform.position) > 30f&&
             Vector3.Distance(playerCharacters[1].transform.position, transform.position) > 30f
             )
-        //while (StringView.Instance.OnHitLine(transform.position) == false)
         {
             yield return null;
         }
@@ -147,7 +153,6 @@ public class CutScene : Monument
                     cutSceneCharacters.transform.position = cutSceneCharactersInitPosition.position;
                     cutSceneCharacters.transform.rotation = cutSceneCharactersInitPosition.rotation;
                 }
-                //guideObjct.SetActive(false);
 
                 StringView.Instance.cutP1 = p1.transform;
                 StringView.Instance.cutP2 = p2.transform;
@@ -168,7 +173,6 @@ public class CutScene : Monument
                         cutSceneCharacters.transform.position = cutSceneCharactersInitPosition.position;
                         cutSceneCharacters.transform.rotation = cutSceneCharactersInitPosition.rotation;
                     }
-                    //guideObjct.SetActive(false);
 
                     StringView.Instance.cutP1 = p1.transform;
                     StringView.Instance.cutP2 = p2.transform;
@@ -194,47 +198,6 @@ public class CutScene : Monument
             yield return null;
         }
     }
-    /*
-    IEnumerator FadeOut(CameraAndMask fadeOut, float time)
-    {
-        float startTime = Time.timeSinceLevelLoad;
-        float diff = Time.timeSinceLevelLoad - startTime;
-        Color maskAlpha = new Color(0, 0, 0, 0);
-
-        while (diff < (time))
-        {
-            diff = Time.timeSinceLevelLoad - startTime;
-            maskAlpha.a = diff / (time);
-            fadeOut.mask.color = maskAlpha;
-            yield return null;
-        }
-    }
-
-    IEnumerator FadeIn(CameraAndMask fadeIn, float time)
-    {
-        float startTime = Time.timeSinceLevelLoad;
-        float diff = Time.timeSinceLevelLoad - startTime;
-        Color maskAlpha = new Color(0, 0, 0, 1);
-
-        while (diff < time)
-        {
-            diff = Time.timeSinceLevelLoad - startTime;
-            maskAlpha.a = 1 - (diff / (time));
-            fadeIn.mask.color = maskAlpha;
-            yield return null;
-        }
-    }
-
-    IEnumerator FadeInFadeOut(CameraAndMask fadeOut, CameraAndMask fadeIn,float time,Action func)
-    {
-        yield return StartCoroutine(FadeOut(fadeOut,time/2f));
-
-        fadeOut.camera.SetActive(false);
-        if (func != null)func();
-        fadeIn.camera.SetActive(true);
-
-        yield return StartCoroutine(FadeIn(fadeIn, time / 2f));
-    }*/
 
     IEnumerator MoveCamera()
     {
@@ -258,7 +221,6 @@ public class CutScene : Monument
 
     IEnumerator FlowerAnim()
     {
-        //SoundManager.Instance.PlaySE("se object");
         yield return StartCoroutine(Boot());
 
         while (openAnimation.GetCurrentAnimatorStateInfo(0).normalizedTime - animationStart < 1 || particle.isPlaying)
@@ -274,7 +236,6 @@ public class CutScene : Monument
             isOn = true;
             yield return new WaitForSeconds(0.5f);
             openAnimation.SetTrigger("Open");
-            //if (guideObjct != null && nextMonument != null) nextMonument.Guid();
             InputController.ExtendMaxDistanceLength(extendLength);
         }
         else if (guideObjct != null && guideObjct.activeInHierarchy == true)

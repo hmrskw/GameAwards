@@ -4,6 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// *************************************************
+/// 制作者 三澤裕樹
+/// *************************************************
+/// 操作説明用のUIを表示するためのクラス
+/// *************************************************
+/// </summary>
 public class UIController : MonoBehaviour {
 
     [System.Serializable]
@@ -11,7 +18,6 @@ public class UIController : MonoBehaviour {
     {
         public Image controller;
         public Sprite[] sprites;
-        //public Image word;
     };
 
     [System.Serializable]
@@ -279,22 +285,13 @@ public class UIController : MonoBehaviour {
             for (int i = 0; i < controllerImages.Length; i++)
             {
                 controllersImageAlpha[i].a = Mathf.Lerp(controllersImageAlpha[i].a, 1, rate);
-                //alpha.a = diff / (fadeTime);
                 controllerImages[i].controller.color = controllersImageAlpha[i];
             }
             for (int i = 0; i < backImages.Length; i++)
             {
                 backImagesAlpha[i].a = Mathf.Lerp(backImagesAlpha[i].a, 1, rate);
-                //alpha.a = diff / (fadeTime);
                 backImages[i].color = backImagesAlpha[i];
             }
-            /*
-            for (int i = 0; i < Images.Length; i++)
-            {
-                alpha[i].a = Mathf.Lerp(alpha[i].a, 1, rate);
-                //alpha.a = diff / (fadeTime);
-                Images[i].color = alpha[i];
-            }*/
             yield return null;
         }
     }
@@ -323,13 +320,11 @@ public class UIController : MonoBehaviour {
             for (int i = 0; i < controllerImages.Length; i++)
             {
                 controllersImageAlpha[i].a = Mathf.Lerp(controllersImageAlpha[i].a, 0, rate);
-                //alpha.a = diff / (fadeTime);
                 controllerImages[i].controller.color = controllersImageAlpha[i];
             }
             for (int i = 0; i < backImages.Length; i++)
             {
                 backImagesAlpha[i].a = Mathf.Lerp(backImagesAlpha[i].a, 0, rate);
-                //alpha.a = diff / (fadeTime);
                 backImages[i].color = backImagesAlpha[i];
             }
             yield return null;

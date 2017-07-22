@@ -8,7 +8,6 @@ public class CameraZoomController : MonoBehaviour {
     {
         public int startFrame;
         public int endFrame;
-        //public float frameLength;
         public float targetFoV;
     }
     [SerializeField]
@@ -20,9 +19,7 @@ public class CameraZoomController : MonoBehaviour {
     [SerializeField]
     float totalFrame;
 
-    // Use this for initialization
     void OnEnable() {
-        Debug.Log("Start");
         StartCoroutine(Func());
 	}
 	
@@ -52,23 +49,4 @@ public class CameraZoomController : MonoBehaviour {
         }
         yield return null;
     }
-
-    /*IEnumerator Zoom(int index)
-    {
-        float startFov = camera.fieldOfView;
-        float startTime = Time.timeSinceLevelLoad;
-        float diff = (Time.timeSinceLevelLoad - startTime) * 30f;
-        float fov;
-
-        while (diff < totalFrame)
-        {
-            diff = (Time.timeSinceLevelLoad - startTime) * 30f;
-            fov = zoomCurve.Evaluate(diff / totalFrame);
-            camera.fieldOfView = Mathf.Lerp(startFov, zoomData[index].targetFoV, fov);
-
-            yield return null;
-        }
-
-    }
-    */
 }
